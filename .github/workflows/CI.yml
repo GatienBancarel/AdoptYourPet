@@ -24,5 +24,5 @@ jobs:
         with:
           java-version: 1.8
       - name: Unit tests
-        run: ./gradlew test
+        run: bash ./gradlew test
 
