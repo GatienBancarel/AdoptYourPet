@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun Greeting() {
-    Text(text = "ca marche putain !!!!")
+    Text(text = "ca marche!!!!")
 }
 
 @Preview(showBackground = true)
