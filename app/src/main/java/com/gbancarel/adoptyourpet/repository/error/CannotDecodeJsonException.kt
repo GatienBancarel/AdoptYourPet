@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.repository
+package com.gbancarel.adoptyourpet.repository.error
 
 import java.lang.Exception
 

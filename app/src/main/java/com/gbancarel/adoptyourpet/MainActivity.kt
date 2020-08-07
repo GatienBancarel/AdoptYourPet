@@ -25,10 +25,11 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var viewModel: MyViewModel
 
     private val petFinderObserver =
-        Observer<PetFinderViewModel> { data -> Log.i("mylog",data.value)}
+        Observer<PetFinderViewModel> { data -> Log.i("mylog", data.name.toString())}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("mylog","main activity")
         setContent {
             FindYourPetTheme {
                 // A surface container using the 'background' color from the theme

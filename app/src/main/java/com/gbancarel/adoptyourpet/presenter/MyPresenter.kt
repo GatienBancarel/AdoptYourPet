@@ -18,13 +18,25 @@ class MyPresenter @Inject constructor(
 ) {
 
     fun present(call: PetFinder) {
-        val petFinderViewModel = PetFinderViewModel(call.value)
+        val petFinderViewModel = PetFinderViewModel(
+                type = call.type,
+                age = call.age,
+                gender = call.gender,
+                size = call.size,
+                name = call.name,
+                description = call.description
+        )
         viewModel.liveData.postValue(petFinderViewModel)
     }
 
-    fun presentError(){
-        Log.i("mylog", "Erreur réseau")
+    fun presentErrorOkHttp(){
+        Log.i("mylog", "okhttp failed")
     }
+
+    fun presentErrorMoshi(){
+        Log.i("mylog", "moshi failed")
+    }
+
 }
 
 @Singleton
