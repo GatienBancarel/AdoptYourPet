@@ -28,8 +28,8 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerVersion "1.3.70-dev-withExperimentalGoogleExtensions-20200424"
-        kotlinCompilerExtensionVersion "$compose_compiler_extension_version"
+        kotlinCompilerExtensionVersion "${compose_version}"
+        kotlinCompilerVersion '1.3.70-dev-withExperimentalGoogleExtensions-20200424'
     }
 
     buildFeatures {

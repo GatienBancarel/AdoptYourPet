@@ -8,7 +8,7 @@ class PetFinderService @Inject constructor(
     val client: OkHttpClient // Appel réseau avec OKHttp (library)
 ) {
 
-    fun get(url: String, authToken: String) : Response {
+    fun get(url: String, authToken: String?) : Response {
 
         val request = Request.Builder()
                 .url(url)

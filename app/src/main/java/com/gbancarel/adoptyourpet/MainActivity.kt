@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var viewModel: MyViewModel
 
     private val petFinderObserver =
-        Observer<PetFinderViewModel> { data -> Log.i("mylog", data.name.toString())}
+        Observer<PetFinderViewModel> { data -> Log.i("mylog", data.animals[0].name.toString() )}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +39,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    @Composable
-    fun Greeting(value: String) {
-        Text(text = "ca marchee!!!!")
     }
 }

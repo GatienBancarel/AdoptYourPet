@@ -8,7 +8,7 @@ import javax.inject.Inject
 class TokenParser @Inject constructor() {
     fun parse(body: String?) : TokenJSON? {
         val moshi: Moshi = Moshi.Builder().build()
-        val adapter: JsonAdapter<TokenJSON> = moshi.adapter(TokenJSON::class.java)
-        return adapter.fromJson(body)
+        val adapter: JsonAdapter<TokenJSON>? = moshi.adapter(TokenJSON::class.java)
+        return adapter?.fromJson(body)
     }
 }

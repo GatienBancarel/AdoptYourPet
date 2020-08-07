@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.interactor.PetAnimal
 import com.gbancarel.adoptyourpet.interactor.PetFinder
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
@@ -18,14 +19,16 @@ class MyPresenter @Inject constructor(
 ) {
 
     fun present(call: PetFinder) {
-        val petFinderViewModel = PetFinderViewModel(
-                type = call.type,
-                age = call.age,
-                gender = call.gender,
-                size = call.size,
-                name = call.name,
-                description = call.description
-        )
+        val petFinderViewModel = PetFinderViewModel(call.animals.map { PetAnimal ->
+            PetAnimalViewModel(
+                type = PetAnimal.type,
+                age = PetAnimal.age,
+                gender = PetAnimal.gender,
+                size = PetAnimal.size,
+                name = PetAnimal.name,
+                description = PetAnimal.description
+            )
+        })
         viewModel.liveData.postValue(petFinderViewModel)
     }
 

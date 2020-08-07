@@ -1,5 +1,6 @@
 package com.gbancarel.adoptyourpet.interactor
 
+import android.util.Log
 import com.gbancarel.adoptyourpet.presenter.MyPresenter
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
