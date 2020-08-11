@@ -1,5 +1,6 @@
 package com.gbancarel.adoptyourpet.module
 
+import com.gbancarel.adoptyourpet.repository.service.MyInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

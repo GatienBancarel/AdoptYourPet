@@ -4,10 +4,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
+import androidx.compose.onCommit
+import androidx.compose.remember
 import androidx.compose.state
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.ui.core.setContent
 import androidx.ui.foundation.Text
+import androidx.ui.layout.Column
+import androidx.ui.material.Button
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.Surface
 import androidx.ui.tooling.preview.Preview
@@ -24,8 +29,9 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var controller: MyControllerDecorator
     @Inject lateinit var viewModel: MyViewModel
 
+
     private val petFinderObserver =
-        Observer<PetFinderViewModel> { data -> Log.i("mylog", data.animals[0].name.toString() )}
+        Observer<PetFinderViewModel> { data -> Log.i("mylog",data?.animals?.get(0)?.name.toString()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,7 +7,7 @@ import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
-import com.gbancarel.adoptyourpet.repository.json.PetAnimalJSON
+import com.gbancarel.adoptyourpet.repository.service.MyInterceptor
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import com.gbancarel.adoptyourpet.repository.service.TokenService
 import javax.inject.Inject
@@ -25,17 +25,7 @@ class MyRepository @Inject constructor(
         CannotDecodeJsonException::class
     )
     fun getToken() :String?{
-        Log.i("mylog", "new token")
-        val token = tokenService.getToken("https://api.petfinder.com/v2/oauth2/token")
-
-        if (token.statusCode != 200 && token.statusCode != 201) {
-            throw ErrorStatusException("http request fail for token")
-        } else {
-            val tokenEntityJSON = tokenParser.parse(token.body)
-            //constant.initialize( System.currentTimeMillis(),tokenEntityJSON!!.access_token)
-             return tokenEntityJSON?.access_token
-            //Log.i("mylog", authToken.toString())
-        }
+        return ""
     }
 
     @Throws(
@@ -43,7 +33,8 @@ class MyRepository @Inject constructor(
         CannotDecodeJsonException::class
     )
     fun getCall (): PetFinder {
-        val authToken = getToken()
+        val interceptor = MyInterceptor("old token")
+        val authToken = interceptor.newToken()
         val response = petFinderService.get("https://api.petfinder.com/v2/animals?type=dog&page=1", authToken)
         //Log.i("mylog", response.body.toString())
 

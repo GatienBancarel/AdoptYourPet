@@ -1,22 +1,27 @@
 package com.gbancarel.adoptyourpet.repository.service
 
-import okhttp3.OkHttpClient
-import okhttp3.Request
+import android.util.Log
+import com.gbancarel.adoptyourpet.repository.MyRepository
+import okhttp3.*
 import javax.inject.Inject
 
 class PetFinderService @Inject constructor(
     val client: OkHttpClient // Appel réseau avec OKHttp (library)
 ) {
 
-    fun get(url: String, authToken: String?) : Response {
+    fun get(url: String, authToken: String?) : ResponseRequest {
 
         val request = Request.Builder()
                 .url(url)
-                //.addHeader("Accept-Language", Locale.getDefault().language)
-                .addHeader("Authorization", "Bearer $authToken")
                 .build()
-        val response = client.newCall(request).execute()
-        return Response(
+        val response = client
+                .newBuilder()
+                .addInterceptor(MyInterceptor(authToken))
+                .build()
+                .newCall(request)
+                .execute()
+
+        return ResponseRequest(
                 response.code,
                 response.body?.string()
         )

@@ -19,6 +19,8 @@ class MyPresenter @Inject constructor(
 ) {
 
     fun present(call: PetFinder) {
+        Log.i("mylog","je suis dans le presenter")
+        //Log.i("mylog", call?.animals?.get(0)?.name.toString())
         val petFinderViewModel = PetFinderViewModel(call.animals.map { PetAnimal ->
             PetAnimalViewModel(
                 type = PetAnimal.type,

@@ -1,6 +1,5 @@
 package com.gbancarel.adoptyourpet.repository.service
 
-import android.util.Log
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,7 +9,7 @@ class TokenService @Inject constructor(
         val client: OkHttpClient // Appel réseau avec OKHttp (library)
 ) {
 
-    fun getToken(url: String) : Response {
+    fun getToken(url: String) : ResponseRequest {
         val CLIENT_ID = "QG7OCwGbN9lGdDdKzVz3Bd15JmGRHqmvnngYBCPeuAEWpBvPD7"
         val CLIENT_SECRET = "EAFrR5SjSU032KcGA4lDDrNLRGiijterccpyf8DO"
 
@@ -27,7 +26,7 @@ class TokenService @Inject constructor(
                 .build()
 
         val response = client.newCall(request).execute()
-        return Response(
+        return ResponseRequest(
                 response.code,
                 response.body?.string()
         )
