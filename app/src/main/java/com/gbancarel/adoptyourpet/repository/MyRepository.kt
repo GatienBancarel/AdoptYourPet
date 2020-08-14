@@ -1,12 +1,11 @@
 package com.gbancarel.adoptyourpet.repository
 
-import android.util.Log
-import com.gbancarel.adoptyourpet.interactor.PetAnimal
-import com.gbancarel.adoptyourpet.interactor.PetFinder
+import com.gbancarel.adoptyourpet.interactor.donnes.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
+import com.gbancarel.adoptyourpet.repository.json.PhotoJSON
 import com.gbancarel.adoptyourpet.repository.service.MyInterceptor
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import com.gbancarel.adoptyourpet.repository.service.TokenService
@@ -36,25 +35,55 @@ class MyRepository @Inject constructor(
         val interceptor = MyInterceptor("old token")
         val authToken = interceptor.newToken()
         val response = petFinderService.get("https://api.petfinder.com/v2/animals?type=dog&page=1", authToken)
-        //Log.i("mylog", response.body.toString())
 
         if (response.statusCode != 200 && response.statusCode != 201) {
             throw ErrorStatusException("http request fail")
         } else {
             val petFinderEntityJSON = petFinderParser.parse(response.body)
-            //Log.i("mylog", petFinderEntityJSON?.animals?.get(0)?.name.toString())
-
             if (petFinderEntityJSON != null) {
-                return PetFinder(petFinderEntityJSON.animals.map { PetAnimalJSON ->
-                    PetAnimal(
-                        type = PetAnimalJSON.type,
-                        age = PetAnimalJSON.age,
-                        gender = PetAnimalJSON.gender,
-                        size = PetAnimalJSON.size,
-                        name = PetAnimalJSON.name,
-                        description = PetAnimalJSON.description
-                    )
-                })
+                val listPetAnimal: List<PetAnimal?> = petFinderEntityJSON.animals.map { PetAnimalJSON ->
+                    if (PetAnimalJSON?.name == null) {
+                        null
+                    } else {
+                        PetAnimal(
+                                type = PetAnimalJSON.type,
+                                breeds = Breed(primary = PetAnimalJSON.breeds?.primary),
+                                colors = Color(primary = PetAnimalJSON.colors?.primary),
+                                age = PetAnimalJSON.age,
+                                gender = PetAnimalJSON.gender,
+                                size = PetAnimalJSON.size,
+                                environment = Environment(
+                                        children = PetAnimalJSON.environment?.children,
+                                        dog = PetAnimalJSON.environment?.dog,
+                                        cat = PetAnimalJSON.environment?.cat
+                                ),
+                                name = PetAnimalJSON.name,
+                                description = PetAnimalJSON.description,
+                                photos = PetAnimalJSON.photos?.map { PhotoJSON ->
+                                    Photo(
+                                            small = PhotoJSON?.small,
+                                            medium = PhotoJSON?.medium,
+                                            large = PhotoJSON?.large,
+                                            full = PhotoJSON?.full
+                                    )
+                                },
+                                contact = Contact(
+                                        email = PetAnimalJSON.contact?.email,
+                                        phone = PetAnimalJSON.contact?.phone,
+                                        address = Adress(
+                                                address1 = PetAnimalJSON.contact?.address?.address1,
+                                                address2 = PetAnimalJSON.contact?.address?.address2,
+                                                city = PetAnimalJSON.contact?.address?.city,
+                                                state = PetAnimalJSON.contact?.address?.state,
+                                                postCode = PetAnimalJSON.contact?.address?.postCode,
+                                                country = PetAnimalJSON.contact?.address?.country
+                                        )
+                                )
+                        )
+                    }
+                }
+                val listNotNullPetAnimal = listPetAnimal?.filterNotNull()
+                return PetFinder(listNotNullPetAnimal)
             } else {
                 throw CannotDecodeJsonException("adapter from json fail")
             }

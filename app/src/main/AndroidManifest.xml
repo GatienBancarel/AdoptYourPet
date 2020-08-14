@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gbancarel.adoptyourpet">
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE"/>
 
     <application
         android:name=".MainApplication"

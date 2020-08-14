@@ -16,7 +16,6 @@ class MyInterceptor @Inject constructor(authToken: String?) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
 
-        Log.i("mylog","je suis dans l'interceptor")
         val accessToken = currentToken
         val request = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer $accessToken")
@@ -25,16 +24,13 @@ class MyInterceptor @Inject constructor(authToken: String?) : Interceptor {
 
         if (response.code == 401) {
             val newToken: String? = newToken()
-            Log.i("mylog",newToken.toString())
             if (newToken != null) {
                 val newRequest =  chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer $newToken")
                         .build()
-                Log.i("mylog","je return dans le if")
                 return chain.proceed(newRequest)
             }
         }
-        Log.i("mylog","je return pas dans le if")
         return response
     }
 

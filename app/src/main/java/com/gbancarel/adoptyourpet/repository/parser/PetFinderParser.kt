@@ -11,7 +11,6 @@ class PetFinderParser @Inject constructor() {
 
     fun parse(body: String?) : PetFinderJSON? {
         val moshi = Moshi.Builder()
-                //.add(KotlinJsonAdapterFactory())
                 .build()
         val adapter: JsonAdapter<PetFinderJSON>? = moshi.adapter(PetFinderJSON::class.java)
         return adapter?.fromJson(body)
