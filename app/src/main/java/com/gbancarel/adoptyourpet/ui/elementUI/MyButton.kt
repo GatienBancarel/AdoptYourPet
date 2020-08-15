@@ -1,5 +1,7 @@
 package com.gbancarel.adoptyourpet.ui.elementUI
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.Composable
 import androidx.ui.core.Alignment
 import androidx.ui.core.ContentScale
@@ -23,12 +25,12 @@ import com.gbancarel.adoptyourpet.ui.typography
 class MyButton {
 
     @Composable
-    fun ButtonSearch() {
+    fun ButtonSearch(intent: Intent, applicationContext: Context) {
         val myImage = vectorResource(id = R.drawable.ic_baseline_search_24)
         val imageModifier = Modifier.preferredHeight(32.dp).preferredWidth(32.dp).clip(shape = RoundedCornerShape(16.dp))
 
         Button(
-                onClick = {},
+                onClick = {applicationContext.startActivity(intent)},
                 modifier = Modifier.fillMaxWidth(),
                 backgroundColor = Color.White
         ) {
