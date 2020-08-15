@@ -62,6 +62,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.0-alpha05"
 
     //Hilt
     implementation "com.google.dagger:hilt-android:$dagger_hilt_version"

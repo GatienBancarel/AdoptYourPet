@@ -1,10 +1,9 @@
-package com.gbancarel.adoptyourpet
+package com.gbancarel.adoptyourpet.Activity
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
-import androidx.compose.State
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.ui.core.setContent
@@ -15,6 +14,7 @@ import com.gbancarel.adoptyourpet.controller.MyControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.MyViewModel
 import com.gbancarel.adoptyourpet.presenter.donnees.PetFinderViewModel
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
+import com.gbancarel.adoptyourpet.ui.page.HomePage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     controller.onCreate()
+                    HomePage().Page()
                     //test(viewModel.liveData)
                 }
             }
