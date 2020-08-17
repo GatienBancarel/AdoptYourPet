@@ -1,6 +1,6 @@
 package com.gbancarel.adoptyourpet.ui
 
-import androidx.ui.graphics.Color
+import androidx.compose.ui.graphics.Color
 
 val lightBlue200 = Color(0xFF40C4FF)
 val lightBlue500 = Color(0xFF03A9F4)
