@@ -28,12 +28,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.liveData.observe(this, petFinderObserver)
-        val intent = Intent(applicationContext, SearchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     controller.onCreate()
-                    HomePage().Page(intent,applicationContext)
+                    HomePage().Page(applicationContext)
                 }
             }
         }
