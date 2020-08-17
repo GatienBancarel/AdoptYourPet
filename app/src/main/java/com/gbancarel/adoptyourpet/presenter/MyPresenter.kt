@@ -18,44 +18,17 @@ class MyPresenter @Inject constructor(
     @ActivityContext private val context: Context
 ) {
 
-    fun present(call: PetFinder) {
-        val petFinderViewModel = PetFinderViewModel(call.animals.map { PetAnimal ->
+    fun present(call: List<PetAnimal>) {
+        val petFinderViewModel = call.map { PetAnimal ->
             PetAnimalViewModel(
-                    type = PetAnimal.type,
-                    breeds = BreedViewModel(primary = PetAnimal.breeds?.primary),
-                    colors = ColorViewModel(primary = PetAnimal.colors?.primary),
-                    age = PetAnimal.age,
-                    gender = PetAnimal.gender,
-                    size = PetAnimal.size,
-                    environment = EnvironmentViewModel(
-                            children = PetAnimal.environment?.children,
-                            dog = PetAnimal.environment?.dog,
-                            cat = PetAnimal.environment?.cat
-                    ),
                     name = PetAnimal.name,
-                    description = PetAnimal.description,
-                    photos = PetAnimal.photos?.map { Photo ->
-                        PhotoViewModel(
-                                small = Photo?.small,
-                                medium = Photo?.medium,
-                                large = Photo?.large,
-                                full = Photo?.full
-                        )
+                    description= PetAnimal.description,
+                    photos = PetAnimal.photos.map { Photo ->
+                        PhotoViewModel(small = Photo.small)
                     },
-                    contact = ContactViewModel(
-                            email = PetAnimal.contact?.email,
-                            phone = PetAnimal.contact?.phone,
-                            address = Adress(
-                                    address1 = PetAnimal.contact?.address?.address1,
-                                    address2 = PetAnimal.contact?.address?.address2,
-                                    city = PetAnimal.contact?.address?.city,
-                                    state = PetAnimal.contact?.address?.state,
-                                    postCode = PetAnimal.contact?.address?.postCode,
-                                    country = PetAnimal.contact?.address?.country
-                            )
-                    )
+                    shouldShowPhoto = PetAnimal.photos.isNotEmpty()
             )
-        })
+        }
         viewModel.liveData.postValue(petFinderViewModel)
     }
 
@@ -71,5 +44,5 @@ class MyPresenter @Inject constructor(
 
 @Singleton
 class MyViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<PetFinderViewModel> = MutableLiveData()
+    val liveData: MutableLiveData<List<PetAnimalViewModel>> = MutableLiveData()
 }

@@ -12,6 +12,8 @@ import okhttp3.OkHttpClient
 object NetworkModule {
 
     @Provides
-    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder().build()
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(MyInterceptor("oldtoken"))
+        .build()
 
 }

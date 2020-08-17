@@ -5,6 +5,7 @@ import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
+import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.json.PhotoJSON
 import com.gbancarel.adoptyourpet.repository.service.MyInterceptor
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
@@ -13,80 +14,95 @@ import javax.inject.Inject
 
 
 class MyRepository @Inject constructor(
-        var petFinderService: PetFinderService,
-        var tokenService: TokenService,
-        var petFinderParser: PetFinderParser,
-        var tokenParser: TokenParser
+    var petFinderService: PetFinderService,
+    var petFinderParser: PetFinderParser
 ) {
 
-    @Throws(
-        ErrorStatusException::class,
-        CannotDecodeJsonException::class
-    )
-    fun getToken() :String?{
-        return ""
-    }
+    private val BASE_URL = "https://api.petfinder.com/v2" // TODO GBA
 
     @Throws(
         ErrorStatusException::class,
         CannotDecodeJsonException::class
     )
-    fun getCall (): PetFinder {
-        val interceptor = MyInterceptor("old token")
-        val authToken = interceptor.newToken()
-        val response = petFinderService.get("https://api.petfinder.com/v2/animals?type=dog&page=1", authToken)
+    fun getCall(): List<PetAnimal> {
+        val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
 
         if (response.statusCode != 200 && response.statusCode != 201) {
             throw ErrorStatusException("http request fail")
         } else {
             val petFinderEntityJSON = petFinderParser.parse(response.body)
             if (petFinderEntityJSON != null) {
-                val listPetAnimal: List<PetAnimal?> = petFinderEntityJSON.animals.map { PetAnimalJSON ->
-                    if (PetAnimalJSON?.name == null) {
-                        null
-                    } else {
-                        PetAnimal(
-                                type = PetAnimalJSON.type,
-                                breeds = Breed(primary = PetAnimalJSON.breeds?.primary),
-                                colors = Color(primary = PetAnimalJSON.colors?.primary),
-                                age = PetAnimalJSON.age,
-                                gender = PetAnimalJSON.gender,
-                                size = PetAnimalJSON.size,
-                                environment = Environment(
-                                        children = PetAnimalJSON.environment?.children,
-                                        dog = PetAnimalJSON.environment?.dog,
-                                        cat = PetAnimalJSON.environment?.cat
-                                ),
-                                name = PetAnimalJSON.name,
-                                description = PetAnimalJSON.description,
-                                photos = PetAnimalJSON.photos?.map { PhotoJSON ->
-                                    Photo(
-                                            small = PhotoJSON?.small,
-                                            medium = PhotoJSON?.medium,
-                                            large = PhotoJSON?.large,
-                                            full = PhotoJSON?.full
-                                    )
-                                },
-                                contact = Contact(
-                                        email = PetAnimalJSON.contact?.email,
-                                        phone = PetAnimalJSON.contact?.phone,
-                                        address = Adress(
-                                                address1 = PetAnimalJSON.contact?.address?.address1,
-                                                address2 = PetAnimalJSON.contact?.address?.address2,
-                                                city = PetAnimalJSON.contact?.address?.city,
-                                                state = PetAnimalJSON.contact?.address?.state,
-                                                postCode = PetAnimalJSON.contact?.address?.postCode,
-                                                country = PetAnimalJSON.contact?.address?.country
-                                        )
-                                )
-                        )
-                    }
-                }
-                val listNotNullPetAnimal = listPetAnimal?.filterNotNull()
-                return PetFinder(listNotNullPetAnimal)
+                return parseJson(petFinderEntityJSON)
             } else {
                 throw CannotDecodeJsonException("adapter from json fail")
             }
         }
+    }
+
+    private fun parseJson(petFinderEntityJSON: PetFinderJSON) : List<PetAnimal> {
+        val listPetAnimal: List<PetAnimal?> =
+            petFinderEntityJSON.animals.map { PetAnimalJSON ->
+                when {
+                    PetAnimalJSON?.name == null -> null
+                    PetAnimalJSON.type == null -> null
+                    else -> {
+                        val address = if (
+                            PetAnimalJSON.contact?.address?.city != null
+                            && PetAnimalJSON.contact.address.country != null
+                            && PetAnimalJSON.contact.address.state != null
+                        )
+                            Address(
+                                address1 = PetAnimalJSON.contact.address.address1,
+                                address2 = PetAnimalJSON.contact.address.address2,
+                                city = PetAnimalJSON.contact.address.city,
+                                state = PetAnimalJSON.contact.address.state,
+                                postCode = PetAnimalJSON.contact.address.postCode,
+                                country = PetAnimalJSON.contact.address.country
+                            ) else null
+
+                        val environment = if (
+                            listOfNotNull(
+                                PetAnimalJSON.environment?.children,
+                                PetAnimalJSON.environment?.dog,
+                                PetAnimalJSON.environment?.cat
+                            ).isNotEmpty()
+                        ) {
+                            Environment(
+                                children = PetAnimalJSON.environment?.children ?: false,
+                                dog = PetAnimalJSON.environment?.dog ?: false,
+                                cat = PetAnimalJSON.environment?.cat ?: false
+                            )
+                        } else {
+                            null
+                        }
+
+                        PetAnimal(
+                            type = PetAnimalJSON.type,
+                            breed = PetAnimalJSON.breeds?.primary,
+                            color = PetAnimalJSON.colors?.primary,
+                            age = PetAnimalJSON.age,
+                            gender = PetAnimalJSON.gender,
+                            size = PetAnimalJSON.size,
+                            environment = environment,
+                            name = PetAnimalJSON.name,
+                            description = PetAnimalJSON.description,
+                            photos = PetAnimalJSON.photos?.map { PhotoJSON ->
+                                Photo(
+                                    small = PhotoJSON.small,
+                                    medium = PhotoJSON.medium,
+                                    large = PhotoJSON.large,
+                                    full = PhotoJSON.full
+                                )
+                            } ?: emptyList(),
+                            contact = Contact(
+                                email = PetAnimalJSON.contact?.email,
+                                phone = PetAnimalJSON.contact?.phone,
+                                address = address
+                            )
+                        )
+                    }
+                }
+            }
+        return listPetAnimal.filterNotNull()
     }
 }

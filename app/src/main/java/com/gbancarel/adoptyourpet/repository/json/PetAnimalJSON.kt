@@ -13,6 +13,6 @@ data class PetAnimalJSON (
         val environment: EnvironmentJSON?,
         val name: String?,
         val description: String?,
-        val photos: List<PhotoJSON?>?,
+        val photos: List<PhotoJSON>?,
         val contact: ContactJSON?
 )

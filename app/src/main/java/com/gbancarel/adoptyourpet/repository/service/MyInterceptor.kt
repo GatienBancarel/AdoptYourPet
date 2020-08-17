@@ -24,6 +24,7 @@ class MyInterceptor @Inject constructor(authToken: String?) : Interceptor {
 
         if (response.code == 401) {
             val newToken: String? = newToken()
+            response.close()
             if (newToken != null) {
                 val newRequest =  chain.request().newBuilder()
                         .addHeader("Authorization", "Bearer $newToken")
