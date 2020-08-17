@@ -1,24 +1,23 @@
 package com.gbancarel.adoptyourpet.controller
 
 
-import com.gbancarel.adoptyourpet.interactor.MyInteractor
+import com.gbancarel.adoptyourpet.interactor.HomePageInteractor
 import org.junit.Test
-
 import org.junit.Before
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class MyControllerTest {
+class HomePageControllerTest {
 
     @Mock
-    private lateinit var interactor : MyInteractor
-    private lateinit var controller: MyController
+    private lateinit var interactor : HomePageInteractor
+    private lateinit var controller: HomePageController
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = MyController(interactor)
+        controller = HomePageController(interactor)
     }
 
     @Test

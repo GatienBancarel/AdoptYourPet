@@ -1,14 +1,14 @@
 package com.gbancarel.adoptyourpet.interactor
 
-import com.gbancarel.adoptyourpet.presenter.MyPresenter
+import com.gbancarel.adoptyourpet.presenter.HomePagePresenter
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
-import com.gbancarel.adoptyourpet.repository.MyRepository
+import com.gbancarel.adoptyourpet.repository.HomePageRepository
 import javax.inject.Inject
 
-class MyInteractor @Inject constructor(
-    val repository: MyRepository,
-    val presenter: MyPresenter
+class HomePageInteractor @Inject constructor(
+    val repository: HomePageRepository,
+    val presenter: HomePagePresenter
 ) {
 
     fun getCall() {

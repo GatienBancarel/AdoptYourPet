@@ -1,12 +1,12 @@
 package com.tech.myapplication.interactor
 
-import com.gbancarel.adoptyourpet.interactor.MyInteractor
-import com.gbancarel.adoptyourpet.interactor.donnes.Contact
-import com.gbancarel.adoptyourpet.interactor.donnes.Environment
-import com.gbancarel.adoptyourpet.interactor.donnes.PetAnimal
-import com.gbancarel.adoptyourpet.interactor.donnes.Photo
-import com.gbancarel.adoptyourpet.presenter.MyPresenter
-import com.gbancarel.adoptyourpet.repository.MyRepository
+import com.gbancarel.adoptyourpet.interactor.HomePageInteractor
+import com.gbancarel.adoptyourpet.interactor.data.Contact
+import com.gbancarel.adoptyourpet.interactor.data.Environment
+import com.gbancarel.adoptyourpet.interactor.data.PetAnimal
+import com.gbancarel.adoptyourpet.interactor.data.Photo
+import com.gbancarel.adoptyourpet.presenter.HomePagePresenter
+import com.gbancarel.adoptyourpet.repository.HomePageRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.nhaarman.mockitokotlin2.given
@@ -19,19 +19,19 @@ import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class MyInteractorTest {
+class HomePageInteractorTest {
     @Mock
-    private lateinit var repository: MyRepository
+    private lateinit var repository: HomePageRepository
 
     @Mock
-    private lateinit var presenter: MyPresenter
-    private lateinit var interactor: MyInteractor
+    private lateinit var presenter: HomePagePresenter
+    private lateinit var interactor: HomePageInteractor
 
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        interactor = MyInteractor(repository, presenter)
+        interactor = HomePageInteractor(repository, presenter)
     }
 
     @Test

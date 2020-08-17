@@ -1,7 +1,5 @@
 package com.gbancarel.adoptyourpet.repository.service
 
-import android.util.Log
-import com.gbancarel.adoptyourpet.repository.MyRepository
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 

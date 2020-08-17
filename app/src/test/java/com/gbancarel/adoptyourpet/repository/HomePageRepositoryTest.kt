@@ -1,6 +1,6 @@
 package com.gbancarel.adoptyourpet.repository
 
-import com.gbancarel.adoptyourpet.interactor.donnes.*
+import com.gbancarel.adoptyourpet.interactor.data.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.json.*
@@ -15,19 +15,19 @@ import org.junit.Assert.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class MyRepositoryTest {
+class HomePageRepositoryTest {
     @Mock
     lateinit var petFinderService: PetFinderService
 
     @Mock
     lateinit var petFinderParser: PetFinderParser
 
-    lateinit var repository: MyRepository
+    lateinit var repository: HomePageRepository
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        repository = MyRepository(petFinderService, petFinderParser)
+        repository = HomePageRepository(petFinderService, petFinderParser)
     }
 
     @Test

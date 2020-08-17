@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.interactor.donnes
+package com.gbancarel.adoptyourpet.interactor.data
 
 data class PetAnimal(
         val type: String,

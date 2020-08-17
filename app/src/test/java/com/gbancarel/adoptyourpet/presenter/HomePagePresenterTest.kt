@@ -2,29 +2,29 @@ package com.gbancarel.adoptyourpet.presenter
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.gbancarel.adoptyourpet.interactor.donnes.*
-import com.gbancarel.adoptyourpet.presenter.donnees.PetAnimalViewModel
-import com.gbancarel.adoptyourpet.presenter.donnees.PhotoViewModel
+import com.gbancarel.adoptyourpet.interactor.data.*
+import com.gbancarel.adoptyourpet.presenter.data.PetAnimalViewModel
+import com.gbancarel.adoptyourpet.presenter.data.PhotoViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class MyPresenterTest {
+class HomePagePresenterTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var context: Context
-    private var viewModel: MyViewModel = MyViewModel()
-    private lateinit var presenter: MyPresenter
+    private var viewModel: HomePageViewModel = HomePageViewModel()
+    private lateinit var presenter: HomePagePresenter
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = MyPresenter(viewModel, context)
+        presenter = HomePagePresenter(viewModel, context)
     }
 
     @Test
