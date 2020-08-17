@@ -15,7 +15,7 @@ import com.gbancarel.adoptyourpet.ui.elementUI.MyButton
 class HomePage {
 
     @Composable
-    fun Page() {
+    fun Page(intent: Intent, applicationContext: Context) {
 
         Surface(
                 color = MaterialTheme.colors.background,
@@ -24,7 +24,7 @@ class HomePage {
             Column(
                     modifier = Modifier.padding(16.dp)
             ) {
-                MyButton().ButtonSearch()
+                MyButton().ButtonSearch(intent,applicationContext)
                 Divider(color = Color.Transparent, modifier = Modifier.preferredHeight(32.dp))
             }
         }
