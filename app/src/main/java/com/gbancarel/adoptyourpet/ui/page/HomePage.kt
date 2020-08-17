@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.ui.page
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -15,7 +16,10 @@ import com.gbancarel.adoptyourpet.ui.elementUI.ButtonSearch
 class HomePage {
 
     @Composable
-    fun Page(applicationContext: Context) {
+    fun Page(
+        intent: Intent,
+        applicationContext: Context
+    ) {
 
         Surface(
                 color = MaterialTheme.colors.background,
@@ -25,7 +29,7 @@ class HomePage {
                     modifier = Modifier.padding(16.dp)
             ) {
                 ButtonSearch(
-                    onClick = { applicationContext.startActivity(SearchActivity.newIntent(applicationContext)) }
+                    onClick = { applicationContext.startActivity(intent) }
                 )
                 Divider(
                     color = Color.Transparent,

@@ -13,8 +13,4 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="Theme.FindYourPet.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.FindYourPet.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -7,7 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
     compileSdkVersion 30
     defaultConfig {
-        applicationId 'com.example.gbancarel.adoptyourpet'
+        applicationId 'com.gbancarel.adoptyourpet'
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
