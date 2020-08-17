@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.liveData.observe(this, petFinderObserver)
         setContent {
             FindYourPetTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
                     controller.onCreate()
                     HomePage().Page()
