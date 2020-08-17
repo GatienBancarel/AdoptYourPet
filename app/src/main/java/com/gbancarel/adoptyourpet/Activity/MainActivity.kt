@@ -1,10 +1,9 @@
 package com.gbancarel.adoptyourpet.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.Composable
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.ui.core.setContent
 import androidx.ui.material.MaterialTheme
@@ -29,11 +28,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.liveData.observe(this, petFinderObserver)
+
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     controller.onCreate()
-                    HomePage().Page()
+                    HomePage().Page(applicationContext)
                 }
             }
         }

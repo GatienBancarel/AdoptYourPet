@@ -5,10 +5,8 @@ import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.json.*
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
-import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import com.gbancarel.adoptyourpet.repository.service.ResponseRequest
-import com.gbancarel.adoptyourpet.repository.service.TokenService
 import com.nhaarman.mockitokotlin2.given
 import org.junit.Before
 import org.junit.Test
