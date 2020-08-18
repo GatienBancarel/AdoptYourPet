@@ -12,11 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindYourPet">
+        <activity android:name=".Activity.ActivityLottie"></activity>
         <activity
             android:name=".Activity.SearchActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FindYourPet.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.FindYourPet.NoActionBar"></activity>
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/app_name"

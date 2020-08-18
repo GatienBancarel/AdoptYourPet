@@ -13,6 +13,7 @@ class HomePageInteractor @Inject constructor(
 
     fun getCall() {
         try {
+
             val call = repository.getCall()
             presenter.present(call)
         } catch (e1: CannotDecodeJsonException) {

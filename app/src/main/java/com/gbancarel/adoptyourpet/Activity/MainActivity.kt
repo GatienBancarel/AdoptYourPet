@@ -1,20 +1,13 @@
 package com.gbancarel.adoptyourpet.Activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.Text
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.setContent
-import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.controller.HomePageControllerDecorator
+import com.gbancarel.adoptyourpet.databinding.LoaderBinding
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetAnimalViewModel
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.HomePage
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,10 +24,16 @@ class MainActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
+                    //displayLoader()
                     HomePage().Page(applicationContext,viewModel.liveData)
                     controller.onCreate()
                 }
             }
         }
+    }
+
+    fun displayLoader() {
+        val binding = LoaderBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 }
