@@ -8,7 +8,7 @@ import android.os.Bundle
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
+        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -22,7 +22,7 @@ class HomePagePresenter @Inject constructor(
         val petFinderViewModel = call.map { PetAnimal ->
             PetAnimalViewModel(
                     name = PetAnimal.name,
-                    description= PetAnimal.description,
+                    description= PetAnimal.description ?: "No description",
                     photos = PetAnimal.photos.map { Photo ->
                         PhotoViewModel(small = Photo.small)
                     },

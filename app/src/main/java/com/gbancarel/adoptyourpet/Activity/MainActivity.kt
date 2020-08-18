@@ -1,14 +1,17 @@
 package com.gbancarel.adoptyourpet.Activity
 
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.lazy.LazyColumnFor
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.setContent
-import androidx.lifecycle.Observer
+import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.controller.HomePageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.PetAnimalViewModel
@@ -23,17 +26,14 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var controller: HomePageControllerDecorator
     @Inject lateinit var viewModel: HomePageViewModel
 
-    private val petFinderObserver =
-        Observer<List<PetAnimalViewModel>> { data -> Log.i("mylog", data.map { it.name }.toString()) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.liveData.observe(this, petFinderObserver)
+        //viewModel.liveData.observe(this, petFinderObserver)
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
+                    HomePage().Page(applicationContext,viewModel.liveData)
                     controller.onCreate()
-                    HomePage().Page(Intent(applicationContext,SearchActivity::class.java).setFlags(FLAG_ACTIVITY_NEW_TASK),applicationContext)
                 }
             }
         }
