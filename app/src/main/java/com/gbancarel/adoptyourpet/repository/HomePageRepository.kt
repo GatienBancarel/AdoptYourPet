@@ -1,19 +1,15 @@
 package com.gbancarel.adoptyourpet.repository
 
-import com.gbancarel.adoptyourpet.interactor.donnes.*
+import com.gbancarel.adoptyourpet.interactor.data.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
-import com.gbancarel.adoptyourpet.repository.parser.TokenParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
-import com.gbancarel.adoptyourpet.repository.json.PhotoJSON
-import com.gbancarel.adoptyourpet.repository.service.MyInterceptor
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
-import com.gbancarel.adoptyourpet.repository.service.TokenService
 import javax.inject.Inject
 
 
-class MyRepository @Inject constructor(
+class HomePageRepository @Inject constructor(
     var petFinderService: PetFinderService,
     var petFinderParser: PetFinderParser
 ) {

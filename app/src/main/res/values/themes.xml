@@ -1,16 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FindYourPet" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.FindYourPet" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/lightBlue_500</item>
-        <item name="colorPrimaryVariant">@color/lightBlue_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="colorPrimary">@color/lightBlue_200</item>
+        <item name="colorPrimaryDark">@color/lightBlue_200</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <item name="android:statusBarColor">@color/lightBlue_700</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -18,8 +13,4 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="Theme.FindYourPet.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.FindYourPet.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

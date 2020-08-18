@@ -1,7 +1,5 @@
 package com.gbancarel.adoptyourpet.repository.service
 
-import android.util.Log
-import com.gbancarel.adoptyourpet.repository.MyRepository
 import okhttp3.*
 import javax.inject.Inject
 

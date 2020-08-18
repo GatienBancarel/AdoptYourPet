@@ -5,16 +5,16 @@ import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.interactor.donnes.*
-import com.gbancarel.adoptyourpet.presenter.donnees.*
+import com.gbancarel.adoptyourpet.interactor.data.*
+import com.gbancarel.adoptyourpet.presenter.data.*
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @ActivityScoped
-class MyPresenter @Inject constructor(
-    val viewModel: MyViewModel,
+class HomePagePresenter @Inject constructor(
+    val viewModel: HomePageViewModel,
     @ActivityContext private val context: Context
 ) {
 
@@ -43,6 +43,6 @@ class MyPresenter @Inject constructor(
 }
 
 @Singleton
-class MyViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
+class HomePageViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
     val liveData: MutableLiveData<List<PetAnimalViewModel>> = MutableLiveData()
 }

@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.presenter.donnees
+package com.gbancarel.adoptyourpet.presenter.data
 
 data class AddressViewModel (
         val address1: String?,
