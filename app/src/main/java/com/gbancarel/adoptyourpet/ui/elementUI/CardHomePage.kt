@@ -52,7 +52,6 @@ fun CardHomePage(name: String, description: String, image: List<PhotoViewModel>,
         ) {
             if (shouldShowPhoto) {
                 NetworkImageComponentGlide(url = image[0].small)
-                //NetworkImageComponentPicasso(url = "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/48808161/1/?bust=1597742210&width=100")
             } else {
                 Image(
                     asset = imageResource(id = R.drawable.chien),

@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //viewModel.liveData.observe(this, petFinderObserver)
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
