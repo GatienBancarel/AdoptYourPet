@@ -16,6 +16,7 @@ class HomePageInteractor @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.M)
     fun getListAnimal() {
         try {
+            presenter.presentLoader()
             val listAnimal = repository.getListAnimal()
             presenter.present(listAnimal)
         } catch (e1: CannotDecodeJsonException) {

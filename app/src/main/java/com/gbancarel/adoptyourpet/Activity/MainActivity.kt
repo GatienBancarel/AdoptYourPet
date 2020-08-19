@@ -46,7 +46,13 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun display(liveData: MutableLiveData<PetFinderViewModel>) {
-        val data = liveData.observeAsState(initial = PetFinderViewModel(emptyList()))
+        val data = liveData.observeAsState(
+            initial = PetFinderViewModel(
+                animals = emptyList(),
+                loader = true,
+                error = false
+            )
+        )
         when {
             data.value.loader -> {
                 val bindingLoader = LoaderBinding.inflate(layoutInflater)

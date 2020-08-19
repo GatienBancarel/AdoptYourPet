@@ -104,6 +104,20 @@ class HomePagePresenterTest {
     }
 
     @Test
+    fun presentLoader() {
+        //WHEN
+        presenter.presentLoader()
+        //THEN
+        assert(
+            viewModel.liveData.value == PetFinderViewModel(
+                loader = true,
+                error = false,
+                animals = emptyList()
+            )
+        )
+    }
+
+    @Test
     fun presentErrorOkHttp() {
         //WHEN
         presenter.presentErrorOkHttp()

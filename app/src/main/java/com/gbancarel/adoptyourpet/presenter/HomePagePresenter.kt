@@ -20,6 +20,7 @@ class HomePagePresenter @Inject constructor(
 
     fun present(listAnimal: List<PetAnimal>) {
         val petFinderViewModel = PetFinderViewModel(
+            error = false,
             loader = false,
             animals = listAnimal.map { PetAnimal ->
                 PetAnimalViewModel(
@@ -31,6 +32,15 @@ class HomePagePresenter @Inject constructor(
                     shouldShowPhoto = PetAnimal.photos.isNotEmpty()
                 )
             }
+        )
+        viewModel.liveData.postValue(petFinderViewModel)
+    }
+
+    fun presentLoader() {
+        val petFinderViewModel = PetFinderViewModel(
+            error = false,
+            loader = true,
+            animals = emptyList()
         )
         viewModel.liveData.postValue(petFinderViewModel)
     }
