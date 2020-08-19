@@ -54,7 +54,7 @@ fun CardHomePage(name: String, description: String, image: List<PhotoViewModel>,
                 NetworkImageComponentGlide(url = image[0].small)
             } else {
                 Image(
-                    asset = imageResource(id = R.drawable.chien),
+                    asset = imageResource(id = R.mipmap.dog),
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.preferredHeight(64.dp).preferredWidth(64.dp).clip(shape = RoundedCornerShape(32.dp))
                 )

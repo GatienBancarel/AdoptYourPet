@@ -1,5 +1,7 @@
 package com.gbancarel.adoptyourpet.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.gbancarel.adoptyourpet.interactor.data.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
@@ -7,6 +9,7 @@ import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 
 class HomePageRepository @Inject constructor(
@@ -16,11 +19,12 @@ class HomePageRepository @Inject constructor(
 
     private val BASE_URL = "https://api.petfinder.com/v2" // TODO GBA
 
+    @RequiresApi(Build.VERSION_CODES.M)
     @Throws(
         ErrorStatusException::class,
         CannotDecodeJsonException::class
     )
-    fun getCall(): List<PetAnimal> {
+    fun getListAnimal(): List<PetAnimal> {
         val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
 
         if (response.statusCode != 200 && response.statusCode != 201) {

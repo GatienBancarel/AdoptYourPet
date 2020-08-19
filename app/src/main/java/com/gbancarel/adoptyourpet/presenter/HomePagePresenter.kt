@@ -18,31 +18,44 @@ class HomePagePresenter @Inject constructor(
     @ActivityContext private val context: Context
 ) {
 
-    fun present(call: List<PetAnimal>) {
-        val petFinderViewModel = call.map { PetAnimal ->
-            PetAnimalViewModel(
+    fun present(listAnimal: List<PetAnimal>) {
+        val petFinderViewModel = PetFinderViewModel(
+            loader = false,
+            animals = listAnimal.map { PetAnimal ->
+                PetAnimalViewModel(
                     name = PetAnimal.name,
-                    description= PetAnimal.description ?: "No description",
+                    description = PetAnimal.description ?: "No description",
                     photos = PetAnimal.photos.map { Photo ->
                         PhotoViewModel(small = Photo.small)
                     },
                     shouldShowPhoto = PetAnimal.photos.isNotEmpty()
-            )
-        }
+                )
+            }
+        )
         viewModel.liveData.postValue(petFinderViewModel)
     }
 
     fun presentErrorOkHttp(){
-        Log.i("mylog", "okhttp failed")
+        val petFinderViewModel = PetFinderViewModel(
+            error = true,
+            loader = false,
+            animals = emptyList()
+        )
+        viewModel.liveData.postValue(petFinderViewModel)
     }
 
     fun presentErrorMoshi(){
-        Log.i("mylog", "moshi failed")
+        val petFinderViewModel = PetFinderViewModel(
+            error = true,
+            loader = false,
+            animals = emptyList()
+        )
+        viewModel.liveData.postValue(petFinderViewModel)
     }
 
 }
 
 @Singleton
 class HomePageViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<List<PetAnimalViewModel>> = MutableLiveData()
+    val liveData: MutableLiveData<PetFinderViewModel> = MutableLiveData()
 }
