@@ -12,7 +12,7 @@ class HomePageController @Inject constructor(
 ) {
 
     fun onCreate() {
-        interactor.getCall()
+        interactor.getListAnimal()
     }
 }
 

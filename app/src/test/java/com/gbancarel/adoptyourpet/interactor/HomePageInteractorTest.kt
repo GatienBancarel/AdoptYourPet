@@ -67,32 +67,41 @@ class HomePageInteractorTest {
             )
 
         // GIVEN
-        given(repository.getCall()).willReturn(animals)
+        given(repository.getListAnimal()).willReturn(animals)
         // WHEN
-        interactor.getCall()
+        interactor.getListAnimal()
         // THEN
         then(presenter).should().present(animals)
-        then(presenter).shouldHaveNoMoreInteractions()
     }
 
     @Test
     fun getCallWhenErrorCannotDecodeJsonException() {
         // GIVEN
-        given(repository.getCall()).willThrow(CannotDecodeJsonException("Fake reason"))
+        given(repository.getListAnimal()).willThrow(CannotDecodeJsonException("Fake reason"))
         // WHEN
-        interactor.getCall()
+        interactor.getListAnimal()
         // THEN
-        then(presenter).should(only()).presentErrorOkHttp()
+        then(presenter).should().presentError()
     }
 
     @Test
     fun getCallWhenErrorStatusException() {
         // GIVEN
-        given(repository.getCall()).willThrow(ErrorStatusException("Fake reason"))
+        given(repository.getListAnimal()).willThrow(ErrorStatusException("Fake reason"))
         // WHEN
-        interactor.getCall()
+        interactor.getListAnimal()
         // THEN
-        then(presenter).should(only()).presentErrorMoshi()
+        then(presenter).should().presentError()
+    }
+
+    @Test
+    fun getCallWhenNoInternetConnectionAvailable() {
+        // GIVEN
+        given(repository.getListAnimal()).willThrow(ErrorStatusException("Fake reason"))
+        // WHEN
+        interactor.getListAnimal()
+        // THEN
+        then(presenter).should().presentError()
     }
 
 }

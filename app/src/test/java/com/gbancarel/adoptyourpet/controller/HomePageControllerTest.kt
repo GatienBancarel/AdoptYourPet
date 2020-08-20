@@ -27,6 +27,6 @@ class HomePageControllerTest {
         controller.onCreate()
 
         // THEN
-        then(interactor).should().getCall()
+        then(interactor).should().getListAnimal()
     }
 }

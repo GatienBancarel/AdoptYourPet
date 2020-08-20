@@ -7,13 +7,12 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.Activity.SearchActivity
-import com.gbancarel.adoptyourpet.presenter.data.PetAnimalViewModel
+import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
 import com.gbancarel.adoptyourpet.ui.elementUI.ButtonSearch
 import com.gbancarel.adoptyourpet.ui.elementUI.CardHomePage
 
@@ -22,9 +21,8 @@ class HomePage {
     @Composable
     fun Page(
         applicationContext: Context,
-        liveData: MutableLiveData<List<PetAnimalViewModel>>
+        liveData: State<PetFinderViewModel>
     ) {
-        val data = liveData.observeAsState(initial = emptyList())
 
         Surface(
             color = MaterialTheme.colors.background,
@@ -46,7 +44,7 @@ class HomePage {
                     color = Color.Transparent,
                     modifier = Modifier.preferredHeight(32.dp)
                 )
-                LazyColumnFor(data.value) { item ->
+                LazyColumnFor(liveData.value.animals) { item ->
                     CardHomePage(
                         name = item.name,
                         description = item.description!!,

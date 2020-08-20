@@ -84,7 +84,7 @@ class HomePageRepositoryTest {
             )
 
         // WHEN
-        val call = repository.getCall()
+        val call = repository.getListAnimal()
 
         // THEN
         assertEquals(
@@ -140,7 +140,7 @@ class HomePageRepositoryTest {
             )
 
         // WHEN
-        repository.getCall()
+        repository.getListAnimal()
     }
 
 
@@ -164,7 +164,7 @@ class HomePageRepositoryTest {
         ).willReturn(null)
 
         // WHEN
-        repository.getCall()
+        repository.getListAnimal()
     }
 
 }
