@@ -20,8 +20,7 @@ class HomePagePresenter @Inject constructor(
 
     fun present(listAnimal: List<PetAnimal>) {
         val petFinderViewModel = PetFinderViewModel(
-            error = false,
-            loader = false,
+            state = PetFinderViewModelState.finished,
             animals = listAnimal.map { PetAnimal ->
                 PetAnimalViewModel(
                     name = PetAnimal.name,
@@ -38,26 +37,15 @@ class HomePagePresenter @Inject constructor(
 
     fun presentLoader() {
         val petFinderViewModel = PetFinderViewModel(
-            error = false,
-            loader = true,
+            state = PetFinderViewModelState.loading,
             animals = emptyList()
         )
         viewModel.liveData.postValue(petFinderViewModel)
     }
 
-    fun presentErrorOkHttp(){
+    fun presentError(){
         val petFinderViewModel = PetFinderViewModel(
-            error = true,
-            loader = false,
-            animals = emptyList()
-        )
-        viewModel.liveData.postValue(petFinderViewModel)
-    }
-
-    fun presentErrorMoshi(){
-        val petFinderViewModel = PetFinderViewModel(
-            error = true,
-            loader = false,
+            state = PetFinderViewModelState.error,
             animals = emptyList()
         )
         viewModel.liveData.postValue(petFinderViewModel)

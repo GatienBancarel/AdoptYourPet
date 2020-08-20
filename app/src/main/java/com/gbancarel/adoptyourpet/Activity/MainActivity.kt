@@ -1,13 +1,7 @@
 package com.gbancarel.adoptyourpet.Activity
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -20,6 +14,7 @@ import com.gbancarel.adoptyourpet.databinding.ErrorBinding
 import com.gbancarel.adoptyourpet.databinding.LoaderBinding
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.HomePage
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     @Inject lateinit var controller: HomePageControllerDecorator
     @Inject lateinit var viewModel: HomePageViewModel
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -49,20 +43,19 @@ class MainActivity : AppCompatActivity() {
         val data = liveData.observeAsState(
             initial = PetFinderViewModel(
                 animals = emptyList(),
-                loader = true,
-                error = false
+                state = PetFinderViewModelState.loading
             )
         )
-        when {
-            data.value.loader -> {
+        when (data.value.state) {
+            PetFinderViewModelState.loading -> {
                 val bindingLoader = LoaderBinding.inflate(layoutInflater)
                 setContentView(bindingLoader.root)
             }
-            data.value.error -> {
+            PetFinderViewModelState.error -> {
                 val bindingError = ErrorBinding.inflate(layoutInflater)
                 setContentView(bindingError.root)
             }
-            else -> {
+            PetFinderViewModelState.finished -> {
                 setContent{
                     HomePage().Page(applicationContext,data)
                 }
@@ -70,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun retry(view: View) {
         controller.onCreate()
     }

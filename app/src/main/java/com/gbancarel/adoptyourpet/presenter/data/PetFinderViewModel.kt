@@ -2,6 +2,5 @@ package com.gbancarel.adoptyourpet.presenter.data
 
 data class PetFinderViewModel (
     val animals: List<PetAnimalViewModel>,
-    var loader: Boolean,
-    var error: Boolean
+    val state: PetFinderViewModelState
 )

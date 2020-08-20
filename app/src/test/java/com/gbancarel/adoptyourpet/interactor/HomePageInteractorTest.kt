@@ -72,7 +72,6 @@ class HomePageInteractorTest {
         interactor.getListAnimal()
         // THEN
         then(presenter).should().present(animals)
-        then(presenter).shouldHaveNoMoreInteractions()
     }
 
     @Test
@@ -82,7 +81,7 @@ class HomePageInteractorTest {
         // WHEN
         interactor.getListAnimal()
         // THEN
-        then(presenter).should(only()).presentErrorOkHttp()
+        then(presenter).should().presentErrorOkHttp()
     }
 
     @Test
@@ -92,7 +91,7 @@ class HomePageInteractorTest {
         // WHEN
         interactor.getListAnimal()
         // THEN
-        then(presenter).should(only()).presentErrorMoshi()
+        then(presenter).should().presentErrorMoshi()
     }
 
 }

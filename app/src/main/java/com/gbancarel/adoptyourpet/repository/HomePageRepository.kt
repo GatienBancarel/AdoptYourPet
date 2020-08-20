@@ -1,11 +1,10 @@
 package com.gbancarel.adoptyourpet.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.gbancarel.adoptyourpet.interactor.data.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
+import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
 import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import javax.inject.Inject
@@ -19,23 +18,27 @@ class HomePageRepository @Inject constructor(
 
     private val BASE_URL = "https://api.petfinder.com/v2" // TODO GBA
 
-    @RequiresApi(Build.VERSION_CODES.M)
     @Throws(
         ErrorStatusException::class,
-        CannotDecodeJsonException::class
+        CannotDecodeJsonException::class,
+        NoInternetConnectionAvailable::class
     )
     fun getListAnimal(): List<PetAnimal> {
-        val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
+        try {
+            val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
 
-        if (response.statusCode != 200 && response.statusCode != 201) {
-            throw ErrorStatusException("http request fail")
-        } else {
-            val petFinderEntityJSON = petFinderParser.parse(response.body)
-            if (petFinderEntityJSON != null) {
-                return parseJson(petFinderEntityJSON)
+            if (response.statusCode != 200 && response.statusCode != 201) {
+                throw ErrorStatusException("http request fail")
             } else {
-                throw CannotDecodeJsonException("adapter from json fail")
+                val petFinderEntityJSON = petFinderParser.parse(response.body)
+                if (petFinderEntityJSON != null) {
+                    return parseJson(petFinderEntityJSON)
+                } else {
+                    throw CannotDecodeJsonException("adapter from json fail")
+                }
             }
+        } catch (e1: NoInternetConnectionAvailable) {
+            throw NoInternetConnectionAvailable("No Internet")
         }
     }
 
