@@ -117,22 +117,9 @@ class HomePagePresenterTest {
     }
 
     @Test
-    fun presentErrorOkHttp() {
+    fun presentError() {
         //WHEN
-        presenter.presentErrorOkHttp()
-        //THEN
-        assert(
-            viewModel.liveData.value == PetFinderViewModel(
-                state = PetFinderViewModelState.error,
-                animals = emptyList()
-            )
-        )
-    }
-
-    @Test
-    fun presentErrorMoshi() {
-        //WHEN
-        presenter.presentErrorMoshi()
+        presenter.presentError()
         //THEN
         assert(
             viewModel.liveData.value == PetFinderViewModel(

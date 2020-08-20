@@ -81,7 +81,7 @@ class HomePageInteractorTest {
         // WHEN
         interactor.getListAnimal()
         // THEN
-        then(presenter).should().presentErrorOkHttp()
+        then(presenter).should().presentError()
     }
 
     @Test
@@ -91,7 +91,17 @@ class HomePageInteractorTest {
         // WHEN
         interactor.getListAnimal()
         // THEN
-        then(presenter).should().presentErrorMoshi()
+        then(presenter).should().presentError()
+    }
+
+    @Test
+    fun getCallWhenNoInternetConnectionAvailable() {
+        // GIVEN
+        given(repository.getListAnimal()).willThrow(ErrorStatusException("Fake reason"))
+        // WHEN
+        interactor.getListAnimal()
+        // THEN
+        then(presenter).should().presentError()
     }
 
 }
