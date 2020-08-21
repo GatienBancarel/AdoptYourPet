@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.Activity.SearchPageViewModel
 import com.gbancarel.adoptyourpet.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
 import com.gbancarel.adoptyourpet.ui.typography
+import com.gbancarel.adoptyourpet.R
 
 
 class SearchPage {
@@ -39,14 +41,18 @@ class SearchPage {
                     )
                     Row {
                         AnimalCheckBox(
-                            animal = AnimalSelected.dog,
-                            isSelected = data.value,
+                            title = "Dog",
+                            image = imageResource(id = R.mipmap.dog),
+                            isUnknown = data.value == AnimalSelected.unknown,
+                            isSelected = data.value == AnimalSelected.dog,
                             onClick = { viewModel.liveData.postValue(AnimalSelected.dog) }
                         )
                         AnimalCheckBox(
-                            animal = AnimalSelected.cat,
-                            isSelected = data.value,
-                            onClick = { viewModel.liveData.postValue(AnimalSelected.cat) },
+                            title = "Cat",
+                            image = imageResource(id = R.mipmap.cat),
+                            isUnknown = data.value == AnimalSelected.unknown,
+                            isSelected = data.value == AnimalSelected.cat,
+                            onClick = { viewModel.liveData.postValue(AnimalSelected.cat) }
                         )
                     }
                 }

@@ -10,34 +10,25 @@ import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageAsset
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.gbancarel.adoptyourpet.AnimalSelected
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.ui.typography
 
 @Composable
-fun AnimalCheckBox(isSelected: AnimalSelected, onClick: () -> Unit, animal: AnimalSelected) {
-    val image: ImageAsset
-    val titleBox: String
-    if (animal == AnimalSelected.dog ) {
-        image = imageResource(id = R.mipmap.dog)
-        titleBox = "Dog"
+fun AnimalCheckBox(
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    title: String,
+    image: ImageAsset,
+    isUnknown: Boolean
+) {
+    val icon = if (isSelected) {
+        R.drawable.ic_baseline_check_24
+    } else if (isUnknown) {
+        R.drawable.ic_baseline_info_24
     } else {
-        image = imageResource(id = R.mipmap.cat)
-        titleBox = "Cat"
-    }
-    val icon = when (isSelected) {
-        AnimalSelected.unknown -> {
-            R.drawable.ic_baseline_info_24
-        }
-        animal  -> {
-            R.drawable.ic_baseline_check_24
-        }
-        else -> {
-            R.drawable.ic_baseline_close_24
-        }
+        R.drawable.ic_baseline_close_24
     }
     Box(
         modifier = Modifier
@@ -70,7 +61,7 @@ fun AnimalCheckBox(isSelected: AnimalSelected, onClick: () -> Unit, animal: Anim
                     }
             )
             Text(
-                text = titleBox,
+                text = title,
                 style = typography.body2,
                 modifier = Modifier
                     .constrainAs(textPet) {
