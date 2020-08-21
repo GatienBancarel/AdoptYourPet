@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.Activity.SearchActivity
 import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
-import com.gbancarel.adoptyourpet.ui.elementUI.ButtonSearch
-import com.gbancarel.adoptyourpet.ui.elementUI.CardHomePage
+import com.gbancarel.adoptyourpet.ui.customView.ButtonSearch
+import com.gbancarel.adoptyourpet.ui.customView.CardHomePage
 
 class HomePage {
 
