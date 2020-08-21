@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.ui.elementUI
+package com.gbancarel.adoptyourpet.ui.customView
 
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Image

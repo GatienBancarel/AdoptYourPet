@@ -1,26 +1,38 @@
-package com.gbancarel.adoptyourpet.ui.elementUI
+package com.gbancarel.adoptyourpet.ui.customView
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ConstraintLayout
 import androidx.compose.foundation.layout.preferredHeight
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageAsset
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.gbancarel.adoptyourpet.Activity.SearchPageViewModel
+import com.gbancarel.adoptyourpet.AnimalSelected
 import com.gbancarel.adoptyourpet.R
-import com.gbancarel.adoptyourpet.StateSearchActivity
 import com.gbancarel.adoptyourpet.ui.typography
 
 @Composable
-fun MyDog(type: String, viewModel: SearchPageViewModel) {
-    val icon = when (type) {
-        "unknown" -> {
+fun AnimalCheckBox(isSelected: AnimalSelected, onClick: () -> Unit, animal: AnimalSelected) {
+    val image: ImageAsset
+    val titleBox: String
+    if (animal == AnimalSelected.dog ) {
+        image = imageResource(id = R.mipmap.dog)
+        titleBox = "Dog"
+    } else {
+        image = imageResource(id = R.mipmap.cat)
+        titleBox = "Cat"
+    }
+    val icon = when (isSelected) {
+        AnimalSelected.unknown -> {
             R.drawable.ic_baseline_info_24
         }
-        "dog" -> {
+        animal  -> {
             R.drawable.ic_baseline_check_24
         }
         else -> {
@@ -31,12 +43,12 @@ fun MyDog(type: String, viewModel: SearchPageViewModel) {
         modifier = Modifier
             .preferredWidth(125.dp)
             .preferredHeight(125.dp)
-            .clickable(onClick = {viewModel.liveData.postValue(StateSearchActivity(type = "dog"))})
+            .clickable(onClick = onClick)
     ) {
         ConstraintLayout {
             val (imageChoose, imageDog,textPet) = createRefs()
             Image(
-                asset = imageResource(id = R.mipmap.dog),
+                asset = image,
                 modifier = Modifier
                     .preferredHeight(100.dp)
                     .preferredWidth(100.dp)
@@ -58,7 +70,7 @@ fun MyDog(type: String, viewModel: SearchPageViewModel) {
                     }
             )
             Text(
-                text = "Dog",
+                text = titleBox,
                 style = typography.body2,
                 modifier = Modifier
                     .constrainAs(textPet) {

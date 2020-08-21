@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.setContent
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.StateSearchActivity
+import com.gbancarel.adoptyourpet.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.SearchPage
 import javax.inject.Singleton
@@ -37,5 +37,5 @@ class SearchActivity : AppCompatActivity() {
 
 @Singleton
 class SearchPageViewModel: ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<StateSearchActivity> = MutableLiveData()
+    val liveData: MutableLiveData<AnimalSelected> = MutableLiveData()
 }

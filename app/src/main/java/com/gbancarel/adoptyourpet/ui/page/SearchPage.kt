@@ -10,11 +10,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.Activity.SearchPageViewModel
-import com.gbancarel.adoptyourpet.StateSearchActivity
-import com.gbancarel.adoptyourpet.ui.elementUI.MyCat
-import com.gbancarel.adoptyourpet.ui.elementUI.MyDog
+import com.gbancarel.adoptyourpet.AnimalSelected
+import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
 import com.gbancarel.adoptyourpet.ui.typography
 
 
@@ -23,7 +21,7 @@ class SearchPage {
     @Composable
     fun Page(viewModel: SearchPageViewModel) {
         val data = viewModel.liveData.observeAsState(
-            initial = StateSearchActivity(type = "unknown")
+            initial = AnimalSelected.unknown
         )
         Surface(
             color = MaterialTheme.colors.background,
@@ -40,8 +38,16 @@ class SearchPage {
                         style = typography.body2
                     )
                     Row {
-                        MyDog(data.value.type,viewModel)
-                        MyCat(data.value.type,viewModel)
+                        AnimalCheckBox(
+                            animal = AnimalSelected.dog,
+                            isSelected = data.value,
+                            onClick = { viewModel.liveData.postValue(AnimalSelected.dog) }
+                        )
+                        AnimalCheckBox(
+                            animal = AnimalSelected.cat,
+                            isSelected = data.value,
+                            onClick = { viewModel.liveData.postValue(AnimalSelected.cat) },
+                        )
                     }
                 }
             }
