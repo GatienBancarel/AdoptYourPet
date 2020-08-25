@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.Activity
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.MaterialTheme
@@ -13,8 +14,8 @@ import com.gbancarel.adoptyourpet.controller.HomePageControllerDecorator
 import com.gbancarel.adoptyourpet.databinding.ErrorBinding
 import com.gbancarel.adoptyourpet.databinding.LoaderBinding
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModelState
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.HomePage
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
+                    Log.i("mylog", "je suis dans l'activity")
                     controller.onCreate()
                     display(viewModel.liveData)
                 }

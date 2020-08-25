@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.repository.json
+package com.gbancarel.adoptyourpet.repository.json.listAnimal
 
 import com.squareup.moshi.JsonClass
 

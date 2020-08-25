@@ -1,6 +1,6 @@
-package com.gbancarel.adoptyourpet.presenter.data
+package com.gbancarel.adoptyourpet.interactor.data.listAnimal
 
-data class AddressViewModel (
+data class Address (
         val address1: String?,
         val address2: String?,
         val city: String,

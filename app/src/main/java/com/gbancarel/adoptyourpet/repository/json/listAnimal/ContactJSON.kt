@@ -1,5 +1,6 @@
-package com.gbancarel.adoptyourpet.repository.json
+package com.gbancarel.adoptyourpet.repository.json.listAnimal
 
+import com.gbancarel.adoptyourpet.repository.json.listAnimal.AdressJSON
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

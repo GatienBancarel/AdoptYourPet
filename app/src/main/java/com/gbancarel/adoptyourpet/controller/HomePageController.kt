@@ -22,5 +22,4 @@ class HomePageControllerDecorator @Inject constructor(val controller: HomePageCo
             controller.onCreate()
         }.start()
     }
-
 }

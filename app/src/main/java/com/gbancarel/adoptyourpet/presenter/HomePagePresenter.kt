@@ -1,12 +1,14 @@
 package com.gbancarel.adoptyourpet.presenter
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.interactor.data.*
-import com.gbancarel.adoptyourpet.presenter.data.*
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.PetAnimal
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetAnimalViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject

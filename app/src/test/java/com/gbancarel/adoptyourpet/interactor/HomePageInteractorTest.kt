@@ -1,16 +1,15 @@
 package com.tech.myapplication.interactor
 
 import com.gbancarel.adoptyourpet.interactor.HomePageInteractor
-import com.gbancarel.adoptyourpet.interactor.data.Contact
-import com.gbancarel.adoptyourpet.interactor.data.Environment
-import com.gbancarel.adoptyourpet.interactor.data.PetAnimal
-import com.gbancarel.adoptyourpet.interactor.data.Photo
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.Contact
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.Environment
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.PetAnimal
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.Photo
 import com.gbancarel.adoptyourpet.presenter.HomePagePresenter
 import com.gbancarel.adoptyourpet.repository.HomePageRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.nhaarman.mockitokotlin2.given
-import com.nhaarman.mockitokotlin2.only
 import com.nhaarman.mockitokotlin2.then
 
 import org.junit.Test

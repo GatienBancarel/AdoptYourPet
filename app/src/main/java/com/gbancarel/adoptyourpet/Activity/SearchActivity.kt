@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.setContent
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.AnimalSelected
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.SearchPage
 import javax.inject.Singleton
@@ -28,7 +28,7 @@ class SearchActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    SearchPage().Page(viewModel)
+                    SearchPage().Page(viewModel,applicationContext)
                 }
             }
         }

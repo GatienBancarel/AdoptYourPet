@@ -1,5 +1,4 @@
-package com.gbancarel.adoptyourpet.presenter.data
-
+package com.gbancarel.adoptyourpet.presenter.data.listAnimal
 
 data class ContactViewModel (
         val email: String?,

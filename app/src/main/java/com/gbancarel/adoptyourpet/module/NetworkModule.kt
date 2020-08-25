@@ -15,5 +15,4 @@ object NetworkModule {
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(MyInterceptor("oldtoken"))
         .build()
-
 }

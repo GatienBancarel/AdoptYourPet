@@ -1,11 +1,11 @@
 package com.gbancarel.adoptyourpet.repository
 
-import com.gbancarel.adoptyourpet.interactor.data.*
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
-import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
+import com.gbancarel.adoptyourpet.repository.json.listAnimal.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import javax.inject.Inject
 import kotlin.jvm.Throws
