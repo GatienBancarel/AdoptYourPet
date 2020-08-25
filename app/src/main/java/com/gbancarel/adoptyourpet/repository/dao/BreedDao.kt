@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.repository.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.gbancarel.adoptyourpet.repository.local.BreedLocal
@@ -12,4 +13,7 @@ interface BreedDao {
 
     @Insert
     fun insertAll(breeds: List<BreedLocal>)
+
+    @Query("DELETE FROM breedlocal")
+    fun deleteAll()
 }

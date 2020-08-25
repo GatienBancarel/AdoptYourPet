@@ -28,7 +28,11 @@ class SearchActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    SearchPage().Page(viewModel,applicationContext)
+                    SearchPage().Page(
+                        viewModel,
+                        applicationContext,
+                        onAnimalSelected = { animalSelected -> /*controller.onAnimalCheckboxClicked()*/ }
+                    )
                 }
             }
         }

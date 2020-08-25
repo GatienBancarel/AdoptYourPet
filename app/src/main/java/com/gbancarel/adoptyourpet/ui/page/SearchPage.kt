@@ -30,7 +30,7 @@ import javax.inject.Inject
 class SearchPage {
 
     @Composable
-    fun Page(viewModel: SearchPageViewModel, applicationContext: Context) {
+    fun Page(viewModel: SearchPageViewModel, applicationContext: Context, onAnimalSelected: (AnimalSelected) -> Unit) {
         val step = state { 0 }
         val data = viewModel.liveData.observeAsState(
             initial = AnimalSelected.unknown
@@ -57,6 +57,7 @@ class SearchPage {
                             isUnknown = data.value == AnimalSelected.unknown,
                             isSelected = data.value == AnimalSelected.dog,
                             onClick = {
+                                onAnimalSelected(AnimalSelected.dog)
                                 viewModel.liveData.postValue(AnimalSelected.dog)
                                 step.value = 1
                             }
@@ -68,6 +69,7 @@ class SearchPage {
                             isUnknown = data.value == AnimalSelected.unknown,
                             isSelected = data.value == AnimalSelected.cat,
                             onClick = {
+                                onAnimalSelected(AnimalSelected.cat)
                                 viewModel.liveData.postValue(AnimalSelected.cat)
                                 step.value = 1
                             }
