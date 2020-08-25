@@ -1,4 +1,4 @@
-package com.gbancarel.adoptyourpet.interactor.data
+package com.gbancarel.adoptyourpet.interactor.data.listAnimal
 
 data class Photo(
         val small: String,

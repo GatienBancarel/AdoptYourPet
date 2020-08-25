@@ -23,6 +23,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.preferredHeight
+import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.onCommit
@@ -36,44 +37,52 @@ import androidx.compose.ui.res.imageResource
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import com.gbancarel.adoptyourpet.presenter.data.PhotoViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 
 
 @Composable
 fun CardHomePage(name: String, description: String, image: List<PhotoViewModel>, shouldShowPhoto: Boolean) {
     val typography = MaterialTheme.typography
-
-    Box(
-        modifier = Modifier.fillMaxWidth().clickable(onClick = {/* Go to DogPage */ })
+    Card(
+        shape = RoundedCornerShape(5.dp),
+        modifier = Modifier.fillMaxWidth().padding(2.dp)
     ) {
-        Row(
-            verticalGravity = Alignment.CenterVertically
+        Box(
+            modifier = Modifier
+                .preferredHeight(80.dp)
+                .fillMaxWidth()
+                .clickable(onClick = {/* Go to DogPage */ })
         ) {
-            if (shouldShowPhoto) {
-                NetworkImageComponentGlide(url = image[0].small)
-            } else {
-                Image(
-                    asset = imageResource(id = R.mipmap.dog),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.preferredHeight(64.dp).preferredWidth(64.dp).clip(shape = RoundedCornerShape(32.dp))
+            Row(
+                verticalGravity = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                if (shouldShowPhoto) {
+                    NetworkImageComponentGlide(url = image[0].small)
+                } else {
+                    Image(
+                        asset = imageResource(id = R.mipmap.dog),
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.preferredHeight(64.dp).preferredWidth(64.dp).clip(shape = RoundedCornerShape(32.dp))
+                    )
+                }
+                Divider(
+                    color = Color.Transparent,
+                    modifier = Modifier.preferredHeight(10.dp).preferredWidth(10.dp)
                 )
-            }
-            Divider(
-                color = Color.Transparent,
-                modifier = Modifier.preferredHeight(10.dp).preferredWidth(10.dp)
-            )
-            Column() {
-                Text(
-                    text = name,
-                    style = typography.h6,
-                    maxLines = 1
-                )
-                Text(
-                    text = description,
-                    maxLines = 2,
-                    style = typography.body2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Column() {
+                    Text(
+                        text = name,
+                        style = typography.h6,
+                        maxLines = 1
+                    )
+                    Text(
+                        text = description,
+                        maxLines = 2,
+                        style = typography.body2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
     }
