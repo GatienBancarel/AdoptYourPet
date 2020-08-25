@@ -3,8 +3,8 @@ package com.gbancarel.adoptyourpet.presenter
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
-import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,11 +12,11 @@ class BreedsPagePresenter @Inject constructor(
     val viewModel: BreedsPageViewModel,
 ) {
 
-    fun present(listBreeds: List<BreedLocal>) {
+    fun present(listBreeds: List<BreedLocalInteractor>) {
         val breedsViewModel: List<BreedsViewModel> =
-            listBreeds.map { BreedLocal ->
+            listBreeds.map { BreedLocalInteractor ->
                 BreedsViewModel(
-                    name = BreedLocal.primary
+                    name = BreedLocalInteractor.name
                 )
             }
         viewModel.liveData.postValue(breedsViewModel)

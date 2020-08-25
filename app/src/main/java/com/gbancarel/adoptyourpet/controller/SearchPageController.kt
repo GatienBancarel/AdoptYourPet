@@ -4,7 +4,7 @@ import com.gbancarel.adoptyourpet.interactor.SearchPageInteractor
 import javax.inject.Inject
 
 interface SearchPageControllerInterface {
-    fun onAnimalCheckboxClicked(s: String)
+    fun onAnimalCheckboxClicked(animalSelected: String)
 }
 
 class SearchPageController @Inject constructor(

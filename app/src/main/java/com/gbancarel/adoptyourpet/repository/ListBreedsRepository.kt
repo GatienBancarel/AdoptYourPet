@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.repository
 
 import android.util.Log
+import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -26,7 +27,7 @@ class ListBreedsRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun getListBreeds(animalSelected: String): List<Breeds> {
+    fun getListBreeds(animalSelected: String) {
         try {
             val response = service.get("$BASE_URL/types/$animalSelected/breeds")
 
@@ -39,10 +40,7 @@ class ListBreedsRepository @Inject constructor(
                     val result = parseJson(breedsEntityJSON)
                     dao.deleteAll()
                     dao.insertAll(result.map { BreedLocal(primary = it.name) })
-                    Log.i("mylog", dao.getAll().toString() )
-                    return result
                 } else {
-                    Log.i("mylog", "moshi fail")
                     throw CannotDecodeJsonException("adapter from json fail")
                 }
             }
@@ -51,8 +49,12 @@ class ListBreedsRepository @Inject constructor(
         }
     }
 
-    fun getListBreedsLocal() : List<BreedLocal> {
-        return dao.getAll()
+    fun getListBreedsLocal() : List<BreedLocalInteractor> {
+        return dao.getAll().map { BreedLocal->
+            BreedLocalInteractor(
+                name = BreedLocal.primary
+            )
+        }
     }
 
     private fun parseJson(breedsEntityJSON: ListBreedsJSON) : List<Breeds> {

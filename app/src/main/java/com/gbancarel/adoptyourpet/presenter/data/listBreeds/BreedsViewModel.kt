@@ -1,5 +1,5 @@
 package com.gbancarel.adoptyourpet.presenter.data.listBreeds
 
-class BreedsViewModel (
+data class BreedsViewModel (
     val name: String
 )

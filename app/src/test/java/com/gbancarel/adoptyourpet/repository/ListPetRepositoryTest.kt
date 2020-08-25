@@ -15,7 +15,7 @@ import org.junit.Assert.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class HomePageRepositoryTest {
+class ListPetRepositoryTest {
     @Mock
     lateinit var petFinderService: PetFinderService
 

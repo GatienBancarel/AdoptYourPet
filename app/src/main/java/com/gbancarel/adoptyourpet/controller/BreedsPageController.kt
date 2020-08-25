@@ -13,7 +13,6 @@ class BreedsPageController @Inject constructor(
 ) {
 
     fun onCreate() {
-        Log.i("mylog", "je suis dans le controller")
         interactor.getListBreeds()
     }
 }
@@ -21,7 +20,6 @@ class BreedsPageController @Inject constructor(
 class BreedsPageControllerDecorator @Inject constructor(val controllerBreed: BreedsPageController) : BreedsPageControllerInterface {
     override fun onCreate() {
         Thread {
-            Log.i("mylog", "je suis dans le controller decorator")
             controllerBreed.onCreate()
         }.start()
     }
