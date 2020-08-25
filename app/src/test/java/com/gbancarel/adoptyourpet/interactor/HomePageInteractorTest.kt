@@ -6,7 +6,7 @@ import com.gbancarel.adoptyourpet.interactor.data.listAnimal.Environment
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.PetAnimal
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.Photo
 import com.gbancarel.adoptyourpet.presenter.HomePagePresenter
-import com.gbancarel.adoptyourpet.repository.HomePageRepository
+import com.gbancarel.adoptyourpet.repository.ListPetRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.nhaarman.mockitokotlin2.given
@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations
 
 class HomePageInteractorTest {
     @Mock
-    private lateinit var repository: HomePageRepository
+    private lateinit var repository: ListPetRepository
 
     @Mock
     private lateinit var presenter: HomePagePresenter

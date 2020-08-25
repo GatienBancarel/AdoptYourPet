@@ -11,7 +11,7 @@ import javax.inject.Inject
 import kotlin.jvm.Throws
 
 
-class HomePageRepository @Inject constructor(
+class ListPetRepository @Inject constructor(
     var petFinderService: PetFinderService,
     var petFinderParser: PetFinderParser
 ) {

@@ -22,12 +22,12 @@ class HomePageRepositoryTest {
     @Mock
     lateinit var petFinderParser: PetFinderParser
 
-    lateinit var repository: HomePageRepository
+    lateinit var repository: ListPetRepository
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        repository = HomePageRepository(petFinderService, petFinderParser)
+        repository = ListPetRepository(petFinderService, petFinderParser)
     }
 
     @Test

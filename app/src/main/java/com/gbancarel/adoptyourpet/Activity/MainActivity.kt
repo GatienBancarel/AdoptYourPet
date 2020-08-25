@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Log.i("mylog", "je suis dans l'activity")
                     controller.onCreate()
                     display(viewModel.liveData)
                 }

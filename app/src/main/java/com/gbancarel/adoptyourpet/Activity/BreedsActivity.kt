@@ -23,7 +23,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class BreedsActivity : AppCompatActivity() {
 
-    @Inject lateinit var controllerBreed: BreedsPageControllerDecorator
+    @Inject lateinit var controller: BreedsPageControllerDecorator
     @Inject lateinit var viewModel: BreedsPageViewModel
 
     companion object {
@@ -36,7 +36,7 @@ class BreedsActivity : AppCompatActivity() {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
                     Log.i("mylog", "je suis dans l'activity Breeds")
-                    controllerBreed.onCreate()
+                    controller.onCreate()
                     display(viewModel.liveData)
                 }
             }
@@ -46,7 +46,7 @@ class BreedsActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<List<BreedsViewModel>>) {
         val data = liveData.observeAsState(
-            initial = listOf(BreedsViewModel(name = "Chargement en cours..."))
+            initial = emptyList()
         )
         BreedsPage().Page(data)
     }

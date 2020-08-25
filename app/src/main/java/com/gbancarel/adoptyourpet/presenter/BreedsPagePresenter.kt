@@ -1,27 +1,24 @@
 package com.gbancarel.adoptyourpet.presenter
 
-import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
+import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 class BreedsPagePresenter @Inject constructor(
     val viewModel: BreedsPageViewModel,
 ) {
 
-    fun present(listBreeds: List<Breeds>) {
+    fun present(listBreeds: List<BreedLocal>) {
         val breedsViewModel: List<BreedsViewModel> =
-            listBreeds.map { Breeds ->
+            listBreeds.map { BreedLocal ->
                 BreedsViewModel(
-                    name = Breeds.name
+                    name = BreedLocal.primary
                 )
             }
-        Log.i("mylog",breedsViewModel[0].name)
         viewModel.liveData.postValue(breedsViewModel)
     }
 }

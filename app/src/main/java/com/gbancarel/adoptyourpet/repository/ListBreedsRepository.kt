@@ -1,7 +1,6 @@
 package com.gbancarel.adoptyourpet.repository
 
 import android.util.Log
-import com.gbancarel.adoptyourpet.Activity.SearchPageViewModel
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -11,11 +10,10 @@ import com.gbancarel.adoptyourpet.repository.json.listBreeds.ListBreedsJSON
 import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import com.gbancarel.adoptyourpet.repository.parser.BreedsParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
-import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
-class BreedsPageRepository @Inject constructor(
+class ListBreedsRepository @Inject constructor(
     var service: PetFinderService,
     var parser: BreedsParser,
     var dao: BreedDao
@@ -28,16 +26,9 @@ class BreedsPageRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun getListBreeds(): List<Breeds> {
+    fun getListBreeds(animalSelected: String): List<Breeds> {
         try {
-            val myViewmodel = SearchPageViewModel()
-            if (myViewmodel.liveData.value == AnimalSelected.dog) {
-                Log.i("mylog",myViewmodel.liveData.value.toString())
-            } else {
-                Log.i("mylog",myViewmodel.liveData.value.toString())
-            }
-            val response = service.get("$BASE_URL/types/dog/breeds")
-            Log.i("mylog",response.body.toString())
+            val response = service.get("$BASE_URL/types/$animalSelected/breeds")
 
             if (response.statusCode != 200 && response.statusCode != 201) {
                 Log.i("mylog", "okhttp fail")
@@ -48,6 +39,7 @@ class BreedsPageRepository @Inject constructor(
                     val result = parseJson(breedsEntityJSON)
                     dao.deleteAll()
                     dao.insertAll(result.map { BreedLocal(primary = it.name) })
+                    Log.i("mylog", dao.getAll().toString() )
                     return result
                 } else {
                     Log.i("mylog", "moshi fail")
@@ -59,8 +51,11 @@ class BreedsPageRepository @Inject constructor(
         }
     }
 
+    fun getListBreedsLocal() : List<BreedLocal> {
+        return dao.getAll()
+    }
+
     private fun parseJson(breedsEntityJSON: ListBreedsJSON) : List<Breeds> {
-        Log.i("mylog", "je suis dans parseJson")
         val breeds: List<Breeds?> =
             breedsEntityJSON.breeds.map { BreedsJSON ->
                 if (BreedsJSON != null) {
