@@ -35,7 +35,6 @@ class BreedsActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Log.i("mylog", "je suis dans l'activity Breeds")
                     controller.onCreate()
                     display(viewModel.liveData)
                 }
