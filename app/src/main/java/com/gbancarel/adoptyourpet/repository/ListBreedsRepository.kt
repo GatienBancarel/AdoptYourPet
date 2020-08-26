@@ -32,7 +32,6 @@ class ListBreedsRepository @Inject constructor(
             val response = service.get("$BASE_URL/types/$animalSelected/breeds")
 
             if (response.statusCode != 200 && response.statusCode != 201) {
-                Log.i("mylog", "okhttp fail")
                 throw ErrorStatusException("http request fail")
             } else {
                 val breedsEntityJSON = parser.parse(response.body)
