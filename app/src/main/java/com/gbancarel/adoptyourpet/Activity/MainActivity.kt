@@ -13,8 +13,8 @@ import com.gbancarel.adoptyourpet.controller.HomePageControllerDecorator
 import com.gbancarel.adoptyourpet.databinding.ErrorBinding
 import com.gbancarel.adoptyourpet.databinding.LoaderBinding
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModelState
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.page.HomePage
 import dagger.hilt.android.AndroidEntryPoint

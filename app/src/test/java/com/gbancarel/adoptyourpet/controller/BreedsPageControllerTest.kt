@@ -1,22 +1,22 @@
 package com.gbancarel.adoptyourpet.controller
 
-import com.gbancarel.adoptyourpet.interactor.HomePageInteractor
+import com.gbancarel.adoptyourpet.interactor.BreedsPageInteractor
 import org.junit.Test
 import org.junit.Before
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class HomePageControllerTest {
+class BreedsPageControllerTest {
 
     @Mock
-    private lateinit var interactor : HomePageInteractor
-    private lateinit var controller: HomePageController
+    private lateinit var interactor : BreedsPageInteractor
+    private lateinit var controller: BreedsPageController
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = HomePageController(interactor)
+        controller = BreedsPageController(interactor)
     }
 
     @Test
@@ -26,6 +26,6 @@ class HomePageControllerTest {
         controller.onCreate()
 
         // THEN
-        then(interactor).should().getListAnimal()
+        then(interactor).should().getListBreeds()
     }
 }

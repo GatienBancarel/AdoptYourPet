@@ -1,31 +1,31 @@
 package com.gbancarel.adoptyourpet.controller
 
-import com.gbancarel.adoptyourpet.interactor.HomePageInteractor
+import com.gbancarel.adoptyourpet.interactor.SearchPageInteractor
 import org.junit.Test
 import org.junit.Before
 import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class HomePageControllerTest {
+class SearchPageControllerTest {
 
     @Mock
-    private lateinit var interactor : HomePageInteractor
-    private lateinit var controller: HomePageController
+    private lateinit var interactor : SearchPageInteractor
+    private lateinit var controller: SearchPageController
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = HomePageController(interactor)
+        controller = SearchPageController(interactor)
     }
 
     @Test
     fun onCreate() {
         // GIVEN
         // WHEN
-        controller.onCreate()
+        controller.onCreate("dog")
 
         // THEN
-        then(interactor).should().getListAnimal()
+        then(interactor).should().getListBreeds("dog")
     }
 }

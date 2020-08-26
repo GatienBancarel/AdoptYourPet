@@ -2,11 +2,11 @@ package com.gbancarel.adoptyourpet.presenter
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.gbancarel.adoptyourpet.interactor.data.*
-import com.gbancarel.adoptyourpet.presenter.data.PetAnimalViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModelState
-import com.gbancarel.adoptyourpet.presenter.data.PhotoViewModel
+import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetAnimalViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

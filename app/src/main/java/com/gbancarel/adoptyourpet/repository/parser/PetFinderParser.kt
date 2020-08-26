@@ -1,9 +1,8 @@
 package com.gbancarel.adoptyourpet.repository.parser
 
-import com.gbancarel.adoptyourpet.repository.json.PetFinderJSON
+import com.gbancarel.adoptyourpet.repository.json.listAnimal.PetFinderJSON
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import javax.inject.Inject
 
 class PetFinderParser @Inject constructor() {

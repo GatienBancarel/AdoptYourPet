@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.Activity.SearchActivity
-import com.gbancarel.adoptyourpet.presenter.data.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
 import com.gbancarel.adoptyourpet.ui.customView.ButtonSearch
 import com.gbancarel.adoptyourpet.ui.customView.CardHomePage
 
@@ -29,7 +29,7 @@ class HomePage {
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Column(
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp).fillMaxSize()
             ) {
                 ButtonSearch(
                     onClick = {
