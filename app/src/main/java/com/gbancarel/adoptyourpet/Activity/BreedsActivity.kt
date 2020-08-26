@@ -1,8 +1,11 @@
 package com.gbancarel.adoptyourpet.Activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
@@ -35,9 +38,7 @@ class BreedsActivity : AppCompatActivity() {
     @Inject lateinit var viewModel: BreedsPageViewModel
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, BreedsActivity::class.java).setFlags(
-            Intent.FLAG_ACTIVITY_NEW_TASK
-        )
+        fun newIntent(context: Context) = Intent(context, BreedsActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,9 +103,9 @@ class BreedsActivity : AppCompatActivity() {
                 ) {
                     Button(
                         onClick = {
-                            SearchActivity.newIntent(applicationContext).putExtra("key", "Your Data");
-                            setResult(RESULT_OK, SearchActivity.newIntent(applicationContext))
-                            finish();
+                            intent.putStringArrayListExtra("key", arrayListOf("Hello"))
+                            setResult(RESULT_OK, intent)
+                            finish()
                         }
                     ) {
                         Text(

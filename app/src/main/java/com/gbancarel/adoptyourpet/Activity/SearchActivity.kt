@@ -1,9 +1,13 @@
 package com.gbancarel.adoptyourpet.Activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -38,13 +42,18 @@ import javax.inject.Singleton
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
-    val REQUEST_CODE = 1
     @Inject lateinit var controller: SearchPageControllerDecorator
     @Inject lateinit var viewModelState: SearchPageViewModel
     var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val list = result.data?.getStringArrayListExtra("key")
+            Log.i("PBA", "Intent ${list.toString()}")
+        }
+    }
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -149,12 +158,9 @@ class SearchActivity : AppCompatActivity() {
                             StateBreedsViewModel.finished -> {
                                 Button(
                                     onClick = {
-                                        startActivityForResult(
-                                            BreedsActivity.newIntent(
-                                                applicationContext
-                                            ),
-                                            REQUEST_CODE
-                                        )
+                                        startForResult.launch(BreedsActivity.newIntent(
+                                            applicationContext
+                                        ))
                                     }
                                 ) {
                                     Text(
