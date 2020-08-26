@@ -38,6 +38,7 @@ class BreedsActivity : AppCompatActivity() {
     @Inject lateinit var viewModel: BreedsPageViewModel
 
     companion object {
+        val RESULT_DATA_KEY = "RESULT_DATA_KEY"
         fun newIntent(context: Context) = Intent(context, BreedsActivity::class.java)
     }
 
@@ -103,7 +104,7 @@ class BreedsActivity : AppCompatActivity() {
                 ) {
                     Button(
                         onClick = {
-                            intent.putStringArrayListExtra("key", arrayListOf("Hello"))
+                            intent.putStringArrayListExtra(RESULT_DATA_KEY, ArrayList(data.value.filter { it.selected }.map { it.name }))
                             setResult(RESULT_OK, intent)
                             finish()
                         }

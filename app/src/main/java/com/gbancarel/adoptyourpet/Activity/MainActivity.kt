@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             ) {
                 ButtonSearch(
                     onClick = {
-                        applicationContext.startActivity(
+                        startActivity(
                             SearchActivity.newIntent(
                                 applicationContext
                             )

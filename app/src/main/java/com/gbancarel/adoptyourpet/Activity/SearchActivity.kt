@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.Activity.BreedsActivity.Companion.RESULT_DATA_KEY
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
@@ -47,7 +48,7 @@ class SearchActivity : AppCompatActivity() {
     var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val list = result.data?.getStringArrayListExtra("key")
+            val list = result.data?.getStringArrayListExtra(RESULT_DATA_KEY)
             Log.i("PBA", "Intent ${list.toString()}")
         }
     }
