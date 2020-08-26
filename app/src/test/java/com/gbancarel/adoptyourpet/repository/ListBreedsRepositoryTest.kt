@@ -1,5 +1,6 @@
 package com.gbancarel.adoptyourpet.repository
 
+import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
@@ -57,7 +58,7 @@ class ListBreedsRepositoryTest {
 
 
         // WHEN
-        repository.getListBreeds("dog")
+        repository.loadBreeds("dog")
 
         // THEN
         then(dao.deleteAll())
@@ -86,7 +87,7 @@ class ListBreedsRepositoryTest {
         )
 
         // WHEN
-        repository.getListBreeds("dog")
+        repository.loadBreeds("dog")
     }
 
     @Test(expected = CannotDecodeJsonException::class)
@@ -109,7 +110,7 @@ class ListBreedsRepositoryTest {
         ).willReturn(null)
 
         // WHEN
-        repository.getListBreeds("dog")
+        repository.loadBreeds("dog")
     }
 
     @Test
@@ -129,8 +130,8 @@ class ListBreedsRepositoryTest {
         Assert.assertEquals(
             call,
             listOf(
-                BreedLocalInteractor(name = "labrador"),
-                BreedLocalInteractor(name = "caniche")
+                Breeds(name = "labrador"),
+                Breeds(name = "caniche")
             )
         )
     }

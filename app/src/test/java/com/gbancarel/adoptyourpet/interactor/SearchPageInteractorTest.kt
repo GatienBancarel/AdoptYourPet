@@ -31,14 +31,14 @@ class SearchPageInteractorTest {
         interactor.getListBreeds("dog")
         //THEN
         then(presenter).should().presentLoader()
-        then(repository).should().getListBreeds("dog")
+        then(repository).should().loadBreeds("dog")
         then(presenter).should().present()
     }
 
     @Test
     fun getCallWhenErrorCannotDecodeJsonException() {
         // GIVEN
-        given(repository.getListBreeds("dog")).willThrow(CannotDecodeJsonException("Fake reason"))
+        given(repository.loadBreeds("dog")).willThrow(CannotDecodeJsonException("Fake reason"))
         // WHEN
         interactor.getListBreeds("dog")
         // THEN
@@ -48,7 +48,7 @@ class SearchPageInteractorTest {
     @Test
     fun getCallWhenErrorStatusException() {
         // GIVEN
-        given(repository.getListBreeds("dog")).willThrow(ErrorStatusException("Fake reason"))
+        given(repository.loadBreeds("dog")).willThrow(ErrorStatusException("Fake reason"))
         // WHEN
         interactor.getListBreeds("dog")
         // THEN
@@ -58,7 +58,7 @@ class SearchPageInteractorTest {
     @Test
     fun getCallWhenNoInternetConnectionAvailable() {
         // GIVEN
-        given(repository.getListBreeds("dog")).willThrow(NoInternetConnectionAvailable("Fake reason"))
+        given(repository.loadBreeds("dog")).willThrow(NoInternetConnectionAvailable("Fake reason"))
         // WHEN
         interactor.getListBreeds("dog")
         // THEN

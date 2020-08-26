@@ -25,7 +25,7 @@ class ListBreedsRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun getListBreeds(animalSelected: String) {
+    fun loadBreeds(animalSelected: String) {
         try {
             val response = service.get("$BASE_URL/types/$animalSelected/breeds")
 

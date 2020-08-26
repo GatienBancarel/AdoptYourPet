@@ -15,7 +15,7 @@ class SearchPageInteractor @Inject constructor(
     fun getListBreeds(animalSelected: String) {
         try {
             presenter.presentLoader()
-            repository.getListBreeds(animalSelected)
+            repository.loadBreeds(animalSelected)
             presenter.present()
         } catch (e1: CannotDecodeJsonException) {
             presenter.presentError()
