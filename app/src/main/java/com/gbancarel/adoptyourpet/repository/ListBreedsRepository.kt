@@ -57,14 +57,8 @@ class ListBreedsRepository @Inject constructor(
     }
 
     private fun parseJson(breedsEntityJSON: ListBreedsJSON) : List<Breeds> {
-        val breeds: List<Breeds?> =
-            breedsEntityJSON.breeds.map { BreedsJSON ->
-                if (BreedsJSON != null) {
-                    Breeds(name = BreedsJSON.name)
-                } else {
-                    null
-                }
+        return breedsEntityJSON.breeds.map { BreedsJSON ->
+                Breeds(name = BreedsJSON!!.name)
             }
-        return breeds.filterNotNull()
     }
 }

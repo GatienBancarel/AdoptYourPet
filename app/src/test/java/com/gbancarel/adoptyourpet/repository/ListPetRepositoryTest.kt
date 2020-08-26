@@ -10,7 +10,6 @@ import com.gbancarel.adoptyourpet.repository.service.ResponseRequest
 import com.nhaarman.mockitokotlin2.given
 import org.junit.Before
 import org.junit.Test
-
 import org.junit.Assert.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
