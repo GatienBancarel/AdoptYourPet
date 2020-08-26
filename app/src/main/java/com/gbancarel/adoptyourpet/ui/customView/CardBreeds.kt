@@ -18,9 +18,10 @@ import com.gbancarel.adoptyourpet.ui.typography
 @Composable
 fun CardBreeds(
     breed: String,
+    checked: Boolean,
     onCheckedChange: (String, Boolean) -> Unit
 ) {
-    val checkedState = remember { mutableStateOf(false) }
+    val checkedState = remember { mutableStateOf(checked) }
     Box(
         modifier = Modifier
             .fillMaxWidth()

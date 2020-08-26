@@ -12,12 +12,13 @@ class BreedsPagePresenter @Inject constructor(
     val viewModel: BreedsPageViewModel,
 ) {
 
-    fun present(listBreeds: List<Breeds>) {
+    fun present(listBreeds: List<Breeds>, selectedBreeds: List<String>) {
         val breedsViewModel: List<BreedsViewModel> =
             listBreeds
-                .map { Breeds ->
+                .map { breed ->
                     BreedsViewModel(
-                        name = Breeds.name
+                        name = breed.name,
+                        selected = selectedBreeds.contains(breed.name)
                     )
                 }
                 .sortedBy { it.name } // TODO GBA T.U

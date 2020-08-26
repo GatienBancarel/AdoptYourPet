@@ -31,6 +31,7 @@ import com.gbancarel.adoptyourpet.Activity.BreedsActivity.Companion.RESULT_DATA_
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
+import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
@@ -43,15 +44,19 @@ import javax.inject.Singleton
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
-    @Inject lateinit var controller: SearchPageControllerDecorator
-    @Inject lateinit var viewModelState: SearchPageViewModel
+    @Inject
+    lateinit var controller: SearchPageControllerDecorator
+    @Inject
+    lateinit var viewModelState: SearchPageViewModel
     private var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val list = result.data?.getStringArrayListExtra(RESULT_DATA_KEY)
-            Log.i("PBA", "Intent ${list.toString()}")
+    private val startForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getStringArrayListExtra(RESULT_DATA_KEY)?.let { list ->
+                    controller.onSelectedBreeds(list.toList())
+                }
+            }
         }
-    }
 
     companion object {
         fun newIntent(context: Context) = Intent(context, SearchActivity::class.java)
@@ -69,9 +74,9 @@ class SearchActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun display(liveData: MutableLiveData<StateBreedsViewModel>) {
-        val dataBreeds = liveData.observeAsState(
-            initial = StateBreedsViewModel.loading
+    fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
+        val stateSearchViewModelData = liveData.observeAsState(
+            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList())
         )
         Page(
             viewModel,
@@ -82,7 +87,7 @@ class SearchActivity : AppCompatActivity() {
                     controller.onAnimalCheckboxClicked("cat")
                 }
             },
-            dataBreeds
+            stateSearchViewModelData
         )
     }
 
@@ -90,7 +95,7 @@ class SearchActivity : AppCompatActivity() {
     fun Page(
         viewModel: AnimalSelectedViewModel,
         onAnimalSelected: (AnimalSelected) -> Unit,
-        dataBreeds: State<StateBreedsViewModel>
+        stateSearchViewModelData: State<SearchPageViewModelData>
     ) {
         val step = state { 0 }
         val data = viewModel.liveData.observeAsState(
@@ -143,7 +148,7 @@ class SearchActivity : AppCompatActivity() {
                             .fillMaxWidth(),
                         horizontalGravity = Alignment.CenterHorizontally
                     ) {
-                        when (dataBreeds.value) {
+                        when (stateSearchViewModelData.value.state) {
                             StateBreedsViewModel.loading -> {
                                 Text(
                                     text = "Loading...",
@@ -159,13 +164,16 @@ class SearchActivity : AppCompatActivity() {
                             StateBreedsViewModel.finished -> {
                                 Button(
                                     onClick = {
-                                        startForResult.launch(BreedsActivity.newIntent(
-                                            applicationContext
-                                        ))
+                                        startForResult.launch(
+                                            BreedsActivity.newIntent(
+                                                applicationContext,
+                                                stateSearchViewModelData.value.selectedBreeds
+                                            )
+                                        )
                                     }
                                 ) {
                                     Text(
-                                        text = "Choose yours breeds",
+                                        text = if (stateSearchViewModelData.value.selectedBreeds.isEmpty()) "Choose yours breeds" else stateSearchViewModelData.value.selectedBreeds.toString(),
                                         style = typography.body1
                                     )
                                 }
@@ -179,6 +187,6 @@ class SearchActivity : AppCompatActivity() {
 }
 
 @Singleton
-class AnimalSelectedViewModel: ViewModel(), LifecycleObserver {
+class AnimalSelectedViewModel : ViewModel(), LifecycleObserver {
     val liveData: MutableLiveData<AnimalSelected> = MutableLiveData()
 }

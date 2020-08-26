@@ -33,18 +33,23 @@ class BreedsActivity : AppCompatActivity() {
 
     @Inject lateinit var controller: BreedsPageControllerDecorator
     @Inject lateinit var viewModel: BreedsPageViewModel
+    private var selectedBreeds = emptyList<String>()
 
     companion object {
         val RESULT_DATA_KEY = "RESULT_DATA_KEY"
-        fun newIntent(context: Context) = Intent(context, BreedsActivity::class.java)
+        private val SELECTED_BREEDS_KEY = "SELECTED_BREEDS_KEY"
+        fun newIntent(context: Context, selectedBreeds: List<String>) = Intent(context, BreedsActivity::class.java).apply {
+            putExtra(SELECTED_BREEDS_KEY, ArrayList(selectedBreeds))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        selectedBreeds = intent.getStringArrayListExtra(SELECTED_BREEDS_KEY)?.toList() ?: emptyList()
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    controller.onCreate()
+                    controller.onCreate(selectedBreeds)
                     display(viewModel.liveData)
                 }
             }
@@ -86,7 +91,7 @@ class BreedsActivity : AppCompatActivity() {
                     ) {
                         Box {
                             LazyColumnFor(data.value) { item ->
-                                CardBreeds(breed = item.name, onCheckedChange = { name, selected ->
+                                CardBreeds(breed = item.name, checked = selectedBreeds.contains(item.name), onCheckedChange = { name, selected ->
                                     controller.checkedChange(name, selected)
                                 })
                                 Divider(
