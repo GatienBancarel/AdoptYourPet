@@ -14,16 +14,28 @@ class BreedsPagePresenter @Inject constructor(
 
     fun present(listBreeds: List<Breeds>) {
         val breedsViewModel: List<BreedsViewModel> =
-            listBreeds.map { Breeds ->
-                BreedsViewModel(
-                    name = Breeds.name
-                )
-            }
+            listBreeds
+                .map { Breeds ->
+                    BreedsViewModel(
+                        name = Breeds.name
+                    )
+                }
+                .sortedBy { it.name } // TODO GBA T.U
         viewModel.liveData.postValue(breedsViewModel)
+    }
+
+    // TODO GBA T.U
+    fun present(name: String, selected: Boolean) {
+        val newList = viewModel.liveData.value
+            ?.filter { it.name != name }
+            ?.toMutableList()
+            ?.plus(BreedsViewModel(name = name, selected = selected))
+            ?.sortedBy { it.name }
+        viewModel.liveData.postValue(newList)
     }
 }
 
 @Singleton
-class BreedsPageViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
+class BreedsPageViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
     val liveData: MutableLiveData<List<BreedsViewModel>> = MutableLiveData()
 }

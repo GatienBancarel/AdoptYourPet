@@ -45,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
 
     @Inject lateinit var controller: SearchPageControllerDecorator
     @Inject lateinit var viewModelState: SearchPageViewModel
-    var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
+    private var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
             val list = result.data?.getStringArrayListExtra(RESULT_DATA_KEY)

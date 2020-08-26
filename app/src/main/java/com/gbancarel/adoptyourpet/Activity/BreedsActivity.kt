@@ -1,11 +1,8 @@
 package com.gbancarel.adoptyourpet.Activity
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
@@ -87,9 +84,11 @@ class BreedsActivity : AppCompatActivity() {
                     Card(
                         shape = RoundedCornerShape(10.dp)
                     ) {
-                        Box() {
+                        Box {
                             LazyColumnFor(data.value) { item ->
-                                CardBreeds(breed = item.name)
+                                CardBreeds(breed = item.name, onCheckedChange = { name, selected ->
+                                    controller.checkedChange(name, selected)
+                                })
                                 Divider(
                                     color = Color.Transparent,
                                     modifier = Modifier.preferredHeight(2.dp)

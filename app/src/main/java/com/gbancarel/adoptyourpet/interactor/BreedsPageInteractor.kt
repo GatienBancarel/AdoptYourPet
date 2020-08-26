@@ -14,4 +14,9 @@ class BreedsPageInteractor @Inject constructor(
         val listBreeds: List<Breeds> = repository.getListBreedsLocal()
         presenter.present(listBreeds)
     }
+
+    // TODO GBA T.U
+    fun update(name: String, selected: Boolean) {
+        presenter.present(name, selected)
+    }
 }
