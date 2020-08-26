@@ -3,7 +3,6 @@ package com.gbancarel.adoptyourpet.presenter
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
 import javax.inject.Inject
 import javax.inject.Singleton

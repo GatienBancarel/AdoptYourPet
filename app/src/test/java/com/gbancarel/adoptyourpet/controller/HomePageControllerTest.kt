@@ -20,7 +20,7 @@ class HomePageControllerTest {
     }
 
     @Test
-    fun getInteractor() {
+    fun onCreate() {
         // GIVEN
         // WHEN
         controller.onCreate()

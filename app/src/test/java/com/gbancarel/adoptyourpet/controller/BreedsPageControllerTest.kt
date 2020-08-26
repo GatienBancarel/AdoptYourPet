@@ -20,7 +20,7 @@ class BreedsPageControllerTest {
     }
 
     @Test
-    fun getInteractor() {
+    fun onCreate() {
         // GIVEN
         // WHEN
         controller.onCreate()

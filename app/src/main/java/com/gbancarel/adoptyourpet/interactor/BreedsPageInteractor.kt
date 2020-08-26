@@ -1,6 +1,6 @@
 package com.gbancarel.adoptyourpet.interactor
 
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
+import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.presenter.BreedsPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import javax.inject.Inject
@@ -11,7 +11,7 @@ class BreedsPageInteractor @Inject constructor(
 ) {
 
     fun getListBreeds() {
-        val listBreeds: List<BreedLocalInteractor> = repository.getListBreedsLocal()
+        val listBreeds: List<Breeds> = repository.getListBreedsLocal()
         presenter.present(listBreeds)
     }
 }

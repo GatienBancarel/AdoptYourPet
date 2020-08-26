@@ -1,6 +1,5 @@
 package com.gbancarel.adoptyourpet.repository
 
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
@@ -58,7 +57,7 @@ class ListBreedsRepositoryTest {
 
 
         // WHEN
-        val call = repository.getListBreeds("dog")
+        repository.getListBreeds("dog")
 
         // THEN
         then(dao.deleteAll())

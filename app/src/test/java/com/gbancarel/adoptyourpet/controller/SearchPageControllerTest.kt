@@ -20,7 +20,7 @@ class SearchPageControllerTest {
     }
 
     @Test
-    fun getInteractor() {
+    fun onCreate() {
         // GIVEN
         // WHEN
         controller.onCreate("dog")

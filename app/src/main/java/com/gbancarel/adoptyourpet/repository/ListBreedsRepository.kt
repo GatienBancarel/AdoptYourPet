@@ -1,7 +1,5 @@
 package com.gbancarel.adoptyourpet.repository
 
-import android.util.Log
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -48,9 +46,9 @@ class ListBreedsRepository @Inject constructor(
         }
     }
 
-    fun getListBreedsLocal() : List<BreedLocalInteractor> {
+    fun getListBreedsLocal() : List<Breeds> {
         return dao.getAll().map { BreedLocal->
-            BreedLocalInteractor(
+            Breeds(
                 name = BreedLocal.primary
             )
         }

@@ -22,7 +22,7 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun presentTest() {
+    fun present() {
         //GIVEN
         //WHEN
         presenter.present()
@@ -31,7 +31,7 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun presentLoaderTest() {
+    fun presentLoader() {
         //GIVEN
         //WHEN
         presenter.presentLoader()
@@ -40,7 +40,7 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun presentErrorTest() {
+    fun presentError() {
         //GIVEN
         //WHEN
         presenter.presentError()

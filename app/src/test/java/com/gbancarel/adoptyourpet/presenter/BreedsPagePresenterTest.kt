@@ -1,7 +1,6 @@
 package com.gbancarel.adoptyourpet.presenter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -23,7 +22,7 @@ class BreedsPagePresenterTest {
     }
 
     @Test
-    fun presentTest() {
+    fun present() {
         //WHEN
         presenter.present(
             listBreeds = listOf(

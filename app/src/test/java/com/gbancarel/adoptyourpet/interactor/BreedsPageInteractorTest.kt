@@ -1,6 +1,5 @@
 package com.gbancarel.adoptyourpet.interactor
 
-import com.gbancarel.adoptyourpet.interactor.data.listBreeds.BreedLocalInteractor
 import com.gbancarel.adoptyourpet.presenter.BreedsPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import com.nhaarman.mockitokotlin2.given
@@ -24,7 +23,7 @@ class BreedsPageInteractorTest {
     }
 
     @Test
-    fun getCallSucces() {
+    fun getCallSuccess() {
         val breeds :List<BreedLocalInteractor> = listOf(
             BreedLocalInteractor("labrador"),
             BreedLocalInteractor("caniche")

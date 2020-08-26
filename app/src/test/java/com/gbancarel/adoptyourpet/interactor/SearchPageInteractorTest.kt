@@ -25,7 +25,7 @@ class SearchPageInteractorTest {
     }
 
     @Test
-    fun getCallSucces() {
+    fun getCallSuccess() {
         //GIVEN
         //WHEN
         interactor.getListBreeds("dog")
