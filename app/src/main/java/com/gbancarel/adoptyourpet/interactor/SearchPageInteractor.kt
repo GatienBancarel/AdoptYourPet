@@ -25,4 +25,8 @@ class SearchPageInteractor @Inject constructor(
             presenter.presentError()
         }
     }
+
+    fun selectBreeds(breeds: List<String>) {
+        presenter.present(breeds)
+    }
 }

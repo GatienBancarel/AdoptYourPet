@@ -65,4 +65,12 @@ class SearchPageInteractorTest {
         then(presenter).should().presentError()
     }
 
+    @Test
+    fun selectedBreeds() {
+        //WHEN
+        interactor.selectBreeds(listOf("labrador"))
+        //THEN
+        presenter.present(listOf("labrador"))
+    }
+
 }

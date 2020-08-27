@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetAnimalViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 import org.junit.Before
@@ -83,7 +83,7 @@ class HomePagePresenterTest {
 
         // THEN
         assert(
-            viewModel.liveData.value == PetFinderViewModel(
+            viewModel.liveData.value == PetFinderViewModelData(
                 state = PetFinderViewModelState.finished,
                 animals = listOf(
                     PetAnimalViewModel(
@@ -109,7 +109,7 @@ class HomePagePresenterTest {
         presenter.presentLoader()
         //THEN
         assert(
-            viewModel.liveData.value == PetFinderViewModel(
+            viewModel.liveData.value == PetFinderViewModelData(
                 state = PetFinderViewModelState.loading,
                 animals = emptyList()
             )
@@ -122,7 +122,7 @@ class HomePagePresenterTest {
         presenter.presentError()
         //THEN
         assert(
-            viewModel.liveData.value == PetFinderViewModel(
+            viewModel.liveData.value == PetFinderViewModelData(
                 state = PetFinderViewModelState.error,
                 animals = emptyList()
             )

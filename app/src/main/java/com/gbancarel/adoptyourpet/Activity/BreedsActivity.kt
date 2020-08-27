@@ -2,21 +2,29 @@ package com.gbancarel.adoptyourpet.Activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Box
+import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumnFor
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.controller.BreedsPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.BreedsPageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
-import com.gbancarel.adoptyourpet.state.AnimalSelected
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
-import com.gbancarel.adoptyourpet.ui.page.BreedsPage
+import com.gbancarel.adoptyourpet.ui.customView.CardBreeds
+import com.gbancarel.adoptyourpet.ui.typography
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -25,17 +33,23 @@ class BreedsActivity : AppCompatActivity() {
 
     @Inject lateinit var controller: BreedsPageControllerDecorator
     @Inject lateinit var viewModel: BreedsPageViewModel
+    private var selectedBreeds = emptyList<String>()
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, BreedsActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        val RESULT_DATA_KEY = "RESULT_DATA_KEY"
+        private val SELECTED_BREEDS_KEY = "SELECTED_BREEDS_KEY"
+        fun newIntent(context: Context, selectedBreeds: List<String>) = Intent(context, BreedsActivity::class.java).apply {
+            putExtra(SELECTED_BREEDS_KEY, ArrayList(selectedBreeds))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        selectedBreeds = intent.getStringArrayListExtra(SELECTED_BREEDS_KEY)?.toList() ?: emptyList()
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    controller.onCreate()
+                    controller.onCreate(selectedBreeds)
                     display(viewModel.liveData)
                 }
             }
@@ -43,10 +57,69 @@ class BreedsActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun display(liveData: MutableLiveData<List<BreedsViewModel>>) {
+    fun display(liveData: MutableLiveData<List<BreedsViewModelData>>) {
         val data = liveData.observeAsState(
             initial = emptyList()
         )
-        BreedsPage().Page(data)
+        Page(data)
+    }
+
+    @Composable
+    fun Page(data: State<List<BreedsViewModelData>>) {
+        Surface(
+            color = MaterialTheme.colors.background,
+            modifier = Modifier.fillMaxWidth().fillMaxHeight()
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize()
+            ) {
+                Box(
+                    modifier = Modifier.preferredHeight(500.dp).fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Choose your breeds:",
+                        style = typography.h6,
+                    )
+                    Divider(
+                        color = Color.Transparent,
+                        modifier = Modifier.preferredHeight(16.dp)
+                    )
+                    Card(
+                        shape = RoundedCornerShape(10.dp)
+                    ) {
+                        Box {
+                            LazyColumnFor(data.value) { item ->
+                                CardBreeds(breed = item.name, checked = selectedBreeds.contains(item.name), onCheckedChange = { name, selected ->
+                                    controller.checkedChange(name, selected)
+                                })
+                                Divider(
+                                    color = Color.Transparent,
+                                    modifier = Modifier.preferredHeight(2.dp)
+                                )
+                            }
+                        }
+                    }
+                }
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    horizontalGravity = Alignment.CenterHorizontally
+                ) {
+                    Button(
+                        onClick = {
+                            intent.putStringArrayListExtra(RESULT_DATA_KEY, ArrayList(data.value.filter { it.selected }.map { it.name }))
+                            setResult(RESULT_OK, intent)
+                            finish()
+                        }
+                    ) {
+                        Text(
+                            text = "Validate",
+                            style = typography.body2
+                        )
+                    }
+                }
+            }
+        }
     }
 }

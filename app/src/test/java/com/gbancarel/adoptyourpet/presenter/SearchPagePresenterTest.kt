@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.presenter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -22,12 +23,17 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun present() {
+    fun presentWhenNoBreedSelected() {
         //GIVEN
         //WHEN
         presenter.present()
         //THEN
-        assert(viewModel.liveData.value == StateBreedsViewModel.finished)
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.finished,
+                selectedBreeds = emptyList()
+            )
+        )
     }
 
     @Test
@@ -36,7 +42,12 @@ class SearchPagePresenterTest {
         //WHEN
         presenter.presentLoader()
         //THEN
-        assert(viewModel.liveData.value == StateBreedsViewModel.loading)
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.loading,
+                selectedBreeds = emptyList()
+            )
+        )
     }
 
     @Test
@@ -45,6 +56,25 @@ class SearchPagePresenterTest {
         //WHEN
         presenter.presentError()
         //THEN
-        assert(viewModel.liveData.value == StateBreedsViewModel.error)
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.error,
+                selectedBreeds = emptyList()
+            )
+        )
+    }
+
+    @Test
+    fun presentWhenBreedSelected() {
+        //GIVEN
+        //WHEN
+        presenter.present(listOf("labrador"))
+        //THEN
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.finished,
+                selectedBreeds = listOf("labrador")
+            )
+        )
     }
 }

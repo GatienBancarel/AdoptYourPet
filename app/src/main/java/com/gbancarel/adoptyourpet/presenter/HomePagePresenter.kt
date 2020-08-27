@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.PetAnimal
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetAnimalViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 import dagger.hilt.android.qualifiers.ActivityContext
@@ -21,7 +21,7 @@ class HomePagePresenter @Inject constructor(
 ) {
 
     fun present(listAnimal: List<PetAnimal>) {
-        val petFinderViewModel = PetFinderViewModel(
+        val petFinderViewModel = PetFinderViewModelData(
             state = PetFinderViewModelState.finished,
             animals = listAnimal.map { PetAnimal ->
                 PetAnimalViewModel(
@@ -38,7 +38,7 @@ class HomePagePresenter @Inject constructor(
     }
 
     fun presentLoader() {
-        val petFinderViewModel = PetFinderViewModel(
+        val petFinderViewModel = PetFinderViewModelData(
             state = PetFinderViewModelState.loading,
             animals = emptyList()
         )
@@ -46,7 +46,7 @@ class HomePagePresenter @Inject constructor(
     }
 
     fun presentError(){
-        val petFinderViewModel = PetFinderViewModel(
+        val petFinderViewModel = PetFinderViewModelData(
             state = PetFinderViewModelState.error,
             animals = emptyList()
         )
@@ -57,5 +57,5 @@ class HomePagePresenter @Inject constructor(
 
 @Singleton
 class HomePageViewModel @Inject constructor(): ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<PetFinderViewModel> = MutableLiveData()
+    val liveData: MutableLiveData<PetFinderViewModelData> = MutableLiveData()
 }

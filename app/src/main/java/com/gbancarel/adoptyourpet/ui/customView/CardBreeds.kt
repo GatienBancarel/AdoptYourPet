@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.state
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -14,13 +16,20 @@ import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.ui.typography
 
 @Composable
-fun CardBreeds(breed: String) {
-    val checkedState = state { false }
+fun CardBreeds(
+    breed: String,
+    checked: Boolean,
+    onCheckedChange: (String, Boolean) -> Unit
+) {
+    val checkedState = remember { mutableStateOf(checked) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .preferredHeight(35.dp)
-            .clickable(onClick = { checkedState.value = !checkedState.value })
+            .clickable(onClick = {
+                checkedState.value = !checkedState.value
+                onCheckedChange(breed, checkedState.value)
+            })
     ) {
 
         ConstraintLayout(
@@ -39,7 +48,10 @@ fun CardBreeds(breed: String) {
             )
             Checkbox(
                 checked = checkedState.value,
-                onCheckedChange = { checkedState.value = it },
+                onCheckedChange = {
+                    checkedState.value = it
+                    onCheckedChange(breed, it)
+                },
                 modifier = Modifier
                     .constrainAs(checkBox) {
                         end.linkTo(parent.end, margin = 8.dp)

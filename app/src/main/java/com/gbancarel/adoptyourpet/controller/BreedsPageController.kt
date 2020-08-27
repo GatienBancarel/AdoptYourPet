@@ -1,26 +1,36 @@
 package com.gbancarel.adoptyourpet.controller
 
-import android.util.Log
 import com.gbancarel.adoptyourpet.interactor.BreedsPageInteractor
 import javax.inject.Inject
 
 interface BreedsPageControllerInterface {
-    fun onCreate()
+    fun onCreate(selectedBreeds: List<String>)
+    fun checkedChange(name: String, selected: Boolean)
 }
 
 class BreedsPageController @Inject constructor(
     val interactor: BreedsPageInteractor
 ) {
 
-    fun onCreate() {
-        interactor.getListBreeds()
+    fun onCreate(selectedBreeds: List<String>) {
+        interactor.updateListBreeds(selectedBreeds)
+    }
+
+    fun checkedChange(name: String, selected: Boolean) {
+        interactor.updateBreed(name, selected)
     }
 }
 
 class BreedsPageControllerDecorator @Inject constructor(val controllerBreed: BreedsPageController) : BreedsPageControllerInterface {
-    override fun onCreate() {
+    override fun onCreate(selectedBreeds: List<String>) {
         Thread {
-            controllerBreed.onCreate()
+            controllerBreed.onCreate(selectedBreeds)
+        }.start()
+    }
+
+    override fun checkedChange(name: String, selected: Boolean) {
+        Thread {
+            controllerBreed.checkedChange(name, selected)
         }.start()
     }
 }
