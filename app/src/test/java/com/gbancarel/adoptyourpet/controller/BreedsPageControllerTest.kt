@@ -23,9 +23,17 @@ class BreedsPageControllerTest {
     fun onCreate() {
         // GIVEN
         // WHEN
-        controller.onCreate()
+        controller.onCreate(listOf("labrador","caniche"))
 
         // THEN
-        then(interactor).should().getListBreeds()
+        then(interactor).should().updateListBreeds(listOf("labrador","caniche"))
+    }
+
+    @Test
+    fun checkedChange() {
+        //WHEN
+        controller.checkedChange("labrador",true)
+        //THEN
+        then(interactor).should().updateBreed("labrador",true)
     }
 }

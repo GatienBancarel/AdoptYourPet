@@ -44,10 +44,8 @@ import javax.inject.Singleton
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var controller: SearchPageControllerDecorator
-    @Inject
-    lateinit var viewModelState: SearchPageViewModel
+    @Inject lateinit var controller: SearchPageControllerDecorator
+    @Inject lateinit var viewModelState: SearchPageViewModel
     private var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
     private val startForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -173,7 +171,7 @@ class SearchActivity : AppCompatActivity() {
                                     }
                                 ) {
                                     Text(
-                                        text = if (stateSearchViewModelData.value.selectedBreeds.isEmpty()) "Choose yours breeds" else stateSearchViewModelData.value.selectedBreeds.toString(),
+                                        text = "Choose yours breeds",
                                         style = typography.body1
                                     )
                                 }

@@ -1,7 +1,6 @@
 package com.gbancarel.adoptyourpet.controller
 
 import com.gbancarel.adoptyourpet.interactor.BreedsPageInteractor
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
 import javax.inject.Inject
 
 interface BreedsPageControllerInterface {

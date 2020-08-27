@@ -24,17 +24,26 @@ class BreedsPageInteractorTest {
     }
 
     @Test
-    fun getCallSuccess() {
+    fun updateListBreeds() {
         val breeds :List<Breeds> = listOf(
             Breeds("labrador"),
-            Breeds("caniche")
+            Breeds("caniche"),
+            Breeds("staff")
         )
         //GIVEN
         given(repository.getListBreedsLocal()).willReturn(breeds)
         //WHEN
-        interactor.getListBreeds()
+        interactor.updateListBreeds(listOf("labrador","caniche"))
         //THEN
-        then(presenter).should().present(breeds)
+        then(presenter).should().present(breeds, listOf("labrador","caniche"))
 
+    }
+
+    @Test
+    fun updateBreed() {
+        //WHEN
+        interactor.updateBreed("labrador",true)
+        //THEN
+        presenter.present("labrador",true)
     }
 }

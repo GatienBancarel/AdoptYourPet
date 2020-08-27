@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
 import com.gbancarel.adoptyourpet.controller.BreedsPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.BreedsPageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.CardBreeds
 import com.gbancarel.adoptyourpet.ui.typography
@@ -57,7 +57,7 @@ class BreedsActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun display(liveData: MutableLiveData<List<BreedsViewModel>>) {
+    fun display(liveData: MutableLiveData<List<BreedsViewModelData>>) {
         val data = liveData.observeAsState(
             initial = emptyList()
         )
@@ -65,7 +65,7 @@ class BreedsActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun Page(data: State<List<BreedsViewModel>>) {
+    fun Page(data: State<List<BreedsViewModelData>>) {
         Surface(
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()

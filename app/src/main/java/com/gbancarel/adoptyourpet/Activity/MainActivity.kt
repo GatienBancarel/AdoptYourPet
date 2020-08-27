@@ -20,7 +20,7 @@ import com.gbancarel.adoptyourpet.controller.HomePageControllerDecorator
 import com.gbancarel.adoptyourpet.databinding.ErrorBinding
 import com.gbancarel.adoptyourpet.databinding.LoaderBinding
 import com.gbancarel.adoptyourpet.presenter.HomePageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.ButtonSearch
@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun display(liveData: MutableLiveData<PetFinderViewModel>) {
+    fun display(liveData: MutableLiveData<PetFinderViewModelData>) {
         val data = liveData.observeAsState(
-            initial = PetFinderViewModel(
+            initial = PetFinderViewModelData(
                 animals = emptyList(),
                 state = PetFinderViewModelState.loading
             )
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     @Composable
     fun Page(
-        liveData: State<PetFinderViewModel>
+        liveData: State<PetFinderViewModelData>
     ) {
 
         Surface(

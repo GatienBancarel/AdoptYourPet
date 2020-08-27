@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,30 +13,29 @@ class BreedsPagePresenter @Inject constructor(
 ) {
 
     fun present(listBreeds: List<Breeds>, selectedBreeds: List<String>) {
-        val breedsViewModel: List<BreedsViewModel> =
+        val breedsViewModel: List<BreedsViewModelData> =
             listBreeds
                 .map { breed ->
-                    BreedsViewModel(
+                    BreedsViewModelData(
                         name = breed.name,
                         selected = selectedBreeds.contains(breed.name)
                     )
                 }
-                .sortedBy { it.name } // TODO GBA T.U
+                .sortedBy { it.name }
         viewModel.liveData.postValue(breedsViewModel)
     }
 
-    // TODO GBA T.U
     fun present(name: String, selected: Boolean) {
-        val newList = viewModel.liveData.value
+        val newList: List<BreedsViewModelData>? = viewModel.liveData.value
             ?.filter { it.name != name }
             ?.toMutableList()
-            ?.plus(BreedsViewModel(name = name, selected = selected))
+            ?.plus(BreedsViewModelData(name = name, selected = selected))
             ?.sortedBy { it.name }
-        viewModel.liveData.postValue(newList)
+        newList?.let { viewModel.liveData.postValue(newList) }
     }
 }
 
 @Singleton
 class BreedsPageViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<List<BreedsViewModel>> = MutableLiveData()
+    val liveData: MutableLiveData<List<BreedsViewModelData>> = MutableLiveData()
 }

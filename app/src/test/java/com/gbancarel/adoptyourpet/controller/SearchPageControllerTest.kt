@@ -20,12 +20,21 @@ class SearchPageControllerTest {
     }
 
     @Test
-    fun onCreate() {
+    fun onAnimalCheckboxClicked() {
         // GIVEN
         // WHEN
-        controller.onCreate("dog")
+        controller.onAnimalCheckboxClicked("dog")
 
         // THEN
         then(interactor).should().getListBreeds("dog")
+    }
+
+    @Test
+    fun onSelectedBreeds() {
+        // GIVEN
+        // WHEN
+        controller.onSelectedBreeds(listOf("labrador"))
+        // THEN
+        then(interactor).should().selectBreeds(listOf("labrador"))
     }
 }

@@ -15,7 +15,6 @@ class BreedsPageInteractor @Inject constructor(
         presenter.present(listBreeds, selectedBreeds)
     }
 
-    // TODO GBA T.U
     fun updateBreed(name: String, selected: Boolean) {
         presenter.present(name, selected)
     }
