@@ -16,7 +16,6 @@ class BreedsPageController @Inject constructor(
         interactor.updateListBreeds(selectedBreeds)
     }
 
-    // TODO GBA T.U
     fun checkedChange(name: String, selected: Boolean) {
         interactor.updateBreed(name, selected)
     }

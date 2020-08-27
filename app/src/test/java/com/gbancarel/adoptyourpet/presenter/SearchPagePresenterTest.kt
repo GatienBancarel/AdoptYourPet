@@ -23,7 +23,7 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun present1() {
+    fun presentWhenNoBreedSelected() {
         //GIVEN
         //WHEN
         presenter.present()
@@ -65,7 +65,7 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun present2() {
+    fun presentWhenBreedSelected() {
         //GIVEN
         //WHEN
         presenter.present(listOf("labrador"))

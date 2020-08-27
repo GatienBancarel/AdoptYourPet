@@ -23,7 +23,7 @@ class BreedsPagePresenterTest {
     }
 
     @Test
-    fun present1() {
+    fun presentIntialList() {
         //GIVEN
         //WHEN
         presenter.present(
@@ -45,7 +45,7 @@ class BreedsPagePresenterTest {
     }
 
     @Test
-    fun present2() {
+    fun presentListWhenItemIsUpdated() {
         //GIVEN
         viewModel.liveData.value = listOf(
             BreedsViewModelData("labrador", false),
