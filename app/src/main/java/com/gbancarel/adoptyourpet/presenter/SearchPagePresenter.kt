@@ -84,6 +84,7 @@ class SearchPagePresenter @Inject constructor(
                     selectedAge = it.selectedAge
                 )
             )
+        )
     }
 
     fun presentSelectedNewAge(id: Int) = viewModel.liveData.value?.let {

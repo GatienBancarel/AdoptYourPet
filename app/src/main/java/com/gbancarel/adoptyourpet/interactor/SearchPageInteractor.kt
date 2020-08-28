@@ -46,4 +46,8 @@ class SearchPageInteractor @Inject constructor(
     fun selectedAge(id : Int) {
         presenter.presentSelectedNewAge(id)
     }
+
+    fun selectedAge(age: String, selected: Boolean, order: Int) {
+        presenter.presentAge(age,selected,order)
+    }
 }

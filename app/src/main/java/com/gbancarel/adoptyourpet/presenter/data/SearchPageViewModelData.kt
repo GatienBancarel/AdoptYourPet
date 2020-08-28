@@ -8,6 +8,5 @@ data class SearchPageViewModelData(
     val state : StateBreedsViewModel,
     val listOfSize: List<SizeViewModel>,
     val selectedBreeds : List<String>,
-    var selectedAge: List<AgeViewModel>
-
+    val selectedAge: List<AgeViewModel>
 )
