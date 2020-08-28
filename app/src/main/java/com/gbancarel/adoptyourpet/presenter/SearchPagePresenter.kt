@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
+import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import javax.inject.Inject
@@ -76,7 +77,27 @@ class SearchPagePresenter @Inject constructor(
                     selectedBreeds = it.selectedBreeds
                 )
             )
+        )
     }
+
+    fun presentAge(age: String, selected: Boolean, order: Int) =  viewModel.liveData.value?.let {
+        val newList = it.selectedAge
+            .filter { it.label !=  age}
+            .toMutableList()
+            .plus(AgeViewModel(label = age, selected = selected, order = order))
+            .sortedBy { it.order }
+
+        viewModel.liveData.postValue(
+            SearchPageViewModelData(
+                state = it.state,
+                selectedBreeds = it.selectedBreeds,
+                selectedSize = it.selectedSize,
+                selectedAge = newList
+            )
+        )
+    }
+
+
 }
 
 @Singleton

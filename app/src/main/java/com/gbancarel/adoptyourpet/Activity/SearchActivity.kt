@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -102,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
-            Column(
+            ScrollableColumn(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
@@ -191,6 +192,25 @@ class SearchActivity : AppCompatActivity() {
                         ) {
                             Text(
                                 text = if (sizeViewModel.selected) "✓ ${sizeViewModel.name}" else sizeViewModel.name,
+                                style = typography.body1,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
+                    }
+
+                    Text(
+                        text = "Tap to choose your Age:",
+                        style = typography.h6,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    )
+                    searchViewModelData.value.selectedAge.forEachIndexed { _, listAge ->
+                        Button(
+                            onClick = { controller.onSelectedAge(listAge.label, !listAge.selected, listAge.order) },
+                            shape = RoundedCornerShape(15.dp),
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Text(
+                                text = if (listAge.selected) "✓ ${listAge.label}" else listAge.label,
                                 style = typography.body1,
                                 overflow = TextOverflow.Ellipsis,
                             )

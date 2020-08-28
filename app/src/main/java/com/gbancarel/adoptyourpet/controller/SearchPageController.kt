@@ -8,6 +8,7 @@ interface SearchPageControllerInterface {
     fun onAnimalCheckboxClicked(animalSelected: AnimalSelected)
     fun onSelectedBreeds(breeds: List<String>)
     fun onSelectedSize(id: Int)
+    fun onSelectedAge(age: String, selected: Boolean, order: Int)
 }
 
 class SearchPageController @Inject constructor(
@@ -24,6 +25,10 @@ class SearchPageController @Inject constructor(
 
     fun onSelectedSize(id: Int) {
         interactor.selectedSize(id)
+    }
+
+    fun onSelectedAge(age: String, selected: Boolean, order: Int) {
+        interactor.selectedAge(age, selected,order)
     }
 }
 
@@ -43,6 +48,12 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
     override fun onSelectedSize(id: Int) {
         Thread {
             controller.onSelectedSize(id)
+        }.start()
+    }
+
+    override fun onSelectedAge(age: String, selected: Boolean, order: Int) {
+        Thread {
+            controller.onSelectedAge(age, selected, order)
         }.start()
     }
 }
