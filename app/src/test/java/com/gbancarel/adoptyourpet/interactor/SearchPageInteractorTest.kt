@@ -94,4 +94,13 @@ class SearchPageInteractorTest {
         presenter.presentSelectedNewSize(0)
     }
 
+    @Test
+    fun selectedAge() {
+        //WHEN
+        interactor.selectedAge("Young", true, 1)
+        //THEN
+        presenter.presentAge("Young",true, 1)
+    }
+
+
 }

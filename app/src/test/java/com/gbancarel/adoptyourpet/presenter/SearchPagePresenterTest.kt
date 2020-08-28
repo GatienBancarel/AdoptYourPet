@@ -6,6 +6,7 @@ import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
+import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import junit.framework.Assert.assertEquals
@@ -162,6 +163,36 @@ class SearchPagePresenterTest {
                 SizeViewModel(1,"Medium",false),
                 SizeViewModel(2,"Large",false),
                 SizeViewModel(3,"Extra Large",false)
+            )
+        )
+    }
+
+    @Test
+    fun presentAge() {
+        //GIVEN
+        viewModel.liveData.value = SearchPageViewModelData(
+            state = StateBreedsViewModel.error,
+            selectedBreeds = listOf("labrador"),
+            selectedAge = listOf(
+                AgeViewModel("Kitten", selected = false, 0),
+                AgeViewModel("Young", selected = false, 1),
+                AgeViewModel("Adult", selected = false, 2),
+                AgeViewModel("Senior", selected = false, 3)
+            )
+
+        )
+
+        //WHEN
+        presenter.presentAge("Young",true, 1)
+
+        //THEN
+        assertEquals(
+            viewModel.liveData.value?.selectedAge,
+            listOf(
+                AgeViewModel("Kitten", selected = false, 0),
+                AgeViewModel("Young", selected = true, 1),
+                AgeViewModel("Adult", selected = false, 2),
+                AgeViewModel("Senior", selected = false, 3)
             )
         )
     }
