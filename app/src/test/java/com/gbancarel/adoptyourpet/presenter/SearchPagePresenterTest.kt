@@ -7,6 +7,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
+import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,13 +30,21 @@ class SearchPagePresenterTest {
     @Test
     fun presentWhenNoBreedSelected() {
         //GIVEN
+        viewModel.liveData.value = SearchPageViewModelData(
+            StateBreedsViewModel.error,
+            listOf("labrador"),
+            listOf(SizeViewModel("small", 1))
+        )
+
         //WHEN
         presenter.present()
+
         //THEN
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedSize = listOf(SizeViewModel("small", 1))
             )
         )
     }
@@ -71,13 +80,20 @@ class SearchPagePresenterTest {
     @Test
     fun presentWhenBreedSelected() {
         //GIVEN
+        viewModel.liveData.value = SearchPageViewModelData(
+            StateBreedsViewModel.error,
+            listOf("labrador"),
+            listOf(SizeViewModel("small", 1))
+        )
+
         //WHEN
-        presenter.present(listOf("labrador"))
+        presenter.present(listOf("caniche"))
         //THEN
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
-                selectedBreeds = listOf("labrador")
+                selectedBreeds = listOf("caniche"),
+                selectedSize = listOf(SizeViewModel("small", 1))
             )
         )
     }
@@ -85,18 +101,24 @@ class SearchPagePresenterTest {
     @Test
     fun presentSize() {
         //GIVEN
-        viewModel.liveData.value?.selectedSize = listOf(
-            SizeViewModel("Small",0,false),
-            SizeViewModel("Medium",1,false),
-            SizeViewModel("Large",2,false),
-            SizeViewModel("Extra Large",3 ,false)
+        viewModel.liveData.value = SearchPageViewModelData(
+            StateBreedsViewModel.error,
+            listOf("labrador"),
+            listOf(
+                SizeViewModel("Small",0,false),
+                SizeViewModel("Medium",1,false),
+                SizeViewModel("Large",2,false),
+                SizeViewModel("Extra Large",3 ,false)
+            )
         )
+
         //WHEN
         presenter.presentSize("Small",true, 0)
-        //THEN
 
-        assert(
-            viewModel.liveData.value?.selectedSize == listOf(
+        //THEN
+        assertEquals(
+            viewModel.liveData.value?.selectedSize,
+            listOf(
                 SizeViewModel("Small",0,true),
                 SizeViewModel("Medium",1,false),
                 SizeViewModel("Large",2,false),

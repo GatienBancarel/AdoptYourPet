@@ -13,13 +13,12 @@ class SearchPagePresenter @Inject constructor(
     val viewModel: SearchPageViewModel
 ) {
 
-    fun present() {
-        val stateBreedsViewModel = StateBreedsViewModel.finished
+    fun present() = viewModel.liveData.value?.let {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
-                state = stateBreedsViewModel,
+                state = StateBreedsViewModel.finished,
                 selectedBreeds = emptyList(),
-                selectedSize = viewModel.liveData.value!!.selectedSize
+                selectedSize = it.selectedSize
             )
         )
     }
@@ -44,32 +43,30 @@ class SearchPagePresenter @Inject constructor(
         )
     }
 
-    fun present(breeds: List<String>) {
-        val stateBreedsViewModel = StateBreedsViewModel.finished
+    fun present(breeds: List<String>) = viewModel.liveData.value?.let {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
-                state = stateBreedsViewModel,
+                state = StateBreedsViewModel.finished,
                 selectedBreeds = breeds,
-                selectedSize = viewModel.liveData.value!!.selectedSize
+                selectedSize = it.selectedSize
             )
         )
     }
 
-    fun presentSize(size: String, selected: Boolean, order: Int) {
-        val newList: List<SizeViewModel>? = viewModel.liveData.value?.selectedSize
-            ?.filter { it.name != size }
-            ?.toMutableList()
-            ?.plus(SizeViewModel(name = size, selected = selected, order = order))
-            ?.sortedBy { it.order }
-        newList?.let {
+    fun presentSize(size: String, selected: Boolean, order: Int) = viewModel.liveData.value?.let {
+        val newList = it.selectedSize
+            .filter { it.name != size }
+            .toMutableList()
+            .plus(SizeViewModel(name = size, selected = selected, order = order))
+            .sortedBy { it.order }
+
             viewModel.liveData.postValue(
                 SearchPageViewModelData(
-                    state = viewModel.liveData.value!!.state,
-                    selectedBreeds = viewModel.liveData.value!!.selectedBreeds,
+                    state = it.state,
+                    selectedBreeds = it.selectedBreeds,
                     selectedSize = newList
                 )
             )
-        }
     }
 }
 
