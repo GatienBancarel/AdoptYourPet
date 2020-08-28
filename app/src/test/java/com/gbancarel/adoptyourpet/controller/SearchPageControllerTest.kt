@@ -37,4 +37,13 @@ class SearchPageControllerTest {
         // THEN
         then(interactor).should().selectBreeds(listOf("labrador"))
     }
+
+    @Test
+    fun onSelectedSize() {
+        // GIVEN
+        // WHEN
+        controller.onSelectedSize("Small", true, 0)
+        // THEN
+        then(interactor).should().selectedSize("Small", true, 0)
+    }
 }

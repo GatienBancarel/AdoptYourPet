@@ -73,4 +73,12 @@ class SearchPageInteractorTest {
         presenter.present(listOf("labrador"))
     }
 
+    @Test
+    fun selectedSize() {
+        //WHEN
+        interactor.selectedSize("Small", true, 0)
+        //THEN
+        presenter.presentSize("Small",true, 0)
+    }
+
 }

@@ -29,4 +29,8 @@ class SearchPageInteractor @Inject constructor(
     fun selectBreeds(breeds: List<String>) {
         presenter.present(breeds)
     }
+
+    fun selectedSize(size: String, selected: Boolean, order: Int) {
+        presenter.presentSize(size,selected,order)
+    }
 }

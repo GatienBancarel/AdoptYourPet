@@ -6,6 +6,7 @@ import javax.inject.Inject
 interface SearchPageControllerInterface {
     fun onAnimalCheckboxClicked(animalSelected: String)
     fun onSelectedBreeds(breeds: List<String>)
+    fun onSelectedSize(size: String, selected: Boolean, order: Int)
 }
 
 class SearchPageController @Inject constructor(
@@ -19,6 +20,10 @@ class SearchPageController @Inject constructor(
     fun onSelectedBreeds(breeds: List<String>) {
         interactor.selectBreeds(breeds)
     }
+
+    fun onSelectedSize(size: String, selected: Boolean, order: Int) {
+        interactor.selectedSize(size, selected,order)
+    }
 }
 
 class SearchPageControllerDecorator @Inject constructor(val controller: SearchPageController) : SearchPageControllerInterface {
@@ -31,6 +36,12 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
     override fun onSelectedBreeds(breeds: List<String>) {
         Thread {
             controller.onSelectedBreeds(breeds)
+        }.start()
+    }
+
+    override fun onSelectedSize(size: String, selected: Boolean, order: Int) {
+        Thread {
+            controller.onSelectedSize(size, selected, order)
         }.start()
     }
 }

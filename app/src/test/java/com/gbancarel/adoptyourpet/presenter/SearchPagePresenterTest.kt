@@ -1,8 +1,12 @@
-package com.gbancarel.adoptyourpet.presenter
+package com.gbancarel.adoptyourpet.presen
 
+import android.util.Log
+import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
+import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -74,6 +78,29 @@ class SearchPagePresenterTest {
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
                 selectedBreeds = listOf("labrador")
+            )
+        )
+    }
+
+    @Test
+    fun presentSize() {
+        //GIVEN
+        viewModel.liveData.value?.selectedSize = listOf(
+            SizeViewModel("Small",0,false),
+            SizeViewModel("Medium",1,false),
+            SizeViewModel("Large",2,false),
+            SizeViewModel("Extra Large",3 ,false)
+        )
+        //WHEN
+        presenter.presentSize("Small",true, 0)
+        //THEN
+
+        assert(
+            viewModel.liveData.value?.selectedSize == listOf(
+                SizeViewModel("Small",0,true),
+                SizeViewModel("Medium",1,false),
+                SizeViewModel("Large",2,false),
+                SizeViewModel("Extra Large",3 ,false)
             )
         )
     }
