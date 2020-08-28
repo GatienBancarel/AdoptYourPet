@@ -205,4 +205,34 @@ class SearchPagePresenterTest {
             )
         )
     }
+
+    @Test
+    fun presentAge() {
+        //GIVEN
+        viewModel.liveData.value = SearchPageViewModelData(
+            state = StateBreedsViewModel.error,
+            selectedBreeds = listOf("labrador"),
+            selectedAge = listOf(
+                AgeViewModel("Kitten", selected = false, 0),
+                AgeViewModel("Young", selected = false, 1),
+                AgeViewModel("Adult", selected = false, 2),
+                AgeViewModel("Senior", selected = false, 3)
+            )
+
+        )
+
+        //WHEN
+        presenter.presentAge("Young",true, 1)
+
+        //THEN
+        assertEquals(
+            viewModel.liveData.value?.selectedAge,
+            listOf(
+                AgeViewModel("Kitten", selected = false, 0),
+                AgeViewModel("Young", selected = true, 1),
+                AgeViewModel("Adult", selected = false, 2),
+                AgeViewModel("Senior", selected = false, 3)
+            )
+        )
+    }
 }

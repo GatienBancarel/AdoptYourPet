@@ -56,4 +56,13 @@ class SearchPageControllerTest {
         // THEN
         then(interactor).should().selectedAge(1)
     }
+
+    @Test
+    fun onSelectedAge() {
+        // GIVEN
+        // WHEN
+        controller.onSelectedAge("Young", true, 1)
+        // THEN
+        then(interactor).should().selectedAge("Young", true, 1)
+    }
 }
