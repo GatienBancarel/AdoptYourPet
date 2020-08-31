@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FindYourPet</string>
+    <string name="feature_unavailable">This feature is not available yet</string>
 </resources>
