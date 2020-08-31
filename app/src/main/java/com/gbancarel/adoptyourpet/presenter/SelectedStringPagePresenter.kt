@@ -1,22 +1,24 @@
 package com.gbancarel.adoptyourpet.presenter
 
+import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StringSelectedViewModelData
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class BreedsPagePresenter @Inject constructor(
+class SelectedStringPagePresenter @Inject constructor(
     val viewModel: BreedsPageViewModel,
 ) {
 
     fun present(listBreeds: List<Breeds>, selectedBreeds: List<String>) {
-        val breedsViewModel: List<BreedsViewModelData> =
+        Log.i("mylog","initialisation list")
+        val breedsViewModel: List<StringSelectedViewModelData> =
             listBreeds
                 .map { breed ->
-                    BreedsViewModelData(
+                    StringSelectedViewModelData(
                         name = breed.name,
                         selected = selectedBreeds.contains(breed.name)
                     )
@@ -26,16 +28,18 @@ class BreedsPagePresenter @Inject constructor(
     }
 
     fun present(name: String, selected: Boolean) {
-        val newList: List<BreedsViewModelData>? = viewModel.liveData.value
+        val newList: List<StringSelectedViewModelData>? = viewModel.liveData.value
             ?.filter { it.name != name }
             ?.toMutableList()
-            ?.plus(BreedsViewModelData(name = name, selected = selected))
+            ?.plus(StringSelectedViewModelData(name = name, selected = selected))
             ?.sortedBy { it.name }
-        newList?.let { viewModel.liveData.postValue(newList) }
+        newList?.let {
+            viewModel.liveData.postValue(newList)
+        }
     }
 }
 
 @Singleton
 class BreedsPageViewModel @Inject constructor() : ViewModel(), LifecycleObserver {
-    val liveData: MutableLiveData<List<BreedsViewModelData>> = MutableLiveData()
+    val liveData: MutableLiveData<List<StringSelectedViewModelData>> = MutableLiveData()
 }

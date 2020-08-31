@@ -1,6 +1,6 @@
 package com.gbancarel.adoptyourpet.controller
 
-import com.gbancarel.adoptyourpet.interactor.BreedsPageInteractor
+import com.gbancarel.adoptyourpet.interactor.SelectedStringPageInteractor
 import org.junit.Test
 import org.junit.Before
 import org.mockito.BDDMockito.then
@@ -10,7 +10,7 @@ import org.mockito.MockitoAnnotations
 class BreedsPageControllerTest {
 
     @Mock
-    private lateinit var interactor : BreedsPageInteractor
+    private lateinit var interactor : SelectedStringPageInteractor
     private lateinit var controller: BreedsPageController
 
     @Before

@@ -2,7 +2,7 @@ package com.gbancarel.adoptyourpet.presenter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StringSelectedViewModelData
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -38,8 +38,8 @@ class BreedsPagePresenterTest {
         //THEN
         assert(
             viewModel.liveData.value == listOf(
-                BreedsViewModelData("caniche"),
-                BreedsViewModelData("labrador",true)
+                StringSelectedViewModelData("caniche"),
+                StringSelectedViewModelData("labrador",true)
             )
         )
     }
@@ -48,18 +48,18 @@ class BreedsPagePresenterTest {
     fun presentListWhenItemIsUpdated() {
         //GIVEN
         viewModel.liveData.value = listOf(
-            BreedsViewModelData("labrador", false),
-            BreedsViewModelData("caniche", false),
-            BreedsViewModelData("staff", false)
+            StringSelectedViewModelData("labrador", false),
+            StringSelectedViewModelData("caniche", false),
+            StringSelectedViewModelData("staff", false)
         )
         //WHEN
         presenter.present("labrador", true)
         //THEN
         assert(
             viewModel.liveData.value == listOf(
-                BreedsViewModelData("caniche", false),
-                BreedsViewModelData("labrador", true),
-                BreedsViewModelData("staff", false)
+                StringSelectedViewModelData("caniche", false),
+                StringSelectedViewModelData("labrador", true),
+                StringSelectedViewModelData("staff", false)
             )
         )
     }

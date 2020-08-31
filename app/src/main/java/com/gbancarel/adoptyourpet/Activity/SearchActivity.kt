@@ -28,12 +28,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.Activity.BreedsActivity.Companion.RESULT_DATA_KEY
+import com.gbancarel.adoptyourpet.Activity.SelectStringActivity.Companion.RESULT_DATA_KEY
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listColors.StateColorsViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
@@ -145,7 +146,7 @@ class SearchActivity : AppCompatActivity() {
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    when (searchViewModelData.value.state) {
+                    when (searchViewModelData.value.stateBreed) {
                         StateBreedsViewModel.loading -> {
                             Text(
                                 text = "Loading...",
@@ -162,12 +163,12 @@ class SearchActivity : AppCompatActivity() {
                             Button(
                                 onClick = {
                                     startForResult.launch(
-                                        BreedsActivity.newIntent(
+                                        SelectStringActivity.newIntent(
                                             applicationContext,
-                                            searchViewModelData.value.selectedBreeds
+                                            searchViewModelData.value.selectedBreeds,
+                                            "breeds"
                                         )
                                     )
-                                    step.value = 2
                                 }
                             ) {
                                 Text(
@@ -197,7 +198,6 @@ class SearchActivity : AppCompatActivity() {
                             )
                         }
                     }
-
                     Text(
                         text = "Tap to choose your Age:",
                         style = typography.h6,
@@ -214,6 +214,43 @@ class SearchActivity : AppCompatActivity() {
                                     text = if (age.selected) "✓ ${age.label}" else age.label,
                                     style = typography.body1,
                                     overflow = TextOverflow.Ellipsis,
+                                )
+                            }
+                        }
+                    }
+                    Text(
+                        text = "Tap to choose your Colors:",
+                        style = typography.h6,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    )
+                    when (searchViewModelData.value.stateColors) {
+                        StateColorsViewModel.loading -> {
+                            Text(
+                                text = "Loading...",
+                                style = typography.body2
+                            )
+                        }
+                        StateColorsViewModel.error -> {
+                            Text(
+                                text = "Error: check your Internet connection and retry again.",
+                                style = typography.body2
+                            )
+                        }
+                        StateColorsViewModel.finished -> {
+                            Button(
+                                onClick = {
+                                    startForResult.launch(
+                                        SelectStringActivity.newIntent(
+                                            applicationContext,
+                                            searchViewModelData.value.selectedBreeds,
+                                            "colors"
+                                        )
+                                    )
+                                }
+                            ) {
+                                Text(
+                                    text = "Choose yours colors",
+                                    style = typography.body1
                                 )
                             }
                         }

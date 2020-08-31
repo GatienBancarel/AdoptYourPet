@@ -30,6 +30,10 @@ class SearchPageController @Inject constructor(
     fun onSelectedAge(id: Int) {
         interactor.selectedAge(id)
     }
+
+    fun onSelectedColors(ids) {
+        interactor.selectedColors(colors, selected)
+    }
 }
 
 class SearchPageControllerDecorator @Inject constructor(val controller: SearchPageController) : SearchPageControllerInterface {
@@ -54,6 +58,12 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
     override fun onSelectedAge(id: Int) {
         Thread {
             controller.onSelectedAge(id)
+        }.start()
+    }
+
+    override fun onSelectedColors(colors: String, selected: Boolean) {
+        Thread {
+            controller.onSelectedColors(colors, selected)
         }.start()
     }
 }

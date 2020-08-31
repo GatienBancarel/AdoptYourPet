@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FindYourPet.NoActionBar">
-        <activity android:name=".Activity.BreedsActivity"/>
+        <activity android:name=".Activity.SelectStringActivity"/>
         <activity
             android:name=".Activity.SearchActivity"
             android:label="@string/app_name" />

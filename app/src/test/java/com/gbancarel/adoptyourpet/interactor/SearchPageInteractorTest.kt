@@ -5,6 +5,7 @@ import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
+import com.gbancarel.adoptyourpet.repository.ListColorsRepository
 import com.gbancarel.adoptyourpet.repository.ListSizeRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException

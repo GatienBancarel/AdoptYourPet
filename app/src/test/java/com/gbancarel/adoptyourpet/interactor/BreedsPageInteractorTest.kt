@@ -14,13 +14,13 @@ class BreedsPageInteractorTest {
 
     @Mock private lateinit var repository: ListBreedsRepository
     @Mock private lateinit var presenter: BreedsPagePresenter
-    private lateinit var interactor: BreedsPageInteractor
+    private lateinit var interactor: SelectedStringPageInteractor
 
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        interactor = BreedsPageInteractor(repository, presenter)
+        interactor = SelectedStringPageInteractor(repository, presenter)
     }
 
     @Test

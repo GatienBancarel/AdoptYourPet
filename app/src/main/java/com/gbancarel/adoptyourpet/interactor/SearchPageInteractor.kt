@@ -1,9 +1,11 @@
 package com.gbancarel.adoptyourpet.interactor
 
+import android.util.Log
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import com.gbancarel.adoptyourpet.repository.ListSizeRepository
+import com.gbancarel.adoptyourpet.repository.ListColorsRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
@@ -14,6 +16,7 @@ class SearchPageInteractor @Inject constructor(
     val breedsRepository: ListBreedsRepository,
     val sizeRepository: ListSizeRepository,
     val ageRepository: ListAgeRepository,
+    val colorsRepository: ListColorsRepository,
     val presenter: SearchPagePresenter
 ) {
 
@@ -27,11 +30,27 @@ class SearchPageInteractor @Inject constructor(
             breedsRepository.loadBreeds(animalSelected)
             presenter.presentBreedsLoaderFinished()
         } catch (e1: CannotDecodeJsonException) {
-            presenter.presentError()
+            presenter.presentBreedsError()
         } catch (e1: ErrorStatusException) {
-            presenter.presentError()
+            presenter.presentBreedsError()
         } catch (e1: NoInternetConnectionAvailable) {
-            presenter.presentError()
+            presenter.presentBreedsError()
+        }
+    }
+
+    fun getListColors(animalSelected: String) {
+        try {
+            Log.i("mylog","present loader colors")
+            presenter.presentColorsLoader()
+            val call = repositoryColors.loadColors(animalSelected)
+            Log.i("mylog","present colors")
+            presenter.presentColors(call)
+        } catch (e1: CannotDecodeJsonException) {
+            presenter.presentColorsError()
+        } catch (e1: ErrorStatusException) {
+            presenter.presentColorsError()
+        } catch (e1: NoInternetConnectionAvailable) {
+            presenter.presentColorsError()
         }
     }
 
@@ -49,5 +68,9 @@ class SearchPageInteractor @Inject constructor(
 
     fun selectedAge(age: String, selected: Boolean, order: Int) {
         presenter.presentAge(age,selected,order)
+    }
+
+    fun selectedColors(colors: String, selected: Boolean) {
+        presenter.presentSelectedColors(colors,selected)
     }
 }

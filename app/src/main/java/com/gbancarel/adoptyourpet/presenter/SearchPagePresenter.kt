@@ -1,13 +1,17 @@
 package com.gbancarel.adoptyourpet.presenter
 
+import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.interactor.data.listColors.Colors
 import com.gbancarel.adoptyourpet.interactor.data.Age
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listColors.ColorsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listColors.StateColorsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -51,8 +55,7 @@ class SearchPagePresenter @Inject constructor(
         )
     }
 
-    fun presentError() {
-        val stateBreedsViewModel = StateBreedsViewModel.error
+    fun presentColorsLoader() = viewModel.liveData.value?.let {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
