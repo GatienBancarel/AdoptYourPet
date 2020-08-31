@@ -10,7 +10,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class BreedsPageInteractorTest {
+class SelectedStringPageInteractorTest {
 
     @Mock private lateinit var repository: ListBreedsRepository
     @Mock private lateinit var presenter: SelectedStringPagePresenter

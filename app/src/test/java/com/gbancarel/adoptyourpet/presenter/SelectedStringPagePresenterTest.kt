@@ -3,12 +3,13 @@ package com.gbancarel.adoptyourpet.presenter
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StringSelectedViewModelData
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.MockitoAnnotations
 
-class BreedsPagePresenterTest {
+class SelectedStringPagePresenterTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
@@ -36,8 +37,8 @@ class BreedsPagePresenterTest {
             )
         )
         //THEN
-        assert(
-            viewModel.liveData.value == listOf(
+        assertEquals(
+            viewModel.liveData.value, listOf(
                 StringSelectedViewModelData("caniche"),
                 StringSelectedViewModelData("labrador",true)
             )
@@ -55,8 +56,8 @@ class BreedsPagePresenterTest {
         //WHEN
         presenter.present("labrador", true)
         //THEN
-        assert(
-            viewModel.liveData.value == listOf(
+        assertEquals(
+            viewModel.liveData.value, listOf(
                 StringSelectedViewModelData("caniche", false),
                 StringSelectedViewModelData("labrador", true),
                 StringSelectedViewModelData("staff", false)

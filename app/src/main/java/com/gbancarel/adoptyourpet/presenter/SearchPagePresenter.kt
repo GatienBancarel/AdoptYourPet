@@ -7,7 +7,7 @@ import com.gbancarel.adoptyourpet.interactor.data.Age
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,7 +17,7 @@ class SearchPagePresenter @Inject constructor(
 ) {
 
     fun presentBreedsAndColorsLoader() {
-        val stateBreedsViewModel = StateBreedsViewModel.loading
+        val stateBreedsViewModel = StateSearchPageViewModel.loading
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
@@ -32,7 +32,7 @@ class SearchPagePresenter @Inject constructor(
     fun present(sizes: List<Size>, ages: List<Age>) {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
-                state = StateBreedsViewModel.loading,
+                state = StateSearchPageViewModel.loading,
                 listOfSize = sizes.map { SizeViewModel(it.id, it.value) },
                 selectedBreeds = emptyList(),
                 selectedAge = ages.map { AgeViewModel(it.id, it.value, false) },
@@ -42,7 +42,7 @@ class SearchPagePresenter @Inject constructor(
     }
 
     fun presentBreedsAndColorsLoaderFinished() {
-        val stateBreedsViewModel = StateBreedsViewModel.finished
+        val stateBreedsViewModel = StateSearchPageViewModel.finished
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
@@ -55,7 +55,7 @@ class SearchPagePresenter @Inject constructor(
     }
 
     fun presentError() {
-        val stateBreedsViewModel = StateBreedsViewModel.error
+        val stateBreedsViewModel = StateSearchPageViewModel.error
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,

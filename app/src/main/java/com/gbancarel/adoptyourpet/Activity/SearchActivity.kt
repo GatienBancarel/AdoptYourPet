@@ -33,7 +33,7 @@ import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
@@ -85,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateSearchPageViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList())
         )
         Page(
             viewModel,
@@ -154,19 +154,19 @@ class SearchActivity : AppCompatActivity() {
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
                     when (searchViewModelData.value.state) {
-                        StateBreedsViewModel.loading -> {
+                        StateSearchPageViewModel.loading -> {
                             Text(
                                 text = "Loading...",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.error -> {
+                        StateSearchPageViewModel.error -> {
                             Text(
                                 text = "Error: check your Internet connection and retry again.",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.finished -> {
+                        StateSearchPageViewModel.finished -> {
                             Button(
                                 onClick = {
                                     startForResultBreeds.launch(
@@ -231,19 +231,19 @@ class SearchActivity : AppCompatActivity() {
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
                     when (searchViewModelData.value.state) {
-                        StateBreedsViewModel.loading -> {
+                        StateSearchPageViewModel.loading -> {
                             Text(
                                 text = "Loading...",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.error -> {
+                        StateSearchPageViewModel.error -> {
                             Text(
                                 text = "Error: check your Internet connection and retry again.",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.finished -> {
+                        StateSearchPageViewModel.finished -> {
                             Button(
                                 onClick = {
                                     startForResultColors.launch(

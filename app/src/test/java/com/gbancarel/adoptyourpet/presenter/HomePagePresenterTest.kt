@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.presenter
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.R
+import com.gbancarel.adoptyourpet.controller.SelectedStringPageController
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.*
 import junit.framework.Assert.assertEquals
@@ -249,8 +250,8 @@ class HomePagePresenterTest {
         //WHEN
         presenter.presentLoader()
         //THEN
-        assert(
-            viewModel.liveData.value == PetFinderViewModelData(
+        assertEquals(
+            viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.loading,
                 animals = emptyList(),
                 detailAnimal = null
@@ -263,8 +264,8 @@ class HomePagePresenterTest {
         //WHEN
         presenter.presentError()
         //THEN
-        assert(
-            viewModel.liveData.value == PetFinderViewModelData(
+        assertEquals(
+            viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.error,
                 animals = emptyList(),
                 detailAnimal = null

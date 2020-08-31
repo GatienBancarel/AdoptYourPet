@@ -7,7 +7,7 @@ import org.mockito.BDDMockito.then
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class BreedsPageControllerTest {
+class SelectedStringPageControllerTest {
 
     @Mock
     private lateinit var interactor : SelectedStringPageInteractor
