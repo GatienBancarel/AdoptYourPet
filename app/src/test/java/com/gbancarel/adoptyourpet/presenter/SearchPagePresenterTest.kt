@@ -4,6 +4,7 @@ import android.util.Log
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
@@ -28,37 +29,73 @@ class SearchPagePresenterTest {
     }
 
     @Test
-    fun presentWhenNoBreedSelected() {
+    fun presentBreedsLoader() {
         //GIVEN
-        viewModel.liveData.value = SearchPageViewModelData(
-            StateBreedsViewModel.error,
-            listOf("labrador"),
-            listOf(SizeViewModel("small", 1))
-        )
-
         //WHEN
-        presenter.present()
-
+        presenter.presentBreedsLoader()
         //THEN
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
-                state = StateBreedsViewModel.finished,
-                selectedBreeds = emptyList(),
-                selectedSize = listOf(SizeViewModel("small", 1))
+                state = StateBreedsViewModel.loading,
+                listOfSize = emptyList(),
+                selectedBreeds = emptyList()
             )
         )
     }
 
     @Test
-    fun presentLoader() {
+    fun presentBreedsLoaderFinished() {
         //GIVEN
+        val sizes = listOf(
+            SizeViewModel(0, "Small")
+        )
+        viewModel.liveData.value = SearchPageViewModelData(
+            state = StateBreedsViewModel.error,
+            listOfSize = sizes,
+            selectedBreeds = emptyList()
+        )
+
         //WHEN
-        presenter.presentLoader()
+        presenter.presentBreedsLoaderFinished()
+        //THEN
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.finished,
+                listOfSize = sizes,
+                selectedBreeds = emptyList()
+            )
+        )
+    }
+
+    @Test
+    fun presentBreedsLoaderFinishedWhenLiveDataNull() {
+        //GIVEN
+
+        //WHEN
+        presenter.presentBreedsLoaderFinished()
+        //THEN
+        assert(
+            viewModel.liveData.value == SearchPageViewModelData(
+                state = StateBreedsViewModel.finished,
+                listOfSize = emptyList(),
+                selectedBreeds = emptyList()
+            )
+        )
+    }
+
+    @Test
+    fun presentSizes() {
+        //GIVEN
+
+        //WHEN
+        presenter.presentSizes(listOf(Size(0, "Small")))
+
         //THEN
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.loading,
-                selectedBreeds = emptyList()
+                listOfSize = listOf(SizeViewModel(0,"Small")),
+                selectedBreeds = emptyList(),
             )
         )
     }
@@ -72,57 +109,59 @@ class SearchPagePresenterTest {
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.error,
+                listOfSize = emptyList(),
                 selectedBreeds = emptyList()
             )
         )
     }
 
     @Test
-    fun presentWhenBreedSelected() {
+    fun presentSelectBreeds() {
         //GIVEN
         viewModel.liveData.value = SearchPageViewModelData(
-            StateBreedsViewModel.error,
+            StateBreedsViewModel.finished,
+            listOf(SizeViewModel(1,"small")),
             listOf("labrador"),
-            listOf(SizeViewModel("small", 1))
         )
 
         //WHEN
-        presenter.present(listOf("caniche"))
+        presenter.presentSelectBreeds(listOf("caniche"))
+
         //THEN
         assert(
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
+                listOfSize = listOf(SizeViewModel(1, "small")),
                 selectedBreeds = listOf("caniche"),
-                selectedSize = listOf(SizeViewModel("small", 1))
             )
         )
     }
 
     @Test
-    fun presentSize() {
+    fun presentSelectedNewSize() {
         //GIVEN
         viewModel.liveData.value = SearchPageViewModelData(
             StateBreedsViewModel.error,
-            listOf("labrador"),
             listOf(
-                SizeViewModel("Small",0,false),
-                SizeViewModel("Medium",1,false),
-                SizeViewModel("Large",2,false),
-                SizeViewModel("Extra Large",3 ,false)
-            )
+                SizeViewModel(0,"Small",false),
+                SizeViewModel(1,"Medium",false),
+                SizeViewModel(2,"Large",false),
+                SizeViewModel(3,"Extra Large",false)
+            ),
+            listOf("labrador"),
         )
 
         //WHEN
-        presenter.presentSize("Small",true, 0)
+        presenter.presentSelectedNewSize(0)
 
         //THEN
         assertEquals(
-            viewModel.liveData.value?.selectedSize,
+            viewModel.liveData.value?.listOfSize,
             listOf(
-                SizeViewModel("Small",0,true),
-                SizeViewModel("Medium",1,false),
-                SizeViewModel("Large",2,false),
-                SizeViewModel("Extra Large",3 ,false)
+                SizeViewModel(0,"Small",true),
+                SizeViewModel(1,"Medium",false),
+                SizeViewModel(2,"Large",false),
+                SizeViewModel(3,"Extra Large",false)
             )
         )
     }

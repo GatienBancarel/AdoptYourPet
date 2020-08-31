@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.presenter
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
@@ -13,21 +14,33 @@ class SearchPagePresenter @Inject constructor(
     val viewModel: SearchPageViewModel
 ) {
 
-    fun present() = viewModel.liveData.value?.let {
-        viewModel.liveData.postValue(
-            SearchPageViewModelData(
-                state = StateBreedsViewModel.finished,
-                selectedBreeds = emptyList(),
-                selectedSize = it.selectedSize
-            )
-        )
-    }
-
-    fun presentLoader() {
+    fun presentBreedsLoader() {
         val stateBreedsViewModel = StateBreedsViewModel.loading
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
+                listOfSize = emptyList(),
+                selectedBreeds = emptyList()
+            )
+        )
+    }
+
+    fun presentSizes(sizes: List<Size>) {
+        viewModel.liveData.postValue(
+            SearchPageViewModelData(
+                state = StateBreedsViewModel.loading,
+                listOfSize = sizes.map { SizeViewModel(it.id, it.value) },
+                selectedBreeds = emptyList()
+            )
+        )
+    }
+
+    fun presentBreedsLoaderFinished() {
+        val stateBreedsViewModel = StateBreedsViewModel.finished
+        viewModel.liveData.postValue(
+            SearchPageViewModelData(
+                state = stateBreedsViewModel,
+                listOfSize = viewModel.liveData.value?.listOfSize.orEmpty(),
                 selectedBreeds = emptyList()
             )
         )
@@ -38,33 +51,29 @@ class SearchPagePresenter @Inject constructor(
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
+                listOfSize = emptyList(),
                 selectedBreeds = emptyList()
             )
         )
     }
 
-    fun present(breeds: List<String>) = viewModel.liveData.value?.let {
+    // SELECTION
+    fun presentSelectBreeds(breeds: List<String>) = viewModel.liveData.value?.let {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
-                state = StateBreedsViewModel.finished,
+                state = it.state,
+                listOfSize = it.listOfSize,
                 selectedBreeds = breeds,
-                selectedSize = it.selectedSize
             )
         )
     }
 
-    fun presentSize(size: String, selected: Boolean, order: Int) = viewModel.liveData.value?.let {
-        val newList = it.selectedSize
-            .filter { it.name != size }
-            .toMutableList()
-            .plus(SizeViewModel(name = size, selected = selected, order = order))
-            .sortedBy { it.order }
-
+    fun presentSelectedNewSize(id: Int) = viewModel.liveData.value?.let {
             viewModel.liveData.postValue(
                 SearchPageViewModelData(
                     state = it.state,
-                    selectedBreeds = it.selectedBreeds,
-                    selectedSize = newList
+                    listOfSize = it.listOfSize.map { if (it.id == id) it.copy(selected = !it.selected) else it },
+                    selectedBreeds = it.selectedBreeds
                 )
             )
     }

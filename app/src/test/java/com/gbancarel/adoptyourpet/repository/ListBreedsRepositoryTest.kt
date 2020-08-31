@@ -10,6 +10,7 @@ import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import com.gbancarel.adoptyourpet.repository.parser.BreedsParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import com.gbancarel.adoptyourpet.repository.service.ResponseRequest
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.then
 import org.junit.Assert
@@ -58,7 +59,7 @@ class ListBreedsRepositoryTest {
 
 
         // WHEN
-        repository.loadBreeds("dog")
+        repository.loadBreeds(AnimalSelected.dog)
 
         // THEN
         then(dao.deleteAll())
@@ -87,7 +88,7 @@ class ListBreedsRepositoryTest {
         )
 
         // WHEN
-        repository.loadBreeds("dog")
+        repository.loadBreeds(AnimalSelected.dog)
     }
 
     @Test(expected = CannotDecodeJsonException::class)
@@ -110,7 +111,7 @@ class ListBreedsRepositoryTest {
         ).willReturn(null)
 
         // WHEN
-        repository.loadBreeds("dog")
+        repository.loadBreeds(AnimalSelected.dog)
     }
 
     @Test

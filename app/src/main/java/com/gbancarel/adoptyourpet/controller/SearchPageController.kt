@@ -1,33 +1,34 @@
 package com.gbancarel.adoptyourpet.controller
 
 import com.gbancarel.adoptyourpet.interactor.SearchPageInteractor
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 
 interface SearchPageControllerInterface {
-    fun onAnimalCheckboxClicked(animalSelected: String)
+    fun onAnimalCheckboxClicked(animalSelected: AnimalSelected)
     fun onSelectedBreeds(breeds: List<String>)
-    fun onSelectedSize(size: String, selected: Boolean, order: Int)
+    fun onSelectedSize(id: Int)
 }
 
 class SearchPageController @Inject constructor(
     val interactor: SearchPageInteractor
 ) {
 
-    fun onAnimalCheckboxClicked(animalSelected: String) {
-        interactor.getListBreeds(animalSelected)
+    fun onAnimalCheckboxClicked(animalSelected: AnimalSelected) {
+        interactor.load(animalSelected)
     }
 
     fun onSelectedBreeds(breeds: List<String>) {
         interactor.selectBreeds(breeds)
     }
 
-    fun onSelectedSize(size: String, selected: Boolean, order: Int) {
-        interactor.selectedSize(size, selected,order)
+    fun onSelectedSize(id: Int) {
+        interactor.selectedSize(id)
     }
 }
 
 class SearchPageControllerDecorator @Inject constructor(val controller: SearchPageController) : SearchPageControllerInterface {
-    override fun onAnimalCheckboxClicked(animalSelected: String) {
+    override fun onAnimalCheckboxClicked(animalSelected: AnimalSelected) {
         Thread {
             controller.onAnimalCheckboxClicked(animalSelected)
         }.start()
@@ -39,9 +40,9 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
         }.start()
     }
 
-    override fun onSelectedSize(size: String, selected: Boolean, order: Int) {
+    override fun onSelectedSize(id: Int) {
         Thread {
-            controller.onSelectedSize(size, selected, order)
+            controller.onSelectedSize(id)
         }.start()
     }
 }

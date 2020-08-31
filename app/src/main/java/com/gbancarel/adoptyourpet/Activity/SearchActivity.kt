@@ -76,16 +76,12 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList())
+            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList())
         )
         Page(
             viewModel,
             onAnimalSelected = { animalSelected ->
-                if (animalSelected == AnimalSelected.dog) {
-                    controller.onAnimalCheckboxClicked("dog")
-                } else {
-                    controller.onAnimalCheckboxClicked("cat")
-                }
+                    controller.onAnimalCheckboxClicked(animalSelected)
             },
             searchViewModelData
         )
@@ -98,7 +94,7 @@ class SearchActivity : AppCompatActivity() {
         onAnimalSelected: (AnimalSelected) -> Unit,
         searchViewModelData: State<SearchPageViewModelData>
     ) {
-        var step = remember { mutableStateOf(0) }
+        val step = remember { mutableStateOf(0) }
         val data = viewModel.liveData.observeAsState(
             initial = AnimalSelected.unknown
         )
@@ -180,35 +176,21 @@ class SearchActivity : AppCompatActivity() {
                             }
                         }
                     }
-                    val infoSize =
-                        if (data.value == AnimalSelected.dog) {
-                            listOf<String>(
-                                "(0-25 lbs)",
-                                "(26-60 lbs)",
-                                "(61-100 lbs)",
-                                "(101 lbs or more)"
-                            )
-                        } else {
-                            listOf<String>(
-                                "(0-6 lbs)",
-                                "(7-11 lbs)",
-                                "(12-16 lbs)",
-                                "(17 lbs or more)"
-                            )
-                        }
                     Text(
                         text = "Tap to choose your Size:",
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    searchViewModelData.value.selectedSize.forEachIndexed { index, listSize ->
+                    searchViewModelData.value.listOfSize.forEachIndexed { index, sizeViewModel ->
                         Button(
-                            onClick = { controller.onSelectedSize(listSize.name, !listSize.selected, listSize.order) },
+                            onClick = {
+                                controller.onSelectedSize(sizeViewModel.id)
+                            },
                             shape = RoundedCornerShape(15.dp),
                             modifier = Modifier.padding(4.dp)
                         ) {
                             Text(
-                                text = if (listSize.selected) "✓ ${listSize.name}" + infoSize[index] else listSize.name + infoSize[index],
+                                text = if (sizeViewModel.selected) "✓ ${sizeViewModel.name}" else sizeViewModel.name,
                                 style = typography.body1,
                                 overflow = TextOverflow.Ellipsis,
                             )

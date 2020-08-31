@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.controller
 
 import com.gbancarel.adoptyourpet.interactor.SearchPageInteractor
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import org.junit.Test
 import org.junit.Before
 import org.mockito.BDDMockito.then
@@ -23,10 +24,10 @@ class SearchPageControllerTest {
     fun onAnimalCheckboxClicked() {
         // GIVEN
         // WHEN
-        controller.onAnimalCheckboxClicked("dog")
+        controller.onAnimalCheckboxClicked(AnimalSelected.dog)
 
         // THEN
-        then(interactor).should().getListBreeds("dog")
+        then(interactor).should().load(AnimalSelected.dog)
     }
 
     @Test
@@ -42,8 +43,8 @@ class SearchPageControllerTest {
     fun onSelectedSize() {
         // GIVEN
         // WHEN
-        controller.onSelectedSize("Small", true, 0)
+        controller.onSelectedSize(0)
         // THEN
-        then(interactor).should().selectedSize("Small", true, 0)
+        then(interactor).should().selectedSize(0)
     }
 }

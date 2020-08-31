@@ -9,6 +9,7 @@ import com.gbancarel.adoptyourpet.repository.json.listBreeds.ListBreedsJSON
 import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import com.gbancarel.adoptyourpet.repository.parser.BreedsParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -25,7 +26,7 @@ class ListBreedsRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun loadBreeds(animalSelected: String) {
+    fun loadBreeds(animalSelected: AnimalSelected) {
         try {
             val response = service.get("$BASE_URL/types/$animalSelected/breeds")
 

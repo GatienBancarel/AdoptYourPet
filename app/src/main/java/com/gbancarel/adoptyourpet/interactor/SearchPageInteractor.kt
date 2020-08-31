@@ -2,21 +2,27 @@ package com.gbancarel.adoptyourpet.interactor
 
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
+import com.gbancarel.adoptyourpet.repository.ListSizeRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 
 class SearchPageInteractor @Inject constructor(
-    val repository: ListBreedsRepository,
+    val breedsRepository: ListBreedsRepository,
+    val sizeRepository: ListSizeRepository,
     val presenter: SearchPagePresenter
 ) {
 
-    fun getListBreeds(animalSelected: String) {
+    fun load(animalSelected: AnimalSelected) {
         try {
-            presenter.presentLoader()
-            repository.loadBreeds(animalSelected)
-            presenter.present()
+            presenter.presentBreedsLoader()
+            val sizes = sizeRepository.getListSize(animalSelected)
+            presenter.presentSizes(sizes)
+
+            breedsRepository.loadBreeds(animalSelected)
+            presenter.presentBreedsLoaderFinished()
         } catch (e1: CannotDecodeJsonException) {
             presenter.presentError()
         } catch (e1: ErrorStatusException) {
@@ -27,10 +33,10 @@ class SearchPageInteractor @Inject constructor(
     }
 
     fun selectBreeds(breeds: List<String>) {
-        presenter.present(breeds)
+        presenter.presentSelectBreeds(breeds)
     }
 
-    fun selectedSize(size: String, selected: Boolean, order: Int) {
-        presenter.presentSize(size,selected,order)
+    fun selectedSize(id : Int) {
+        presenter.presentSelectedNewSize(id)
     }
 }
