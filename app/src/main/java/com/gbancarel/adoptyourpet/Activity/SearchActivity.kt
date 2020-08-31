@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -76,7 +77,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList())
         )
         Page(
             viewModel,
@@ -102,7 +103,7 @@ class SearchActivity : AppCompatActivity() {
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
-            Column(
+            ScrollableColumn(
                 modifier = Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
@@ -194,6 +195,27 @@ class SearchActivity : AppCompatActivity() {
                                 style = typography.body1,
                                 overflow = TextOverflow.Ellipsis,
                             )
+                        }
+                    }
+
+                    Text(
+                        text = "Tap to choose your Age:",
+                        style = typography.h6,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    )
+                    FlowRow() {
+                        searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
+                            Button(
+                                onClick = { controller.onSelectedAge(age.id) },
+                                shape = RoundedCornerShape(15.dp),
+                                modifier = Modifier.padding(4.dp)
+                            ) {
+                                Text(
+                                    text = if (age.selected) "✓ ${age.label}" else age.label,
+                                    style = typography.body1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
                         }
                     }
                 }

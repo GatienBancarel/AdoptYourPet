@@ -1,6 +1,7 @@
 package com.gbancarel.adoptyourpet.interactor
 
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
+import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import com.gbancarel.adoptyourpet.repository.ListSizeRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -12,6 +13,7 @@ import javax.inject.Inject
 class SearchPageInteractor @Inject constructor(
     val breedsRepository: ListBreedsRepository,
     val sizeRepository: ListSizeRepository,
+    val ageRepository: ListAgeRepository,
     val presenter: SearchPagePresenter
 ) {
 
@@ -19,7 +21,8 @@ class SearchPageInteractor @Inject constructor(
         try {
             presenter.presentBreedsLoader()
             val sizes = sizeRepository.getListSize(animalSelected)
-            presenter.presentSizes(sizes)
+            val ages = ageRepository.getListAge()
+            presenter.present(sizes, ages)
 
             breedsRepository.loadBreeds(animalSelected)
             presenter.presentBreedsLoaderFinished()
@@ -38,5 +41,9 @@ class SearchPageInteractor @Inject constructor(
 
     fun selectedSize(id : Int) {
         presenter.presentSelectedNewSize(id)
+    }
+
+    fun selectedAge(id : Int) {
+        presenter.presentSelectedNewAge(id)
     }
 }

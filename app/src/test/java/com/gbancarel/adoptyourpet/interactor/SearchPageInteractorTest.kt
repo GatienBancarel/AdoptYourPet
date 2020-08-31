@@ -1,7 +1,9 @@
 package com.gbancarel.adoptyourpet.interactor
 
+import com.gbancarel.adoptyourpet.interactor.data.Age
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
+import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import com.gbancarel.adoptyourpet.repository.ListSizeRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -16,16 +18,22 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class SearchPageInteractorTest {
-    @Mock private lateinit var breedsRepository: ListBreedsRepository
-    @Mock private lateinit var sizeRepository: ListSizeRepository
-    @Mock private lateinit var presenter: SearchPagePresenter
+    @Mock
+    private lateinit var breedsRepository: ListBreedsRepository
+    @Mock
+    private lateinit var sizeRepository: ListSizeRepository
+    @Mock
+    private lateinit var ageRepository: ListAgeRepository
+    @Mock
+    private lateinit var presenter: SearchPagePresenter
     private lateinit var interactor: SearchPageInteractor
 
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        interactor = SearchPageInteractor(breedsRepository, sizeRepository, presenter)
+        interactor =
+            SearchPageInteractor(breedsRepository, sizeRepository, ageRepository, presenter)
     }
 
     @Test
@@ -36,14 +44,24 @@ class SearchPageInteractorTest {
                 Size(0, "Small")
             )
         )
+        given(ageRepository.getListAge()).willReturn(
+            listOf(
+                Age(0, "Young")
+            )
+        )
         //WHEN
         interactor.load(AnimalSelected.dog)
 
         //THEN
         then(presenter).should().presentBreedsLoader()
-        then(presenter).should().presentSizes(listOf(
-            Size(0, "Small")
-        ))
+        then(presenter).should().present(
+            listOf(
+                Size(0, "Small")
+            ),
+            listOf(
+                Age(0, "Young")
+            ),
+        )
         then(breedsRepository).should().loadBreeds(AnimalSelected.dog)
         then(presenter).should().presentBreedsLoaderFinished()
     }
@@ -71,7 +89,9 @@ class SearchPageInteractorTest {
     @Test
     fun getCallWhenNoInternetConnectionAvailable() {
         // GIVEN
-        given(breedsRepository.loadBreeds(AnimalSelected.dog)).willThrow(NoInternetConnectionAvailable("Fake reason"))
+        given(breedsRepository.loadBreeds(AnimalSelected.dog)).willThrow(
+            NoInternetConnectionAvailable("Fake reason")
+        )
         // WHEN
         interactor.load(AnimalSelected.dog)
         // THEN
@@ -93,5 +113,14 @@ class SearchPageInteractorTest {
         //THEN
         presenter.presentSelectedNewSize(0)
     }
+
+    @Test
+    fun selectedAge() {
+        //WHEN
+        interactor.selectedAge(1)
+        //THEN
+        presenter.presentSelectedNewAge(1)
+    }
+
 
 }
