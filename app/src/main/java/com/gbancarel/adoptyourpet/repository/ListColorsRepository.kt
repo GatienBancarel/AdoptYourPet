@@ -9,6 +9,7 @@ import com.gbancarel.adoptyourpet.repository.json.listColors.TypeJSON
 import com.gbancarel.adoptyourpet.repository.local.ColorsLocal
 import com.gbancarel.adoptyourpet.repository.parser.ColorsParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -25,7 +26,7 @@ class ListColorsRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun loadColors(animalSelected: String): List<Colors> {
+    fun loadColors(animalSelected: AnimalSelected): List<Colors> {
         try {
             val response = service.get("$BASE_URL/types/$animalSelected")
 

@@ -1,7 +1,7 @@
 package com.gbancarel.adoptyourpet.interactor
 
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
-import com.gbancarel.adoptyourpet.presenter.BreedsPagePresenter
+import com.gbancarel.adoptyourpet.presenter.SelectedStringPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.then
@@ -13,7 +13,7 @@ import org.mockito.MockitoAnnotations
 class BreedsPageInteractorTest {
 
     @Mock private lateinit var repository: ListBreedsRepository
-    @Mock private lateinit var presenter: BreedsPagePresenter
+    @Mock private lateinit var presenter: SelectedStringPagePresenter
     private lateinit var interactor: SelectedStringPageInteractor
 
 

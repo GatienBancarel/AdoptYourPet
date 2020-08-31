@@ -14,12 +14,12 @@ class BreedsPagePresenterTest {
     val rule = InstantTaskExecutorRule()
 
     private var viewModel: BreedsPageViewModel = BreedsPageViewModel()
-    private lateinit var presenter: BreedsPagePresenter
+    private lateinit var presenter: SelectedStringPagePresenter
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        presenter = BreedsPagePresenter(viewModel)
+        presenter = SelectedStringPagePresenter(viewModel)
     }
 
     @Test

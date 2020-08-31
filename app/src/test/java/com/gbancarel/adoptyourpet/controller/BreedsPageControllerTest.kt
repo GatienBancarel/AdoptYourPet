@@ -11,12 +11,12 @@ class BreedsPageControllerTest {
 
     @Mock
     private lateinit var interactor : SelectedStringPageInteractor
-    private lateinit var controller: BreedsPageController
+    private lateinit var controller: SelectedStringPageController
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        controller = BreedsPageController(interactor)
+        controller = SelectedStringPageController(interactor)
     }
 
     @Test

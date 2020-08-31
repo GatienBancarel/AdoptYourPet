@@ -9,6 +9,7 @@ interface SearchPageControllerInterface {
     fun onSelectedBreeds(breeds: List<String>)
     fun onSelectedSize(id: Int)
     fun onSelectedAge(id: Int)
+    fun onSelectedColors(colors: List<String>)
 }
 
 class SearchPageController @Inject constructor(
@@ -31,8 +32,8 @@ class SearchPageController @Inject constructor(
         interactor.selectedAge(id)
     }
 
-    fun onSelectedColors(ids) {
-        interactor.selectedColors(colors, selected)
+    fun onSelectedColors(colors: List<String>) {
+        interactor.selectedColors(colors)
     }
 }
 
@@ -61,9 +62,9 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
         }.start()
     }
 
-    override fun onSelectedColors(colors: String, selected: Boolean) {
+    override fun onSelectedColors(colors: List<String>) {
         Thread {
-            controller.onSelectedColors(colors, selected)
+            controller.onSelectedColors(colors)
         }.start()
     }
 }

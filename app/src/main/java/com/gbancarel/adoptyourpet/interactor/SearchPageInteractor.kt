@@ -1,6 +1,5 @@
 package com.gbancarel.adoptyourpet.interactor
 
-import android.util.Log
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
@@ -22,35 +21,20 @@ class SearchPageInteractor @Inject constructor(
 
     fun load(animalSelected: AnimalSelected) {
         try {
-            presenter.presentBreedsLoader()
+            presenter.presentBreedsAndColorsLoader()
             val sizes = sizeRepository.getListSize(animalSelected)
             val ages = ageRepository.getListAge()
             presenter.present(sizes, ages)
 
             breedsRepository.loadBreeds(animalSelected)
-            presenter.presentBreedsLoaderFinished()
+            colorsRepository.loadColors(animalSelected)
+            presenter.presentBreedsAndColorsLoaderFinished()
         } catch (e1: CannotDecodeJsonException) {
-            presenter.presentBreedsError()
+            presenter.presentError()
         } catch (e1: ErrorStatusException) {
-            presenter.presentBreedsError()
+            presenter.presentError()
         } catch (e1: NoInternetConnectionAvailable) {
-            presenter.presentBreedsError()
-        }
-    }
-
-    fun getListColors(animalSelected: String) {
-        try {
-            Log.i("mylog","present loader colors")
-            presenter.presentColorsLoader()
-            val call = repositoryColors.loadColors(animalSelected)
-            Log.i("mylog","present colors")
-            presenter.presentColors(call)
-        } catch (e1: CannotDecodeJsonException) {
-            presenter.presentColorsError()
-        } catch (e1: ErrorStatusException) {
-            presenter.presentColorsError()
-        } catch (e1: NoInternetConnectionAvailable) {
-            presenter.presentColorsError()
+            presenter.presentError()
         }
     }
 
@@ -66,11 +50,7 @@ class SearchPageInteractor @Inject constructor(
         presenter.presentSelectedNewAge(id)
     }
 
-    fun selectedAge(age: String, selected: Boolean, order: Int) {
-        presenter.presentAge(age,selected,order)
-    }
-
-    fun selectedColors(colors: String, selected: Boolean) {
-        presenter.presentSelectedColors(colors,selected)
+    fun selectedColors(colors: List<String>) {
+        presenter.presentSelectColors(colors)
     }
 }

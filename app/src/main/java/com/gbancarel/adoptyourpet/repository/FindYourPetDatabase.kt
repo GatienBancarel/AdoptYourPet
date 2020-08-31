@@ -7,6 +7,7 @@ import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.dao.ColorsDao
 import com.gbancarel.adoptyourpet.repository.local.BreedLocal
 import com.gbancarel.adoptyourpet.repository.local.ColorsLocal
+import com.gbancarel.adoptyourpet.repository.local.PetAnimalLocal
 
 @Database(entities = [
     PetAnimalLocal::class,

@@ -14,7 +14,6 @@ class SelectedStringPagePresenter @Inject constructor(
 ) {
 
     fun present(listBreeds: List<Breeds>, selectedBreeds: List<String>) {
-        Log.i("mylog","initialisation list")
         val breedsViewModel: List<StringSelectedViewModelData> =
             listBreeds
                 .map { breed ->

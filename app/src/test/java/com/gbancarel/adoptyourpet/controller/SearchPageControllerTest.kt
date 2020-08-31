@@ -58,11 +58,11 @@ class SearchPageControllerTest {
     }
 
     @Test
-    fun onSelectedAge() {
+    fun onSelectedColors() {
         // GIVEN
         // WHEN
-        controller.onSelectedAge("Young", true, 1)
+        controller.onSelectedColors(listOf("brown"))
         // THEN
-        then(interactor).should().selectedAge("Young", true, 1)
+        then(interactor).should().selectedColors(listOf("brown"))
     }
 }

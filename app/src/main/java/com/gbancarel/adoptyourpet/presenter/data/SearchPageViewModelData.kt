@@ -2,8 +2,6 @@ package com.gbancarel.adoptyourpet.presenter.data
 
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listColors.ColorsViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listColors.StateColorsViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 
 data class SearchPageViewModelData(
@@ -11,5 +9,5 @@ data class SearchPageViewModelData(
     val listOfSize: List<SizeViewModel>,
     val selectedBreeds : List<String>,
     val selectedAge: List<AgeViewModel>,
-    val selectedColors: List<ColorsViewModel>
+    val selectedColors: List<String>
 )

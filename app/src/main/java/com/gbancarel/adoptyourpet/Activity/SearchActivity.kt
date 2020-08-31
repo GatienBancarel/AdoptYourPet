@@ -34,7 +34,6 @@ import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listColors.StateColorsViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
@@ -49,11 +48,19 @@ class SearchActivity : AppCompatActivity() {
     @Inject lateinit var controller: SearchPageControllerDecorator
     @Inject lateinit var viewModelState: SearchPageViewModel
     private var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
-    private val startForResult =
+    private val startForResultBreeds =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.getStringArrayListExtra(RESULT_DATA_KEY)?.let { list ->
                     controller.onSelectedBreeds(list.toList())
+                }
+            }
+        }
+    private val startForResultColors =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getStringArrayListExtra(RESULT_DATA_KEY)?.let { list ->
+                    controller.onSelectedColors(list.toList())
                 }
             }
         }
@@ -78,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList())
         )
         Page(
             viewModel,
@@ -146,7 +153,7 @@ class SearchActivity : AppCompatActivity() {
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    when (searchViewModelData.value.stateBreed) {
+                    when (searchViewModelData.value.state) {
                         StateBreedsViewModel.loading -> {
                             Text(
                                 text = "Loading...",
@@ -162,7 +169,7 @@ class SearchActivity : AppCompatActivity() {
                         StateBreedsViewModel.finished -> {
                             Button(
                                 onClick = {
-                                    startForResult.launch(
+                                    startForResultBreeds.launch(
                                         SelectStringActivity.newIntent(
                                             applicationContext,
                                             searchViewModelData.value.selectedBreeds,
@@ -204,7 +211,7 @@ class SearchActivity : AppCompatActivity() {
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
                     FlowRow {
-                        searchViewModelData.value.selectedAge.forEachIndexed { _, listAge ->
+                        searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
                             Button(
                                 onClick = { controller.onSelectedAge(age.id) },
                                 shape = RoundedCornerShape(15.dp),
@@ -223,23 +230,23 @@ class SearchActivity : AppCompatActivity() {
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    when (searchViewModelData.value.stateColors) {
-                        StateColorsViewModel.loading -> {
+                    when (searchViewModelData.value.state) {
+                        StateBreedsViewModel.loading -> {
                             Text(
                                 text = "Loading...",
                                 style = typography.body2
                             )
                         }
-                        StateColorsViewModel.error -> {
+                        StateBreedsViewModel.error -> {
                             Text(
                                 text = "Error: check your Internet connection and retry again.",
                                 style = typography.body2
                             )
                         }
-                        StateColorsViewModel.finished -> {
+                        StateBreedsViewModel.finished -> {
                             Button(
                                 onClick = {
-                                    startForResult.launch(
+                                    startForResultColors.launch(
                                         SelectStringActivity.newIntent(
                                             applicationContext,
                                             searchViewModelData.value.selectedColors,
