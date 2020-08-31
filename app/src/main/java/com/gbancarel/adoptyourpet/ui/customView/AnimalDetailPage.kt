@@ -167,7 +167,7 @@ fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData) {
                         ) {
                             Text(
                                 text = detailAnimal.name,
-                                style = typography.h1
+                                style = typography.h3
                             )
                         }
                         Row(
@@ -180,10 +180,18 @@ fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData) {
                                     style = typography.body1
                                 )
                             }
-                            Text(text = detailAnimal.color, style = typography.body1)
+                        }
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(text = detailAnimal.color, style = typography.body2)
                         }
                         Spacer(modifier = Modifier.preferredHeight(16.dp))
-                        Row(modifier = Modifier.preferredHeight(24.dp)) {
+                        Row(
+                            modifier = Modifier.preferredHeight(24.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
                             detailAnimal.type?.let { Image(asset = imageResource(id = it)) }
                             detailAnimal.gender?.let { Image(asset = imageResource(id = it)) }
                             detailAnimal.size?.let { Image(asset = imageResource(id = it)) }
