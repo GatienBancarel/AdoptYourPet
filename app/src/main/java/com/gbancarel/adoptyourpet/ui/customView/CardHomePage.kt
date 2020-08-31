@@ -41,7 +41,13 @@ import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PhotoViewModel
 
 
 @Composable
-fun CardHomePage(name: String, description: String, image: List<PhotoViewModel>, shouldShowPhoto: Boolean) {
+fun CardHomePage(
+    name: String,
+    description: String,
+    image: List<PhotoViewModel>,
+    shouldShowPhoto: Boolean,
+    onClick: () -> Unit
+) {
     val typography = MaterialTheme.typography
     Card(
         shape = RoundedCornerShape(5.dp),
@@ -51,14 +57,14 @@ fun CardHomePage(name: String, description: String, image: List<PhotoViewModel>,
             modifier = Modifier
                 .preferredHeight(80.dp)
                 .fillMaxWidth()
-                .clickable(onClick = {/* Go to DogPage */ })
+                .clickable(onClick = onClick)
         ) {
             Row(
                 verticalGravity = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxSize()
             ) {
                 if (shouldShowPhoto) {
-                    NetworkImageComponentGlide(url = image[0].small)
+                    NetworkImageComponentGlide(url = image[0].medium)
                 } else {
                     Image(
                         asset = imageResource(id = R.mipmap.dog),
@@ -109,6 +115,7 @@ fun NetworkImageComponentGlide(
         }
         glide
             .asBitmap()
+            .placeholder(R.mipmap.dog)
             .load(url)
             .into(target)
 
@@ -125,8 +132,7 @@ fun NetworkImageComponentGlide(
         Image(
             asset = theImage,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.preferredHeight(64.dp).preferredWidth(64.dp)
-                .clip(shape = RoundedCornerShape(32.dp))
+            modifier = modifier
         )
     } else if (theDrawable != null) {
         Canvas(modifier = modifier) {

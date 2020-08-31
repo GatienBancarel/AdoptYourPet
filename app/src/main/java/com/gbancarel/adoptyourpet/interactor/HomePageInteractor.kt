@@ -25,4 +25,17 @@ class HomePageInteractor @Inject constructor(
             presenter.presentError()
         }
     }
+
+    fun loadPreviousState() {
+        val listAnimal = repository.getLocalListAnimal()
+        presenter.present(listAnimal)
+    }
+
+    fun loadAnimal(requestedAnimal: String) {
+        val localList = repository.getLocalListAnimal()
+        presenter.present(
+            localList,
+            localList.firstOrNull { it.name == requestedAnimal }
+        )
+    }
 }

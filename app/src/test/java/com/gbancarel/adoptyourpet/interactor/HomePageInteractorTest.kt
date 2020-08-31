@@ -11,6 +11,7 @@ import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
 import com.nhaarman.mockitokotlin2.given
+import com.nhaarman.mockitokotlin2.only
 import com.nhaarman.mockitokotlin2.then
 import org.junit.Test
 import org.junit.Before
@@ -18,11 +19,48 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class HomePageInteractorTest {
-    @Mock private lateinit var repository: ListPetRepository
+    @Mock
+    private lateinit var repository: ListPetRepository
 
-    @Mock private lateinit var presenter: HomePagePresenter
+    @Mock
+    private lateinit var presenter: HomePagePresenter
     private lateinit var interactor: HomePageInteractor
-
+    private val animals =
+        listOf(
+            PetAnimal(
+                type = "dog",
+                breed = "labrador",
+                color = "brown",
+                age = "young",
+                gender = "male",
+                size = "meduim",
+                name = "rex",
+                description = "description du chien",
+                photos = listOf(
+                    Photo(
+                        "pictureSmall",
+                        "pictureMedium",
+                        "pictureLarge",
+                        "pictureFull"
+                    )
+                ),
+                environment = Environment(true, true, true),
+                contact = Contact("test@test.fr", null, null)
+            ),
+            PetAnimal(
+                type = "dog",
+                breed = "labrador",
+                color = "brown",
+                age = "young",
+                gender = "male",
+                size = "meduim",
+                name = "rex",
+                description = "description du chien",
+                photos = emptyList(),
+                environment = Environment(true, true, true),
+                contact = Contact("test@test.fr", null, null)
+            )
+        )
 
     @Before
     fun setup() {
@@ -32,36 +70,6 @@ class HomePageInteractorTest {
 
     @Test
     fun getCallSuccess() {
-        val animals =
-            listOf(
-                PetAnimal(
-                    type = "dog",
-                    breed = "labrador",
-                    color = "brown",
-                    age = "young",
-                    gender = "male",
-                    size = "meduim",
-                    name = "rex",
-                    description = "description du chien",
-                    photos = listOf(Photo("pictureSmall", "pictureMedium", "pictureLarge", "pictureFull")),
-                    environment = Environment(true, true, true),
-                    contact = Contact("test@test.fr", null, null)
-                ),
-                PetAnimal(
-                    type = "dog",
-                    breed = "labrador",
-                    color = "brown",
-                    age = "young",
-                    gender = "male",
-                    size = "meduim",
-                    name = "rex",
-                    description = "description du chien",
-                    photos = emptyList(),
-                    environment = Environment(true, true, true),
-                    contact = Contact("test@test.fr", null, null)
-                )
-            )
-
         // GIVEN
         given(repository.getListAnimal()).willReturn(animals)
         // WHEN
@@ -91,13 +99,46 @@ class HomePageInteractorTest {
     }
 
     @Test
-    fun getCallWhenNoInternetConnectionAvailable() {
+    fun loadPreviousState() {
         // GIVEN
-        given(repository.getListAnimal()).willThrow(NoInternetConnectionAvailable("Fake reason"))
+        given(repository.getLocalListAnimal()).willReturn(animals)
         // WHEN
-        interactor.getListAnimal()
+        interactor.loadPreviousState()
         // THEN
-        then(presenter).should().presentError()
+        then(presenter).should(only()).present(animals)
+    }
+
+
+    @Test
+    fun loadAnimal() {
+        // GIVEN
+        given(repository.getLocalListAnimal()).willReturn(animals)
+        // WHEN
+        interactor.loadAnimal("rex")
+        // THEN
+        then(presenter).should(only()).present(
+            animals,
+            PetAnimal(
+                type = "dog",
+                breed = "labrador",
+                color = "brown",
+                age = "young",
+                gender = "male",
+                size = "meduim",
+                name = "rex",
+                description = "description du chien",
+                photos = listOf(
+                    Photo(
+                        "pictureSmall",
+                        "pictureMedium",
+                        "pictureLarge",
+                        "pictureFull"
+                    )
+                ),
+                environment = Environment(true, true, true),
+                contact = Contact("test@test.fr", null, null)
+            )
+        )
     }
 
 }

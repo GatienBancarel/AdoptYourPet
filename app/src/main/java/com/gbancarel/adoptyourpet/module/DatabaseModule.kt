@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.module
 import android.content.Context
 import androidx.room.Room
 import com.gbancarel.adoptyourpet.repository.FindYourPetDatabase
+import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,10 @@ object DatabaseModule {
     fun provideBreedDao(
         db: FindYourPetDatabase
     ) : BreedDao  = db.breedDao()
+
+    @Provides
+    fun provideAnimalDao(
+        db: FindYourPetDatabase
+    ) : AnimalDao = db.animalDao()
 
 }
