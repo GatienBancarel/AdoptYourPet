@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.presenter
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.gbancarel.adoptyourpet.interactor.data.Age
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
@@ -21,17 +22,19 @@ class SearchPagePresenter @Inject constructor(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
                 listOfSize = emptyList(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
 
-    fun presentSizes(sizes: List<Size>) {
+    fun present(sizes: List<Size>, ages: List<Age>) {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = StateBreedsViewModel.loading,
                 listOfSize = sizes.map { SizeViewModel(it.id, it.value) },
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = ages.map { AgeViewModel(it.id, it.value, false) },
             )
         )
     }
@@ -42,7 +45,8 @@ class SearchPagePresenter @Inject constructor(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
                 listOfSize = viewModel.liveData.value?.listOfSize.orEmpty(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = viewModel.liveData.value?.selectedAge.orEmpty(),
             )
         )
     }
@@ -53,7 +57,8 @@ class SearchPagePresenter @Inject constructor(
             SearchPageViewModelData(
                 state = stateBreedsViewModel,
                 listOfSize = emptyList(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
@@ -65,6 +70,7 @@ class SearchPagePresenter @Inject constructor(
                 state = it.state,
                 listOfSize = it.listOfSize,
                 selectedBreeds = breeds,
+                selectedAge = it.selectedAge
             )
         )
     }
@@ -74,30 +80,22 @@ class SearchPagePresenter @Inject constructor(
                 SearchPageViewModelData(
                     state = it.state,
                     listOfSize = it.listOfSize.map { if (it.id == id) it.copy(selected = !it.selected) else it },
-                    selectedBreeds = it.selectedBreeds
+                    selectedBreeds = it.selectedBreeds,
+                    selectedAge = it.selectedAge
                 )
             )
-        )
     }
 
-    fun presentAge(age: String, selected: Boolean, order: Int) =  viewModel.liveData.value?.let {
-        val newList = it.selectedAge
-            .filter { it.label !=  age}
-            .toMutableList()
-            .plus(AgeViewModel(label = age, selected = selected, order = order))
-            .sortedBy { it.order }
-
+    fun presentSelectedNewAge(id: Int) = viewModel.liveData.value?.let {
         viewModel.liveData.postValue(
             SearchPageViewModelData(
                 state = it.state,
+                listOfSize = it.listOfSize,
                 selectedBreeds = it.selectedBreeds,
-                selectedSize = it.selectedSize,
-                selectedAge = newList
+                selectedAge = it.selectedAge.map { if (it.id == id) it.copy(selected = !it.selected) else it },
             )
         )
     }
-
-
 }
 
 @Singleton

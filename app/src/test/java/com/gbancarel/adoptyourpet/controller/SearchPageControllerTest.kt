@@ -52,8 +52,8 @@ class SearchPageControllerTest {
     fun onSelectedAge() {
         // GIVEN
         // WHEN
-        controller.onSelectedAge("Young", true, 1)
+        controller.onSelectedAge(1)
         // THEN
-        then(interactor).should().selectedAge("Young", true, 1)
+        then(interactor).should().selectedAge(1)
     }
 }

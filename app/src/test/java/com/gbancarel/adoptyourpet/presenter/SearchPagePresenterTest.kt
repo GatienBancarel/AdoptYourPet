@@ -4,6 +4,7 @@ import android.util.Log
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.gbancarel.adoptyourpet.interactor.data.Age
 import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
@@ -39,7 +40,8 @@ class SearchPagePresenterTest {
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.loading,
                 listOfSize = emptyList(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
@@ -53,7 +55,8 @@ class SearchPagePresenterTest {
         viewModel.liveData.value = SearchPageViewModelData(
             state = StateBreedsViewModel.error,
             listOfSize = sizes,
-            selectedBreeds = emptyList()
+            selectedBreeds = emptyList(),
+            selectedAge = emptyList()
         )
 
         //WHEN
@@ -63,7 +66,8 @@ class SearchPagePresenterTest {
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
                 listOfSize = sizes,
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
@@ -79,7 +83,8 @@ class SearchPagePresenterTest {
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.finished,
                 listOfSize = emptyList(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
@@ -89,7 +94,7 @@ class SearchPagePresenterTest {
         //GIVEN
 
         //WHEN
-        presenter.presentSizes(listOf(Size(0, "Small")))
+        presenter.present(listOf(Size(0, "Small")), listOf(Age(0, "Young")))
 
         //THEN
         assert(
@@ -97,6 +102,7 @@ class SearchPagePresenterTest {
                 state = StateBreedsViewModel.loading,
                 listOfSize = listOf(SizeViewModel(0,"Small")),
                 selectedBreeds = emptyList(),
+                selectedAge = listOf(AgeViewModel(0, "Young", false))
             )
         )
     }
@@ -111,7 +117,8 @@ class SearchPagePresenterTest {
             viewModel.liveData.value == SearchPageViewModelData(
                 state = StateBreedsViewModel.error,
                 listOfSize = emptyList(),
-                selectedBreeds = emptyList()
+                selectedBreeds = emptyList(),
+                selectedAge = emptyList()
             )
         )
     }
@@ -123,6 +130,7 @@ class SearchPagePresenterTest {
             StateBreedsViewModel.finished,
             listOf(SizeViewModel(1,"small")),
             listOf("labrador"),
+            listOf(AgeViewModel(1,"young", false))
         )
 
         //WHEN
@@ -134,6 +142,7 @@ class SearchPagePresenterTest {
                 state = StateBreedsViewModel.finished,
                 listOfSize = listOf(SizeViewModel(1, "small")),
                 selectedBreeds = listOf("caniche"),
+                selectedAge = listOf(AgeViewModel(1,"young", false))
             )
         )
     }
@@ -150,6 +159,7 @@ class SearchPagePresenterTest {
                 SizeViewModel(3,"Extra Large",false)
             ),
             listOf("labrador"),
+            listOf(AgeViewModel(1,"young", false))
         )
 
         //WHEN
@@ -172,27 +182,26 @@ class SearchPagePresenterTest {
         //GIVEN
         viewModel.liveData.value = SearchPageViewModelData(
             state = StateBreedsViewModel.error,
+            listOfSize = listOf(SizeViewModel(0, "Small")),
             selectedBreeds = listOf("labrador"),
             selectedAge = listOf(
-                AgeViewModel("Kitten", selected = false, 0),
-                AgeViewModel("Young", selected = false, 1),
-                AgeViewModel("Adult", selected = false, 2),
-                AgeViewModel("Senior", selected = false, 3)
+                AgeViewModel(0, "Kitten", selected = false),
             )
-
         )
 
         //WHEN
-        presenter.presentAge("Young",true, 1)
+        presenter.presentSelectedNewAge(0)
 
         //THEN
         assertEquals(
-            viewModel.liveData.value?.selectedAge,
-            listOf(
-                AgeViewModel("Kitten", selected = false, 0),
-                AgeViewModel("Young", selected = true, 1),
-                AgeViewModel("Adult", selected = false, 2),
-                AgeViewModel("Senior", selected = false, 3)
+            viewModel.liveData.value,
+            SearchPageViewModelData(
+                state = StateBreedsViewModel.error,
+                listOfSize = listOf(SizeViewModel(0, "Small")),
+                selectedBreeds = listOf("labrador"),
+                selectedAge = listOf(
+                    AgeViewModel(0, "Kitten", selected = true),
+                )
             )
         )
     }

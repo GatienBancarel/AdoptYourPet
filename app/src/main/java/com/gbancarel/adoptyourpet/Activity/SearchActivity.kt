@@ -77,7 +77,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList())
         )
         Page(
             viewModel,
@@ -204,14 +204,14 @@ class SearchActivity : AppCompatActivity() {
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
                     FlowRow() {
-                        searchViewModelData.value.selectedAge.forEachIndexed { _, listAge ->
+                        searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
                             Button(
-                                onClick = { controller.onSelectedAge(listAge.label, !listAge.selected, listAge.order) },
+                                onClick = { controller.onSelectedAge(age.id) },
                                 shape = RoundedCornerShape(15.dp),
                                 modifier = Modifier.padding(4.dp)
                             ) {
                                 Text(
-                                    text = if (listAge.selected) "✓ ${listAge.label}" else listAge.label,
+                                    text = if (age.selected) "✓ ${age.label}" else age.label,
                                     style = typography.body1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
