@@ -106,10 +106,10 @@ class SearchActivity : AppCompatActivity() {
         ) {
             ScrollableColumn(
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth(),
                 horizontalGravity = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.preferredHeight(16.dp))
                 Text(
                     text = "Tap to choose your pet:",
                     style = typography.h6
@@ -203,8 +203,8 @@ class SearchActivity : AppCompatActivity() {
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    FlowRow() {
-                        searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
+                    FlowRow {
+                        searchViewModelData.value.selectedAge.forEachIndexed { _, listAge ->
                             Button(
                                 onClick = { controller.onSelectedAge(age.id) },
                                 shape = RoundedCornerShape(15.dp),
@@ -242,7 +242,7 @@ class SearchActivity : AppCompatActivity() {
                                     startForResult.launch(
                                         SelectStringActivity.newIntent(
                                             applicationContext,
-                                            searchViewModelData.value.selectedBreeds,
+                                            searchViewModelData.value.selectedColors,
                                             "colors"
                                         )
                                     )

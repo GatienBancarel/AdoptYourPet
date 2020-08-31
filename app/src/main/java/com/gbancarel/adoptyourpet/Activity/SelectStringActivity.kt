@@ -38,17 +38,18 @@ class SelectStringActivity : AppCompatActivity() {
 
     companion object {
         val RESULT_DATA_KEY = "RESULT_DATA_KEY"
-        private val SELECTED_String_KEY = "SELECTED_BREEDS_KEY"
+        private val SELECTED_RESULT_KEY = "SELECTED_RESULT_KEY"
+        private val SELECTED_TITLE_KEY = "SELECTED_TITLE_KEY"
         fun newIntent(context: Context, selectedBreeds: List<String>, title: String) = Intent(context, SelectStringActivity::class.java).apply {
-            putExtra(SELECTED_String_KEY, ArrayList(selectedBreeds))
-            putExtra(SELECTED_String_KEY, title)
+            putExtra(SELECTED_RESULT_KEY, ArrayList(selectedBreeds))
+            putExtra(SELECTED_TITLE_KEY, title)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        selectedSting = intent.getStringArrayListExtra(SELECTED_String_KEY)?.toList() ?: emptyList()
-        title = intent.getStringExtra(title).toString()
+        selectedSting = intent.getStringArrayListExtra(SELECTED_RESULT_KEY)?.toList() ?: emptyList()
+        title = intent.getStringExtra(SELECTED_TITLE_KEY) ?: ""
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
