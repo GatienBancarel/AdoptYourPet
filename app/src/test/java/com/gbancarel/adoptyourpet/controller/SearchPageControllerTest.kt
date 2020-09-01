@@ -65,4 +65,13 @@ class SearchPageControllerTest {
         // THEN
         then(interactor).should().selectedColors(listOf("brown"))
     }
+
+    @Test
+    fun onSelectedGender() {
+        //GIVEN
+        //WHEN
+        controller.onSelectedGender()
+        //THEN
+        then(interactor).should().selectedGender()
+    }
 }

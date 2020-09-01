@@ -12,10 +12,7 @@ import androidx.compose.foundation.ScrollableColumn
 import androidx.compose.foundation.Text
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,9 +32,11 @@ import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
+import com.gbancarel.adoptyourpet.ui.customView.SwitchGender
 import com.gbancarel.adoptyourpet.ui.typography
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -86,7 +85,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateSearchPageViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateSearchPageViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList(), GenderViewModel.male)
         )
         Page(
             viewModel,
@@ -121,7 +120,7 @@ class SearchActivity : AppCompatActivity() {
                 Text(
                     text = "Tap to choose your Pet:",
                     style = typography.h6,
-                    modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    modifier = Modifier.padding(bottom = 16.dp)
                 )
                 Row {
                     AnimalCheckBox(
@@ -264,6 +263,16 @@ class SearchActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    Text(
+                        text = "Tap to choose your Gender:",
+                        style = typography.h6,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    )
+                    SwitchGender(
+                        onClick = { controller.onSelectedGender() },
+                        genderSelected = searchViewModelData.value.selectedGender.toString()
+                    )
+                    Spacer(modifier = Modifier.preferredHeight(32.dp))
                 }
             }
         }

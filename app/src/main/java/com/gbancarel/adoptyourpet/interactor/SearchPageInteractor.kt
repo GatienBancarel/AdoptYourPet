@@ -1,10 +1,7 @@
 package com.gbancarel.adoptyourpet.interactor
 
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
-import com.gbancarel.adoptyourpet.repository.ListAgeRepository
-import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
-import com.gbancarel.adoptyourpet.repository.ListSizeRepository
-import com.gbancarel.adoptyourpet.repository.ListColorsRepository
+import com.gbancarel.adoptyourpet.repository.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
@@ -25,7 +22,6 @@ class SearchPageInteractor @Inject constructor(
             val sizes = sizeRepository.getListSize(animalSelected)
             val ages = ageRepository.getListAge()
             presenter.present(sizes, ages)
-
             breedsRepository.loadBreeds(animalSelected)
             colorsRepository.loadColors(animalSelected)
             presenter.presentBreedsAndColorsLoaderFinished()
@@ -52,5 +48,9 @@ class SearchPageInteractor @Inject constructor(
 
     fun selectedColors(colors: List<String>) {
         presenter.presentSelectColors(colors)
+    }
+
+    fun selectedGender() {
+        presenter.presentNewGender()
     }
 }

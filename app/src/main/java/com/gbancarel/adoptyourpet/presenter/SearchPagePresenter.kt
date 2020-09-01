@@ -8,6 +8,7 @@ import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,7 +25,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = emptyList(),
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male // pas sur
             )
         )
     }
@@ -36,7 +38,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = sizes.map { SizeViewModel(it.id, it.value) },
                 selectedBreeds = emptyList(),
                 selectedAge = ages.map { AgeViewModel(it.id, it.value, false) },
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male // pas sur
             )
         )
     }
@@ -49,7 +52,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = viewModel.liveData.value?.listOfSize.orEmpty(),
                 selectedBreeds = emptyList(),
                 selectedAge = viewModel.liveData.value?.selectedAge.orEmpty(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male // Faux, mais je sais pas comment faire autrement pour le moment
             )
         )
     }
@@ -62,7 +66,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = emptyList(),
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male // pas sur
             )
         )
     }
@@ -75,7 +80,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = it.listOfSize,
                 selectedBreeds = breeds,
                 selectedAge = it.selectedAge,
-                selectedColors = it.selectedColors
+                selectedColors = it.selectedColors,
+                selectedGender = it.selectedGender
             )
         )
     }
@@ -87,7 +93,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = it.listOfSize.map { if (it.id == id) it.copy(selected = !it.selected) else it },
                 selectedBreeds = it.selectedBreeds,
                 selectedAge = it.selectedAge,
-                selectedColors = it.selectedColors
+                selectedColors = it.selectedColors,
+                selectedGender = it.selectedGender
             )
         )
     }
@@ -99,7 +106,8 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = it.listOfSize,
                 selectedBreeds = it.selectedBreeds,
                 selectedAge = it.selectedAge.map { if (it.id == id) it.copy(selected = !it.selected) else it },
-                selectedColors = it.selectedColors
+                selectedColors = it.selectedColors,
+                selectedGender = it.selectedGender
             )
         )
     }
@@ -111,7 +119,21 @@ class SearchPagePresenter @Inject constructor(
                 listOfSize = it.listOfSize,
                 selectedBreeds = it.selectedBreeds,
                 selectedAge = it.selectedAge,
-                selectedColors = colors
+                selectedColors = colors,
+                selectedGender = it.selectedGender
+            )
+        )
+    }
+
+    fun presentNewGender() = viewModel.liveData.value?.let {
+        viewModel.liveData.postValue(
+            SearchPageViewModelData(
+                state = it.state,
+                listOfSize = it.listOfSize,
+                selectedBreeds = it.selectedBreeds,
+                selectedAge = it.selectedAge,
+                selectedColors = it.selectedColors,
+                selectedGender = if (it.selectedGender == GenderViewModel.male) GenderViewModel.female else GenderViewModel.male
             )
         )
     }
