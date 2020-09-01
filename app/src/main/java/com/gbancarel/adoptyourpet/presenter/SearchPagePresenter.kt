@@ -8,7 +8,6 @@ import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import javax.inject.Inject
 import javax.inject.Singleton

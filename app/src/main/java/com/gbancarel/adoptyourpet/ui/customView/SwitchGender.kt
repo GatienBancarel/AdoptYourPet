@@ -10,6 +10,7 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.R
@@ -23,9 +24,7 @@ fun SwitchGender(onClick: () -> Unit, genderSelected: Boolean) {
         when (screen) {
             true -> SwitchStateMale(onClick)
             false -> SwitchStateFemale(onClick)
-        }
-    }
-}
+
 
 @Composable
 fun SwitchStateMale(onClick: () -> Unit) {
