@@ -23,10 +23,10 @@ class SelectedStringPageControllerTest {
     fun onCreate() {
         // GIVEN
         // WHEN
-        controller.onCreate(listOf("labrador","caniche"))
+        controller.onCreate(listOf("labrador","caniche"),"breeds")
 
         // THEN
-        then(interactor).should().updateListBreeds(listOf("labrador","caniche"))
+        then(interactor).should().updateListString(listOf("labrador","caniche"),"breeds")
     }
 
     @Test

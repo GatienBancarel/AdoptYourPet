@@ -4,7 +4,7 @@ import com.gbancarel.adoptyourpet.interactor.SelectedStringPageInteractor
 import javax.inject.Inject
 
 interface BreedsPageControllerInterface {
-    fun onCreate(selectedBreeds: List<String>)
+    fun onCreate(selectedBreeds: List<String>, title: String)
     fun checkedChange(name: String, selected: Boolean)
 }
 
@@ -12,8 +12,8 @@ class SelectedStringPageController @Inject constructor(
     val interactor: SelectedStringPageInteractor
 ) {
 
-    fun onCreate(selectedString: List<String>) {
-        interactor.updateListBreeds(selectedString)
+    fun onCreate(selectedString: List<String>, title: String) {
+        interactor.updateListString(selectedString, title)
     }
 
     fun checkedChange(name: String, selected: Boolean) {
@@ -22,9 +22,9 @@ class SelectedStringPageController @Inject constructor(
 }
 
 class SelectedStringPageControllerDecorator @Inject constructor(val controller: SelectedStringPageController) : BreedsPageControllerInterface {
-    override fun onCreate(selectedString: List<String>) {
+    override fun onCreate(selectedString: List<String>, title: String) {
         Thread {
-            controller.onCreate(selectedString)
+            controller.onCreate(selectedString, title)
         }.start()
     }
 

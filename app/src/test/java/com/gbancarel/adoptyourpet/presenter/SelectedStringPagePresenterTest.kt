@@ -2,6 +2,7 @@ package com.gbancarel.adoptyourpet.presenter
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
+import com.gbancarel.adoptyourpet.interactor.data.listColors.Colors
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StringSelectedViewModelData
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -24,10 +25,10 @@ class SelectedStringPagePresenterTest {
     }
 
     @Test
-    fun presentIntialList() {
+    fun presentBreeds() {
         //GIVEN
         //WHEN
-        presenter.present(
+        presenter.presentBreeds(
             listBreeds = listOf(
                 Breeds("labrador"),
                 Breeds("caniche")
@@ -41,6 +42,28 @@ class SelectedStringPagePresenterTest {
             viewModel.liveData.value, listOf(
                 StringSelectedViewModelData("caniche"),
                 StringSelectedViewModelData("labrador",true)
+            )
+        )
+    }
+
+    @Test
+    fun presentColors() {
+        //GIVEN
+        //WHEN
+        presenter.presentColors(
+            listColors = listOf(
+                Colors("black"),
+                Colors("white")
+            ),
+            selectedColors = listOf(
+                "black"
+            )
+        )
+        //THEN
+        assertEquals(
+            viewModel.liveData.value, listOf(
+                StringSelectedViewModelData("black", true),
+                StringSelectedViewModelData("white",false)
             )
         )
     }

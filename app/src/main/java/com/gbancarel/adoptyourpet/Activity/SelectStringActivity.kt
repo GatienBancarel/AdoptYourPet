@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
@@ -40,8 +41,8 @@ class SelectStringActivity : AppCompatActivity() {
         val RESULT_DATA_KEY = "RESULT_DATA_KEY"
         private val SELECTED_RESULT_KEY = "SELECTED_RESULT_KEY"
         private val SELECTED_TITLE_KEY = "SELECTED_TITLE_KEY"
-        fun newIntent(context: Context, selectedBreeds: List<String>, title: String) = Intent(context, SelectStringActivity::class.java).apply {
-            putExtra(SELECTED_RESULT_KEY, ArrayList(selectedBreeds))
+        fun newIntent(context: Context, selectedString: List<String>, title: String) = Intent(context, SelectStringActivity::class.java).apply {
+            putExtra(SELECTED_RESULT_KEY, ArrayList(selectedString))
             putExtra(SELECTED_TITLE_KEY, title)
         }
     }
@@ -53,7 +54,7 @@ class SelectStringActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    controller.onCreate(selectedSting)
+                    controller.onCreate(selectedSting, title)
                     display(viewModel.liveData)
                 }
             }
@@ -62,6 +63,7 @@ class SelectStringActivity : AppCompatActivity() {
 
     @Composable
     fun display(liveData: MutableLiveData<List<StringSelectedViewModelData>>) {
+        Log.i("mylog","selectedString: ${selectedSting.toString()}")
         val data = liveData.observeAsState(
             initial = emptyList()
         )

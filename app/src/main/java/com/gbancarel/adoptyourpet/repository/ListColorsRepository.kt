@@ -1,5 +1,6 @@
 package com.gbancarel.adoptyourpet.repository
 
+import com.gbancarel.adoptyourpet.interactor.data.listBreeds.Breeds
 import com.gbancarel.adoptyourpet.interactor.data.listColors.Colors
 import com.gbancarel.adoptyourpet.repository.dao.ColorsDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -45,6 +46,14 @@ class ListColorsRepository @Inject constructor(
             }
         } catch (e1: NoInternetConnectionAvailable) {
             throw NoInternetConnectionAvailable("No Internet")
+        }
+    }
+
+    fun getListColorsLocal() : List<Colors> {
+        return dao.getAll().map { ColorsLocal->
+            Colors(
+                primary = ColorsLocal.primary
+            )
         }
     }
 

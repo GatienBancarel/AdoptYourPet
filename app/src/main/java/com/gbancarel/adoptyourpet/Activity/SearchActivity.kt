@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollableColumn
@@ -118,8 +119,9 @@ class SearchActivity : AppCompatActivity() {
             ) {
                 Spacer(modifier = Modifier.preferredHeight(16.dp))
                 Text(
-                    text = "Tap to choose your pet:",
-                    style = typography.h6
+                    text = "Tap to choose your Pet:",
+                    style = typography.h6,
+                    modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                 )
                 Row {
                     AnimalCheckBox(
@@ -267,7 +269,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 }
-
 
 @Singleton
 class AnimalSelectedViewModel : ViewModel(), LifecycleObserver {

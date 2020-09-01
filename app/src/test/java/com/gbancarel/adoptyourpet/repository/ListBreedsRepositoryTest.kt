@@ -33,7 +33,7 @@ class ListBreedsRepositoryTest {
     }
 
     @Test
-    fun getListBreeds_whenGetCallSuccess() {
+    fun loadBreeds_whenGetCallSuccess() {
         // GIVEN
         given(
             service.get("https://api.petfinder.com/v2/types/dog/breeds"))
@@ -74,7 +74,7 @@ class ListBreedsRepositoryTest {
     }
 
     @Test(expected = ErrorStatusException::class)
-    fun getListBreeds_whenGetCallWrongStatus() {
+    fun loadBreeds_whenGetCallWrongStatus() {
         // GIVEN
         given(
             service.get(
@@ -92,7 +92,7 @@ class ListBreedsRepositoryTest {
     }
 
     @Test(expected = CannotDecodeJsonException::class)
-    fun getListBreeds_whenGetCallCannotDecodeJson() {
+    fun loadBreeds_whenGetCallCannotDecodeJson() {
         // GIVEN
         given(
             service.get(
