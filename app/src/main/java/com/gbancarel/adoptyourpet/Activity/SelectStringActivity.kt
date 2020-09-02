@@ -63,7 +63,6 @@ class SelectStringActivity : AppCompatActivity() {
 
     @Composable
     fun display(liveData: MutableLiveData<List<StringSelectedViewModelData>>) {
-        Log.i("mylog","selectedString: ${selectedSting.toString()}")
         val data = liveData.observeAsState(
             initial = emptyList()
         )

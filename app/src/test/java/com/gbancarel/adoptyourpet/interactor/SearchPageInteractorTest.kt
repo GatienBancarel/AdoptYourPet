@@ -134,5 +134,13 @@ class SearchPageInteractorTest {
         presenter.presentSelectColors(listOf("brown"))
     }
 
+    @Test
+    fun selectedGender() {
+        //WHEN
+        interactor.selectedGender()
+        //THEN
+        presenter.presentNewGender()
+    }
+
 
 }

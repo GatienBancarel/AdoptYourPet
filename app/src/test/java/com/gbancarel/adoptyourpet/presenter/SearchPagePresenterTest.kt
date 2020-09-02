@@ -8,6 +8,7 @@ import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import junit.framework.Assert.assertEquals
 import org.junit.Before
@@ -41,7 +42,8 @@ class SearchPagePresenterTest {
                 listOfSize = emptyList(),
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male
             )
         )
     }
@@ -57,7 +59,8 @@ class SearchPagePresenterTest {
             listOfSize = sizes,
             selectedBreeds = emptyList(),
             selectedAge = emptyList(),
-            selectedColors = emptyList()
+            selectedColors = emptyList(),
+            selectedGender = GenderViewModel.male
         )
 
         //WHEN
@@ -69,7 +72,8 @@ class SearchPagePresenterTest {
                 listOfSize = sizes,
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male
             )
         )
     }
@@ -88,7 +92,8 @@ class SearchPagePresenterTest {
                 listOfSize = emptyList(),
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male
             )
         )
     }
@@ -107,7 +112,8 @@ class SearchPagePresenterTest {
                 listOfSize = listOf(SizeViewModel(0,"Small")),
                 selectedBreeds = emptyList(),
                 selectedAge = listOf(AgeViewModel(0, "Young", false)),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male
             )
         )
     }
@@ -124,7 +130,8 @@ class SearchPagePresenterTest {
                 listOfSize = emptyList(),
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
-                selectedColors = emptyList()
+                selectedColors = emptyList(),
+                selectedGender = GenderViewModel.male
             )
         )
     }
@@ -137,7 +144,8 @@ class SearchPagePresenterTest {
             listOf(SizeViewModel(1,"small")),
             listOf("labrador"),
             listOf(AgeViewModel(1,"young", false)),
-            listOf("brown")
+            listOf("brown"),
+            GenderViewModel.male
         )
 
         //WHEN
@@ -150,7 +158,8 @@ class SearchPagePresenterTest {
                 listOfSize = listOf(SizeViewModel(1, "small")),
                 selectedBreeds = listOf("caniche"),
                 selectedAge = listOf(AgeViewModel(1,"young", false)),
-                listOf("brown")
+                listOf("brown"),
+                GenderViewModel.male
             )
         )
     }
@@ -168,7 +177,8 @@ class SearchPagePresenterTest {
             ),
             listOf("labrador"),
             listOf(AgeViewModel(1,"young", false)),
-            listOf("brown")
+            listOf("brown"),
+            GenderViewModel.male
         )
 
         //WHEN
@@ -187,7 +197,8 @@ class SearchPagePresenterTest {
                 ),
                 listOf("labrador"),
                 listOf(AgeViewModel(1,"young", false)),
-                listOf("brown")
+                listOf("brown"),
+                GenderViewModel.male
             )
         )
     }
@@ -202,7 +213,8 @@ class SearchPagePresenterTest {
             selectedAge = listOf(
                 AgeViewModel(0, "Kitten", selected = false),
             ),
-            selectedColors = listOf("brown")
+            selectedColors = listOf("brown"),
+            GenderViewModel.male
         )
 
         //WHEN
@@ -218,7 +230,8 @@ class SearchPagePresenterTest {
                 selectedAge = listOf(
                     AgeViewModel(0, "Kitten", selected = true),
                 ),
-                selectedColors = listOf("brown")
+                selectedColors = listOf("brown"),
+                GenderViewModel.male
             )
         )
     }
@@ -231,7 +244,8 @@ class SearchPagePresenterTest {
             listOf(SizeViewModel(1,"small")),
             listOf("labrador"),
             listOf(AgeViewModel(1,"young", false)),
-            listOf("brown")
+            listOf("brown"),
+            GenderViewModel.male
         )
 
         //WHEN
@@ -239,12 +253,41 @@ class SearchPagePresenterTest {
 
         //THEN
         assertEquals(
-            viewModel.liveData.value, SearchPageViewModelData(
+            viewModel.liveData.value,
+            SearchPageViewModelData(
                 state = StateSearchPageViewModel.finished,
                 listOfSize = listOf(SizeViewModel(1, "small")),
                 selectedBreeds = listOf("labrador"),
                 selectedAge = listOf(AgeViewModel(1,"young", false)),
-                listOf("yellow")
+                listOf("yellow"),
+                GenderViewModel.male
+            )
+        )
+    }
+
+    @Test
+    fun presentNewGender() {
+        //GIVEN
+        viewModel.liveData.value = SearchPageViewModelData(
+            StateSearchPageViewModel.finished,
+            listOf(SizeViewModel(1,"small")),
+            listOf("labrador"),
+            listOf(AgeViewModel(1,"young", false)),
+            listOf("brown"),
+            GenderViewModel.male
+        )
+        //WHEN
+        presenter.presentNewGender()
+        //THEN
+        assertEquals(
+            viewModel.liveData.value,
+            SearchPageViewModelData(
+                state = StateSearchPageViewModel.finished,
+                listOfSize = listOf(SizeViewModel(1, "small")),
+                selectedBreeds = listOf("labrador"),
+                selectedAge = listOf(AgeViewModel(1,"young", false)),
+                listOf("brown"),
+                GenderViewModel.female
             )
         )
     }
