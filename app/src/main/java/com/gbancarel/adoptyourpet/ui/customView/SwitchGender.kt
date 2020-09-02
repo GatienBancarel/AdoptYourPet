@@ -10,7 +10,6 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import com.gbancarel.adoptyourpet.R
@@ -19,11 +18,11 @@ import com.gbancarel.adoptyourpet.ui.lightBlue50
 import com.gbancarel.adoptyourpet.ui.pinkA100
 
 @Composable
-fun SwitchGender(onClick: () -> Unit, genderSelected: String) {
+fun SwitchGender(onClick: () -> Unit, genderSelected: Boolean) {
     Crossfade(current = genderSelected) { screen ->
         when (screen) {
-            "male" -> SwitchStateMale(onClick)
-            "female" -> SwitchStateFemale(onClick)
+            true -> SwitchStateMale(onClick)
+            false -> SwitchStateFemale(onClick)
         }
     }
 }

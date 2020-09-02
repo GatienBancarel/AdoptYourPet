@@ -17,6 +17,8 @@ class SearchPagePresenter @Inject constructor(
     val viewModel: SearchPageViewModel
 ) {
 
+    val defaultGender = GenderViewModel.male
+
     fun presentBreedsAndColorsLoader() {
         val stateBreedsViewModel = StateSearchPageViewModel.loading
         viewModel.liveData.postValue(
@@ -26,7 +28,7 @@ class SearchPagePresenter @Inject constructor(
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
                 selectedColors = emptyList(),
-                selectedGender = GenderViewModel.male // pas sur
+                selectedGender = defaultGender
             )
         )
     }
@@ -39,7 +41,7 @@ class SearchPagePresenter @Inject constructor(
                 selectedBreeds = emptyList(),
                 selectedAge = ages.map { AgeViewModel(it.id, it.value, false) },
                 selectedColors = emptyList(),
-                selectedGender = GenderViewModel.male // pas sur
+                selectedGender = defaultGender
             )
         )
     }
@@ -53,7 +55,7 @@ class SearchPagePresenter @Inject constructor(
                 selectedBreeds = emptyList(),
                 selectedAge = viewModel.liveData.value?.selectedAge.orEmpty(),
                 selectedColors = emptyList(),
-                selectedGender = GenderViewModel.male // Faux, mais je sais pas comment faire autrement pour le moment
+                selectedGender = viewModel.liveData.value?.selectedGender ?: defaultGender
             )
         )
     }
@@ -67,7 +69,7 @@ class SearchPagePresenter @Inject constructor(
                 selectedBreeds = emptyList(),
                 selectedAge = emptyList(),
                 selectedColors = emptyList(),
-                selectedGender = GenderViewModel.male // pas sur
+                selectedGender = defaultGender
             )
         )
     }

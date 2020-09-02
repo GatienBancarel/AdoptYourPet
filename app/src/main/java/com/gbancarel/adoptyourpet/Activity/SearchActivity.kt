@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollableColumn
@@ -270,7 +269,7 @@ class SearchActivity : AppCompatActivity() {
                     )
                     SwitchGender(
                         onClick = { controller.onSelectedGender() },
-                        genderSelected = searchViewModelData.value.selectedGender.toString()
+                        genderSelected = searchViewModelData.value.selectedGender.toString() == "male"
                     )
                     Spacer(modifier = Modifier.preferredHeight(32.dp))
                 }
