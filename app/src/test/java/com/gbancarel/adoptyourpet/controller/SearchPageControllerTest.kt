@@ -56,4 +56,13 @@ class SearchPageControllerTest {
         // THEN
         then(interactor).should().selectedAge(1)
     }
+
+    @Test
+    fun onSelectedColors() {
+        // GIVEN
+        // WHEN
+        controller.onSelectedColors(listOf("brown"))
+        // THEN
+        then(interactor).should().selectedColors(listOf("brown"))
+    }
 }

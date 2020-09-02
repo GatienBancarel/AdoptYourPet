@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.ScrollableColumn
@@ -28,12 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gbancarel.adoptyourpet.Activity.BreedsActivity.Companion.RESULT_DATA_KEY
+import com.gbancarel.adoptyourpet.Activity.SelectStringActivity.Companion.RESULT_DATA_KEY
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.controller.SearchPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.SearchPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateBreedsViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StateSearchPageViewModel
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.AnimalCheckBox
@@ -48,11 +49,19 @@ class SearchActivity : AppCompatActivity() {
     @Inject lateinit var controller: SearchPageControllerDecorator
     @Inject lateinit var viewModelState: SearchPageViewModel
     private var viewModel: AnimalSelectedViewModel = AnimalSelectedViewModel()
-    private val startForResult =
+    private val startForResultBreeds =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.getStringArrayListExtra(RESULT_DATA_KEY)?.let { list ->
                     controller.onSelectedBreeds(list.toList())
+                }
+            }
+        }
+    private val startForResultColors =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.getStringArrayListExtra(RESULT_DATA_KEY)?.let { list ->
+                    controller.onSelectedColors(list.toList())
                 }
             }
         }
@@ -77,7 +86,7 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateBreedsViewModel.loading, emptyList(), emptyList(), emptyList())
+            initial = SearchPageViewModelData(StateSearchPageViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList())
         )
         Page(
             viewModel,
@@ -105,13 +114,14 @@ class SearchActivity : AppCompatActivity() {
         ) {
             ScrollableColumn(
                 modifier = Modifier
-                    .padding(16.dp)
                     .fillMaxWidth(),
                 horizontalGravity = Alignment.CenterHorizontally
             ) {
+                Spacer(modifier = Modifier.preferredHeight(16.dp))
                 Text(
-                    text = "Tap to choose your pet:",
-                    style = typography.h6
+                    text = "Tap to choose your Pet:",
+                    style = typography.h6,
+                    modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                 )
                 Row {
                     AnimalCheckBox(
@@ -146,28 +156,28 @@ class SearchActivity : AppCompatActivity() {
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
                     when (searchViewModelData.value.state) {
-                        StateBreedsViewModel.loading -> {
+                        StateSearchPageViewModel.loading -> {
                             Text(
                                 text = "Loading...",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.error -> {
+                        StateSearchPageViewModel.error -> {
                             Text(
                                 text = "Error: check your Internet connection and retry again.",
                                 style = typography.body2
                             )
                         }
-                        StateBreedsViewModel.finished -> {
+                        StateSearchPageViewModel.finished -> {
                             Button(
                                 onClick = {
-                                    startForResult.launch(
-                                        BreedsActivity.newIntent(
+                                    startForResultBreeds.launch(
+                                        SelectStringActivity.newIntent(
                                             applicationContext,
-                                            searchViewModelData.value.selectedBreeds
+                                            searchViewModelData.value.selectedBreeds,
+                                            "breeds"
                                         )
                                     )
-                                    step.value = 2
                                 }
                             ) {
                                 Text(
@@ -197,13 +207,12 @@ class SearchActivity : AppCompatActivity() {
                             )
                         }
                     }
-
                     Text(
                         text = "Tap to choose your Age:",
                         style = typography.h6,
                         modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
                     )
-                    FlowRow() {
+                    FlowRow {
                         searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
                             Button(
                                 onClick = { controller.onSelectedAge(age.id) },
@@ -218,12 +227,48 @@ class SearchActivity : AppCompatActivity() {
                             }
                         }
                     }
+                    Text(
+                        text = "Tap to choose your Colors:",
+                        style = typography.h6,
+                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                    )
+                    when (searchViewModelData.value.state) {
+                        StateSearchPageViewModel.loading -> {
+                            Text(
+                                text = "Loading...",
+                                style = typography.body2
+                            )
+                        }
+                        StateSearchPageViewModel.error -> {
+                            Text(
+                                text = "Error: check your Internet connection and retry again.",
+                                style = typography.body2
+                            )
+                        }
+                        StateSearchPageViewModel.finished -> {
+                            Button(
+                                onClick = {
+                                    startForResultColors.launch(
+                                        SelectStringActivity.newIntent(
+                                            applicationContext,
+                                            searchViewModelData.value.selectedColors,
+                                            "colors"
+                                        )
+                                    )
+                                }
+                            ) {
+                                Text(
+                                    text = "Choose yours colors",
+                                    style = typography.body1
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 }
-
 
 @Singleton
 class AnimalSelectedViewModel : ViewModel(), LifecycleObserver {

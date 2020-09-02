@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Box
 import androidx.compose.foundation.Text
@@ -19,9 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.MutableLiveData
-import com.gbancarel.adoptyourpet.controller.BreedsPageControllerDecorator
+import com.gbancarel.adoptyourpet.controller.SelectedStringPageControllerDecorator
 import com.gbancarel.adoptyourpet.presenter.BreedsPageViewModel
-import com.gbancarel.adoptyourpet.presenter.data.listBreeds.BreedsViewModelData
+import com.gbancarel.adoptyourpet.presenter.data.listBreeds.StringSelectedViewModelData
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
 import com.gbancarel.adoptyourpet.ui.customView.CardBreeds
 import com.gbancarel.adoptyourpet.ui.typography
@@ -29,27 +30,31 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BreedsActivity : AppCompatActivity() {
+class SelectStringActivity : AppCompatActivity() {
 
-    @Inject lateinit var controller: BreedsPageControllerDecorator
+    @Inject lateinit var controller: SelectedStringPageControllerDecorator
     @Inject lateinit var viewModel: BreedsPageViewModel
-    private var selectedBreeds = emptyList<String>()
+    private var selectedSting = emptyList<String>()
+    private var title: String = ""
 
     companion object {
         val RESULT_DATA_KEY = "RESULT_DATA_KEY"
-        private val SELECTED_BREEDS_KEY = "SELECTED_BREEDS_KEY"
-        fun newIntent(context: Context, selectedBreeds: List<String>) = Intent(context, BreedsActivity::class.java).apply {
-            putExtra(SELECTED_BREEDS_KEY, ArrayList(selectedBreeds))
+        private val SELECTED_RESULT_KEY = "SELECTED_RESULT_KEY"
+        private val SELECTED_TITLE_KEY = "SELECTED_TITLE_KEY"
+        fun newIntent(context: Context, selectedString: List<String>, title: String) = Intent(context, SelectStringActivity::class.java).apply {
+            putExtra(SELECTED_RESULT_KEY, ArrayList(selectedString))
+            putExtra(SELECTED_TITLE_KEY, title)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        selectedBreeds = intent.getStringArrayListExtra(SELECTED_BREEDS_KEY)?.toList() ?: emptyList()
+        selectedSting = intent.getStringArrayListExtra(SELECTED_RESULT_KEY)?.toList() ?: emptyList()
+        title = intent.getStringExtra(SELECTED_TITLE_KEY) ?: ""
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    controller.onCreate(selectedBreeds)
+                    controller.onCreate(selectedSting, title)
                     display(viewModel.liveData)
                 }
             }
@@ -57,7 +62,8 @@ class BreedsActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun display(liveData: MutableLiveData<List<BreedsViewModelData>>) {
+    fun display(liveData: MutableLiveData<List<StringSelectedViewModelData>>) {
+        Log.i("mylog","selectedString: ${selectedSting.toString()}")
         val data = liveData.observeAsState(
             initial = emptyList()
         )
@@ -65,7 +71,7 @@ class BreedsActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun Page(data: State<List<BreedsViewModelData>>) {
+    fun Page(data: State<List<StringSelectedViewModelData>>) {
         Surface(
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
@@ -79,7 +85,7 @@ class BreedsActivity : AppCompatActivity() {
                     modifier = Modifier.preferredHeight(500.dp).fillMaxWidth()
                 ) {
                     Text(
-                        text = "Choose your breeds:",
+                        text = "Choose your $title:",
                         style = typography.h6,
                     )
                     Divider(
@@ -91,7 +97,7 @@ class BreedsActivity : AppCompatActivity() {
                     ) {
                         Box {
                             LazyColumnFor(data.value) { item ->
-                                CardBreeds(breed = item.name, checked = selectedBreeds.contains(item.name), onCheckedChange = { name, selected ->
+                                CardBreeds(breed = item.name, checked = selectedSting.contains(item.name), onCheckedChange = { name, selected ->
                                     controller.checkedChange(name, selected)
                                 })
                                 Divider(

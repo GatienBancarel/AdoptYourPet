@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.gbancarel.adoptyourpet.repository.FindYourPetDatabase
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
+import com.gbancarel.adoptyourpet.repository.dao.ColorsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,5 +37,10 @@ object DatabaseModule {
     fun provideAnimalDao(
         db: FindYourPetDatabase
     ) : AnimalDao = db.animalDao()
+
+    @Provides
+    fun provideColorsDao(
+        db: FindYourPetDatabase
+    ) : ColorsDao = db.colorsDao()
 
 }

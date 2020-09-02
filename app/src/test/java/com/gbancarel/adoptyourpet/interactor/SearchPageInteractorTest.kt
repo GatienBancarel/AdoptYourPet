@@ -5,6 +5,7 @@ import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListAgeRepository
 import com.gbancarel.adoptyourpet.repository.ListBreedsRepository
+import com.gbancarel.adoptyourpet.repository.ListColorsRepository
 import com.gbancarel.adoptyourpet.repository.ListSizeRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
@@ -25,6 +26,8 @@ class SearchPageInteractorTest {
     @Mock
     private lateinit var ageRepository: ListAgeRepository
     @Mock
+    private lateinit var colorsRepository: ListColorsRepository
+    @Mock
     private lateinit var presenter: SearchPagePresenter
     private lateinit var interactor: SearchPageInteractor
 
@@ -33,7 +36,7 @@ class SearchPageInteractorTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         interactor =
-            SearchPageInteractor(breedsRepository, sizeRepository, ageRepository, presenter)
+            SearchPageInteractor(breedsRepository, sizeRepository, ageRepository, colorsRepository, presenter)
     }
 
     @Test
@@ -53,7 +56,7 @@ class SearchPageInteractorTest {
         interactor.load(AnimalSelected.dog)
 
         //THEN
-        then(presenter).should().presentBreedsLoader()
+        then(presenter).should().presentBreedsAndColorsLoader()
         then(presenter).should().present(
             listOf(
                 Size(0, "Small")
@@ -63,7 +66,8 @@ class SearchPageInteractorTest {
             ),
         )
         then(breedsRepository).should().loadBreeds(AnimalSelected.dog)
-        then(presenter).should().presentBreedsLoaderFinished()
+        then(colorsRepository).should().loadColors(AnimalSelected.dog)
+        then(presenter).should().presentBreedsAndColorsLoaderFinished()
     }
 
     @Test
@@ -120,6 +124,14 @@ class SearchPageInteractorTest {
         interactor.selectedAge(1)
         //THEN
         presenter.presentSelectedNewAge(1)
+    }
+
+    @Test
+    fun selectedColors() {
+        //WHEN
+        interactor.selectedColors(listOf("brown"))
+        //THEN
+        presenter.presentSelectColors(listOf("brown"))
     }
 
 

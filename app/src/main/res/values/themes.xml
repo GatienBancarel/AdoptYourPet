@@ -2,6 +2,7 @@
     <style name="Theme.FindYourPet" parent="Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="Theme.FindYourPet.NoActionBar">
+        <item name="android:statusBarColor">@color/lightBlue_700</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
