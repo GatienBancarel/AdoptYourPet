@@ -1,5 +1,6 @@
 package com.gbancarel.adoptyourpet.repository
 
+import android.util.Log
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -30,6 +31,84 @@ class ListPetRepository @Inject constructor(
     fun getListAnimal(): List<PetAnimal> {
         try {
             val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
+
+            if (response.statusCode != 200 && response.statusCode != 201) {
+                throw ErrorStatusException("http request fail")
+            } else {
+                val petFinderEntityJSON = petFinderParser.parse(response.body)
+                if (petFinderEntityJSON != null) {
+                    val result = parseJson(petFinderEntityJSON)
+                    dao.deleteAll()
+                    dao.insertAll(result.map {
+                        PetAnimalLocal(
+                            type = it.type,
+                            breed = it.breed,
+                            color = it.color,
+                            age = it.age,
+                            gender = it.gender,
+                            size = it.size,
+                            environment = it.environment?.let { environment ->
+                                EnvironmentLocal(
+                                    environment.children,
+                                    environment.children,
+                                    environment.children,
+                                )
+                            },
+                            name = it.name,
+                            description = it.description,
+                            photo = it.photos.firstOrNull()?.let { photo ->
+                                PhotoLocal(
+                                    photo.small,
+                                    photo.medium,
+                                    photo.large,
+                                    photo.full,
+                                )
+                            },
+                            contact = it.contact?.let { contact ->
+                                ContactLocal(
+                                    contact.email,
+                                    contact.phone,
+                                    contact.address?.let { address ->
+                                        AddressLocal(
+                                            address.address1,
+                                            address.address2,
+                                            address.city,
+                                            address.state,
+                                            address.postCode,
+                                            address.country
+                                        )
+                                    }
+                                )
+                            }
+                        )
+                    })
+                    return result
+                } else {
+                    throw CannotDecodeJsonException("adapter from json fail")
+                }
+            }
+        } catch (e1: NoInternetConnectionAvailable) {
+            throw NoInternetConnectionAvailable("No Internet")
+        }
+    }
+
+    @Throws(
+        ErrorStatusException::class,
+        CannotDecodeJsonException::class,
+        NoInternetConnectionAvailable::class
+    )
+    fun searchPet(
+        animalSelected: String,
+        breedsSelected: String,
+        sizeSelected: String,
+        ageSelected: String,
+        colorsSelected: String,
+        genderSelected: String
+    ): List<PetAnimal> {
+        try {
+            val response = petFinderService.get(
+                "$BASE_URL/animals?type=$animalSelected&breeds=$breedsSelected&size=$sizeSelected&age=$ageSelected&colors=$colorsSelected&gender=$genderSelected"
+            )
 
             if (response.statusCode != 200 && response.statusCode != 201) {
                 throw ErrorStatusException("http request fail")

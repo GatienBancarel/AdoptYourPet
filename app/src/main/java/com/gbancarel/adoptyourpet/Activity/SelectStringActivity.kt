@@ -81,7 +81,7 @@ class SelectStringActivity : AppCompatActivity() {
                     .fillMaxSize()
             ) {
                 Box(
-                    modifier = Modifier.preferredHeight(500.dp).fillMaxWidth()
+                    modifier = Modifier.weight(7f).fillMaxWidth()
                 ) {
                     Text(
                         text = "Choose your $title:",
@@ -108,7 +108,7 @@ class SelectStringActivity : AppCompatActivity() {
                     }
                 }
                 Column(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp).weight(1f),
                     horizontalGravity = Alignment.CenterHorizontally
                 ) {
                     Button(
