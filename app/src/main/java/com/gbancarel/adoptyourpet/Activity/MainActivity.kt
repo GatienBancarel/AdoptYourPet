@@ -99,8 +99,9 @@ class MainActivity : AppCompatActivity() {
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Column(
-                modifier = Modifier.padding(16.dp).fillMaxSize()
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp).fillMaxSize()
             ) {
+                Spacer(modifier = Modifier.preferredHeight(16.dp))
                 ButtonSearch(
                     onClick = {
                         startActivity(

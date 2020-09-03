@@ -1,14 +1,14 @@
 package com.gbancarel.adoptyourpet.interactor
 
 import com.gbancarel.adoptyourpet.presenter.ResultPagePresenter
-import com.gbancarel.adoptyourpet.repository.ListPetRepository
+import com.gbancarel.adoptyourpet.repository.ListPetResultRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
 import javax.inject.Inject
 
 class ResultPageInteractor @Inject constructor(
-    val repository: ListPetRepository,
+    val repository: ListPetResultRepository,
     val presenter: ResultPagePresenter
 ) {
 
@@ -22,7 +22,7 @@ class ResultPageInteractor @Inject constructor(
     ) {
         try {
             presenter.presentLoader()
-            val listAnimal = repository.searchPet(
+            val listAnimal = repository.getListAnimal(
                 animalSelected,
                 breedsSelected,
                 sizeSelected,
@@ -38,5 +38,18 @@ class ResultPageInteractor @Inject constructor(
         } catch (e1: NoInternetConnectionAvailable) {
             presenter.presentError()
         }
+    }
+
+    fun loadPreviousState() {
+        val listAnimal = repository.getLocalListAnimal()
+        presenter.present(listAnimal)
+    }
+
+    fun loadAnimal(requestedAnimal: String) {
+        val localList = repository.getLocalListAnimal()
+        presenter.present(
+            localList,
+            localList.firstOrNull { it.name == requestedAnimal }
+        )
     }
 }

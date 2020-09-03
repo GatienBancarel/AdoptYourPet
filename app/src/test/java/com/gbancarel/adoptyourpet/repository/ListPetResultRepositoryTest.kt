@@ -1,7 +1,7 @@
 package com.gbancarel.adoptyourpet.repository
 
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
-import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
+import com.gbancarel.adoptyourpet.repository.dao.AnimalResultDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.json.listAnimal.*
@@ -11,13 +11,13 @@ import com.gbancarel.adoptyourpet.repository.service.PetFinderService
 import com.gbancarel.adoptyourpet.repository.service.ResponseRequest
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.then
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.junit.Assert.*
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class ListPetRepositoryTest {
+class ListPetResultRepositoryTest {
     @Mock
     lateinit var petFinderService: PetFinderService
 
@@ -25,20 +25,20 @@ class ListPetRepositoryTest {
     lateinit var petFinderParser: PetFinderParser
 
     @Mock
-    lateinit var dao: AnimalDao
+    lateinit var dao: AnimalResultDao
 
-    lateinit var repository: ListPetRepository
+    lateinit var repository: ListPetResultRepository
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        repository = ListPetRepository(petFinderService, petFinderParser, dao)
+        repository = ListPetResultRepository(petFinderService, petFinderParser, dao)
     }
 
     @Test
     fun getCall_whenGetCallSuccess() {
         // GIVEN
-        given(petFinderService.get("https://api.petfinder.com/v2/animals?type=dog&page=1"))
+        given(petFinderService.get("https://api.petfinder.com/v2/animals?type=dog&breed=pug&age=young&gender=male&limit=100"))
             .willReturn(
                 ResponseRequest(
                     200,
@@ -89,7 +89,14 @@ class ListPetRepositoryTest {
             )
 
         // WHEN
-        val call = repository.getListAnimal()
+        val call = repository.getListAnimal(
+            animalSelected = "dog",
+            breedsSelected = "Pug,Samoyed",
+            sizeSelected = "Small",
+            ageSelected = "Young",
+            colorsSelected = "White",
+            genderSelected = "Male"
+        )
 
         // THEN
         then(dao).should().deleteAll()
@@ -125,7 +132,7 @@ class ListPetRepositoryTest {
                 )
             )
         )
-        assertEquals(
+        Assert.assertEquals(
             call,
             listOf(
                 PetAnimal(
@@ -178,7 +185,14 @@ class ListPetRepositoryTest {
         )
 
         // WHEN
-        repository.getListAnimal()
+        repository.getListAnimal(
+            animalSelected = "dog",
+            breedsSelected = "Pug,Samoyed",
+            sizeSelected = "Small",
+            ageSelected = "Young",
+            colorsSelected = "White",
+            genderSelected = "Male"
+        )
     }
 
 
@@ -202,7 +216,14 @@ class ListPetRepositoryTest {
         ).willReturn(null)
 
         // WHEN
-        repository.getListAnimal()
+        repository.getListAnimal(
+            animalSelected = "dog",
+            breedsSelected = "Pug,Samoyed",
+            sizeSelected = "Small",
+            ageSelected = "Young",
+            colorsSelected = "White",
+            genderSelected = "Male"
+        )
     }
 
     @Test
@@ -236,7 +257,7 @@ class ListPetRepositoryTest {
         val result = repository.getLocalListAnimal()
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
             result, listOf(
                 PetAnimal(
                     type = "dog",

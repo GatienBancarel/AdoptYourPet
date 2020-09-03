@@ -23,6 +23,7 @@ import com.gbancarel.adoptyourpet.presenter.ResultPageViewModel
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelData
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetFinderViewModelState
 import com.gbancarel.adoptyourpet.ui.FindYourPetTheme
+import com.gbancarel.adoptyourpet.ui.customView.AnimalDetailPage
 import com.gbancarel.adoptyourpet.ui.customView.CardHomePage
 import com.gbancarel.adoptyourpet.ui.typography
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,10 +48,10 @@ class ResultActivity : AppCompatActivity() {
                 Surface(color = MaterialTheme.colors.background) {
                     controller.onCreate(
                         animalSelected = "dog",
-                        breedsSelected = "Akita",
+                        breedsSelected = "Pug,Samoyed",
                         sizeSelected = "Small",
                         ageSelected = "Young",
-                        colorsSelected = "Black",
+                        colorsSelected = "White",
                         genderSelected = "Male"
                     )
                     val statePetFinderViewModelData = viewModel.liveData.observeAsState(
@@ -82,29 +83,39 @@ class ResultActivity : AppCompatActivity() {
                 )
             }
             PetFinderViewModelState.finished -> {
-                ResultPage(
-                    statePetFinderViewModelData = statePetFinderViewModelData,
-                )
+                if (statePetFinderViewModelData.value.detailAnimal != null) {
+                    AnimalDetailPage(
+                        detailAnimal = statePetFinderViewModelData.value.detailAnimal!!,
+                        onBack = { controller.backClicked() }
+                    )
+                } else {
+                    ResultPage(
+                        statePetFinderViewModelData = statePetFinderViewModelData,
+                        onClick = { requestedAnimal -> controller.clickedRow(requestedAnimal) }
+                    )
+                }
             }
         }
     }
 
     @Composable
-    fun ResultPage(statePetFinderViewModelData: State<PetFinderViewModelData>) {
+    fun ResultPage(statePetFinderViewModelData: State<PetFinderViewModelData>, onClick:(String) -> Unit) {
         Surface(
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().padding(start = 16.dp, end = 16.dp)
             ) {
                 Spacer(
                     modifier = Modifier.preferredHeight(16.dp)
                 )
                 Text(
                     text = "There are ${statePetFinderViewModelData.value.animals.size} result(s):",
-                    modifier = Modifier.padding(top = 16.dp,bottom = 16.dp),
                     style = typography.h6
+                )
+                Spacer(
+                    modifier = Modifier.preferredHeight(16.dp)
                 )
                 LazyColumnFor(statePetFinderViewModelData.value.animals) { item ->
                     CardHomePage(
@@ -112,7 +123,9 @@ class ResultActivity : AppCompatActivity() {
                         description = item.description!!,
                         image = item.photos,
                         shouldShowPhoto = item.shouldShowPhoto,
-                        onClick = { }
+                        onClick = {
+                            onClick(item.name)
+                        }
                     )
                     Spacer(
                         modifier = Modifier.preferredHeight(16.dp)

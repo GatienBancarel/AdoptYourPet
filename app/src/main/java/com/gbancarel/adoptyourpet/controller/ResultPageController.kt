@@ -12,6 +12,8 @@ interface ResultPageControllerInterface {
         ColorsSelected: String,
         GenderSelected: String
     )
+    fun backClicked()
+    fun clickedRow(requestedAnimal : String)
 
 }
 
@@ -37,6 +39,13 @@ class ResultPageController @Inject constructor(
         )
     }
 
+    fun backClicked() {
+        interactor.loadPreviousState()
+    }
+
+    fun clickedRow(requestedAnimal : String) {
+        interactor.loadAnimal(requestedAnimal)
+    }
 
 }
 
@@ -58,6 +67,18 @@ class ResultPageControllerDecorator @Inject constructor(val controller: ResultPa
                 colorsSelected,
                 genderSelected
             )
+        }.start()
+    }
+
+    override fun backClicked() {
+        Thread {
+            controller.backClicked()
+        }.start()
+    }
+
+    override fun clickedRow(requestedAnimal : String) {
+        Thread {
+            controller.clickedRow(requestedAnimal)
         }.start()
     }
 
