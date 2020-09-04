@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "594482011887",
+    "firebase_url": "https://petfinder-f2345.firebaseio.com",
+    "project_id": "petfinder-f2345",
+    "storage_bucket": "petfinder-f2345.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594482011887:android:60abe414f3e5857cb7051a",
+        "android_client_info": {
+          "package_name": "com.gbancarel.adoptyourpet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594482011887-psc9a19tfcuhfg6rpfssii7qbdslr4oc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD29xDJNoL1IUTa6O3EeNUnbTtHSYJDo8o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594482011887-psc9a19tfcuhfg6rpfssii7qbdslr4oc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
