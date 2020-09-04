@@ -1,16 +1,17 @@
 package com.gbancarel.adoptyourpet.ui.customView
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
-import android.view.Gravity
 import androidx.compose.animation.core.FloatPropKey
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.transitionDefinition
 import androidx.compose.animation.transition
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.RowScope.weight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
@@ -21,19 +22,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.WithConstraints
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawShadow
 import androidx.compose.ui.drawLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.core.content.ContextCompat.startActivity
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetDetailViewModelData
+import com.gbancarel.adoptyourpet.ui.lightBlue200
+import com.gbancarel.adoptyourpet.ui.lightBlue700
 import com.gbancarel.adoptyourpet.ui.typography
+
 
 private enum class TranslationState {
     Start, End
@@ -59,13 +63,14 @@ private val translation = transitionDefinition<TranslationState> {
 @Composable
 fun AnimalDetailPage(
     detailAnimal: PetDetailViewModelData,
+    context: Context,
     onBack: () -> Unit
 ) {
     Stack {
         val scroll = rememberScrollState(0f)
         val showSnackBar = remember { mutableStateOf(false) }
         BackgroundAnimalDetail()
-        ScrollableCard(scroll, detailAnimal)
+        ScrollableCard(scroll, detailAnimal, context)
         AppBar(onBack, showSnackBar)
         if (showSnackBar.value) {
             Snackbar(
@@ -112,7 +117,7 @@ fun AppBar(onBack: () -> Unit, showSnackBar: MutableState<Boolean>) {
 }
 
 @Composable
-fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData) {
+fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData, context: Context) {
     val transition = transition(
         definition = translation,
         toState = TranslationState.End,
@@ -202,6 +207,53 @@ fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData) {
                             Text(
                                 text = it,
                                 style = typography.body2
+                            )
+                        }
+                        Spacer(modifier = Modifier.preferredHeight(32.dp))
+                        detailAnimal.address?.let { addressName ->
+                            Text(
+                                modifier = Modifier.clickable(onClick = {
+                                    val geoUri =
+                                        "http://maps.google.com/maps?q=loc:$addressName"
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoUri))
+                                    context.startActivity(intent)
+                                }),
+                                text = addressName,
+                                style = typography.body2.merge(TextStyle(color = lightBlue700))
+                            )
+                        }
+                        Spacer(modifier = Modifier.preferredHeight(16.dp))
+                        detailAnimal.phone?.let { phone ->
+                            Text(
+                                modifier = Modifier.clickable(onClick = {
+                                    val intent = Intent(Intent.ACTION_DIAL)
+                                    intent.data = Uri.parse("tel:$phone")
+                                    context.startActivity(intent)
+                                }),
+                                text = phone,
+                                style = typography.body2.merge(TextStyle(color = lightBlue700))
+                            )
+                        }
+                        Spacer(modifier = Modifier.preferredHeight(16.dp))
+                        detailAnimal.email?.let { email ->
+                            Text(
+                                modifier = Modifier.clickable(onClick = {
+                                    val emailIntent = Intent(
+                                        Intent.ACTION_SENDTO, Uri.fromParts(
+                                            "mailto", email, null
+                                        )
+                                    )
+                                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
+                                    emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+                                    context.startActivity(
+                                        Intent.createChooser(
+                                            emailIntent,
+                                            "Send email..."
+                                        )
+                                    )
+                                }),
+                                text = email,
+                                style = typography.body2.merge(TextStyle(color = lightBlue700))
                             )
                         }
                     }

@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity() {
                 if (statePetFinderViewModelData.value.detailAnimal != null) {
                     AnimalDetailPage(
                         detailAnimal = statePetFinderViewModelData.value.detailAnimal!!,
+                        context = this,
                         onBack = { controller.backClicked() }
                     )
                 } else {

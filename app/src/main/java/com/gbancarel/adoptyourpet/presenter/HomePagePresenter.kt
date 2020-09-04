@@ -58,7 +58,10 @@ class HomePagePresenter @Inject constructor(
                         else -> null
                     },
                     it.description,
-                    it.photos.firstOrNull()?.medium
+                    it.photos.firstOrNull()?.medium,
+                    it.contact?.address?.printable(),
+                    it.contact?.phone,
+                    it.contact?.email
                 )
             }
         )
