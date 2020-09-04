@@ -15,5 +15,8 @@ data class PetDetailViewModelData(
     val size: Int?,
     val gender: Int?,
     val description: String?,
-    val photo: String?
+    val photo: String?,
+    val address: String?,
+    val phone: String?,
+    val email: String?
 )

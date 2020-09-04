@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
 import dagger.hilt.android.qualifiers.ActivityContext
 import okhttp3.OkHttpClient
@@ -29,7 +30,6 @@ class PetFinderService @Inject constructor(
                         .build()
                 )
                 .execute()
-
             return ResponseRequest(
                 response.code,
                 response.body?.string()

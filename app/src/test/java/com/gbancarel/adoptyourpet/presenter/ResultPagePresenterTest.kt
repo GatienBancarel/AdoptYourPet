@@ -5,7 +5,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.*
-import junit.framework.Assert
+import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -80,7 +81,7 @@ class ResultPagePresenterTest {
         presenter.present(animals)
 
         // THEN
-        Assert.assertEquals(
+        assertEquals(
             viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.finished,
                 animals = listOf(
@@ -141,7 +142,7 @@ class ResultPagePresenterTest {
         )
 
         // THEN
-        Assert.assertEquals(
+        assertEquals(
             viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.finished,
                 animals = listOf(
@@ -167,7 +168,10 @@ class ResultPagePresenterTest {
                     R.drawable.medium,
                     R.drawable.male,
                     "description du chien",
-                    "pictureMedium"
+                    "pictureMedium",
+                    "24 rue yves montand, Bourges, Centre, France",
+                    "01010101001",
+                    "test@test.fr"
                 )
             )
         )
@@ -212,7 +216,7 @@ class ResultPagePresenterTest {
         )
 
         // THEN
-        Assert.assertEquals(
+        assertEquals(
             viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.finished,
                 animals = listOf(
@@ -238,7 +242,10 @@ class ResultPagePresenterTest {
                     R.drawable.medium,
                     R.drawable.male,
                     "description du chien",
-                    "pictureMedium"
+                    "pictureMedium",
+                    "24 rue yves montand, Bourges, Centre, France",
+                    "01010101001",
+                    "test@test.fr"
                 )
             )
         )
@@ -249,7 +256,7 @@ class ResultPagePresenterTest {
         //WHEN
         presenter.presentLoader()
         //THEN
-        Assert.assertEquals(
+        assertEquals(
             viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.loading,
                 animals = emptyList(),
@@ -263,7 +270,7 @@ class ResultPagePresenterTest {
         //WHEN
         presenter.presentError()
         //THEN
-        Assert.assertEquals(
+        assertEquals(
             viewModel.liveData.value, PetFinderViewModelData(
                 state = PetFinderViewModelState.error,
                 animals = emptyList(),

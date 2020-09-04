@@ -168,7 +168,10 @@ class HomePagePresenterTest {
                     R.drawable.medium,
                     R.drawable.male,
                     "description du chien",
-                    "pictureMedium"
+                    "pictureMedium",
+                    "24 rue yves montand, Bourges, Centre, France",
+                    "01010101001",
+                    "test@test.fr"
                 )
             )
         )
@@ -239,7 +242,10 @@ class HomePagePresenterTest {
                     R.drawable.medium,
                     R.drawable.male,
                     "description du chien",
-                    "pictureMedium"
+                    "pictureMedium",
+                    "24 rue yves montand, Bourges, Centre, France",
+                    "01010101001",
+                    "test@test.fr"
                 )
             )
         )
