@@ -20,17 +20,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.WithConstraints
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawShadow
-import androidx.compose.ui.drawLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import androidx.core.content.ContextCompat.startActivity
 import com.gbancarel.adoptyourpet.R
 import com.gbancarel.adoptyourpet.presenter.data.listAnimal.PetDetailViewModelData
@@ -209,52 +208,94 @@ fun ScrollableCard(scroll: ScrollState, detailAnimal: PetDetailViewModelData, co
                                 style = typography.body2
                             )
                         }
-                        Spacer(modifier = Modifier.preferredHeight(32.dp))
+                        Spacer(modifier = Modifier.preferredHeight(16.dp))
                         detailAnimal.address?.let { addressName ->
-                            Text(
-                                modifier = Modifier.clickable(onClick = {
-                                    val geoUri =
-                                        "http://maps.google.com/maps?q=loc:$addressName"
-                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoUri))
-                                    context.startActivity(intent)
-                                }),
-                                text = addressName,
-                                style = typography.body2.merge(TextStyle(color = lightBlue700))
-                            )
+                            Row(
+                                verticalGravity = Alignment.CenterVertically
+                            ) {
+                                val myImage = vectorResource(id = R.drawable.ic_baseline_map_24)
+                                val imageModifier =
+                                    Modifier.preferredHeight(32.dp).preferredWidth(32.dp)
+                                        .clip(shape = RoundedCornerShape(16.dp))
+                                Image(
+                                    asset = myImage,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = imageModifier
+                                )
+                                Spacer(modifier = Modifier.preferredWidth(8.dp))
+                                Text(
+                                    modifier = Modifier.clickable(onClick = {
+                                        val geoUri =
+                                            "http://maps.google.com/maps?q=loc:$addressName"
+                                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(geoUri))
+                                        context.startActivity(intent)
+                                    }),
+                                    text = addressName,
+                                    style = typography.body2.merge(TextStyle(color = lightBlue700))
+                                )
+                            }
+                            Spacer(modifier = Modifier.preferredHeight(16.dp))
                         }
-                        Spacer(modifier = Modifier.preferredHeight(16.dp))
                         detailAnimal.phone?.let { phone ->
-                            Text(
-                                modifier = Modifier.clickable(onClick = {
-                                    val intent = Intent(Intent.ACTION_DIAL)
-                                    intent.data = Uri.parse("tel:$phone")
-                                    context.startActivity(intent)
-                                }),
-                                text = phone,
-                                style = typography.body2.merge(TextStyle(color = lightBlue700))
-                            )
+                            Row(
+                                verticalGravity = Alignment.CenterVertically
+                            ) {
+                                val myImage = vectorResource(id = R.drawable.ic_baseline_phone_24)
+                                val imageModifier =
+                                    Modifier.preferredHeight(32.dp).preferredWidth(32.dp)
+                                        .clip(shape = RoundedCornerShape(16.dp))
+                                Image(
+                                    asset = myImage,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = imageModifier
+                                )
+                                Spacer(modifier = Modifier.preferredWidth(8.dp))
+                                Text(
+                                    modifier = Modifier.clickable(onClick = {
+                                        val intent = Intent(Intent.ACTION_DIAL)
+                                        intent.data = Uri.parse("tel:$phone")
+                                        context.startActivity(intent)
+                                    }),
+                                    text = phone,
+                                    style = typography.body2.merge(TextStyle(color = lightBlue700))
+                                )
+                            }
+                            Spacer(modifier = Modifier.preferredHeight(16.dp))
                         }
-                        Spacer(modifier = Modifier.preferredHeight(16.dp))
                         detailAnimal.email?.let { email ->
-                            Text(
-                                modifier = Modifier.clickable(onClick = {
-                                    val emailIntent = Intent(
-                                        Intent.ACTION_SENDTO, Uri.fromParts(
-                                            "mailto", email, null
+                            Row(
+                                verticalGravity = Alignment.CenterVertically
+                            ) {
+                                val myImage = vectorResource(id = R.drawable.ic_baseline_email_24)
+                                val imageModifier =
+                                    Modifier.preferredHeight(32.dp).preferredWidth(32.dp)
+                                        .clip(shape = RoundedCornerShape(16.dp))
+                                Image(
+                                    asset = myImage,
+                                    contentScale = ContentScale.Crop,
+                                    modifier = imageModifier
+                                )
+                                Spacer(modifier = Modifier.preferredWidth(8.dp))
+                                Text(
+                                    modifier = Modifier.clickable(onClick = {
+                                        val emailIntent = Intent(
+                                            Intent.ACTION_SENDTO, Uri.fromParts(
+                                                "mailto", email, null
+                                            )
                                         )
-                                    )
-                                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
-                                    emailIntent.putExtra(Intent.EXTRA_TEXT, "")
-                                    context.startActivity(
-                                        Intent.createChooser(
-                                            emailIntent,
-                                            "Send email..."
+                                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
+                                        emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+                                        context.startActivity(
+                                            Intent.createChooser(
+                                                emailIntent,
+                                                "Send email..."
+                                            )
                                         )
-                                    )
-                                }),
-                                text = email,
-                                style = typography.body2.merge(TextStyle(color = lightBlue700))
-                            )
+                                    }),
+                                    text = email,
+                                    style = typography.body2.merge(TextStyle(color = lightBlue700))
+                                )
+                            }
                         }
                     }
                 }
