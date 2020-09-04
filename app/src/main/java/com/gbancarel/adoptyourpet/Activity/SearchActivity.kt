@@ -7,8 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.ScrollableColumn
-import androidx.compose.foundation.Text
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -20,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.setContent
 import androidx.compose.ui.res.imageResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleObserver
@@ -84,12 +84,19 @@ class SearchActivity : AppCompatActivity() {
     @Composable
     fun display(liveData: MutableLiveData<SearchPageViewModelData>) {
         val searchViewModelData = liveData.observeAsState(
-            initial = SearchPageViewModelData(StateSearchPageViewModel.loading, emptyList(), emptyList(), emptyList(), emptyList(), GenderViewModel.male)
+            initial = SearchPageViewModelData(
+                StateSearchPageViewModel.loading,
+                emptyList(),
+                emptyList(),
+                emptyList(),
+                emptyList(),
+                GenderViewModel.male
+            )
         )
         Page(
             viewModel,
             onAnimalSelected = { animalSelected ->
-                    controller.onAnimalCheckboxClicked(animalSelected)
+                controller.onAnimalCheckboxClicked(animalSelected)
             },
             searchViewModelData
         )
@@ -110,168 +117,191 @@ class SearchActivity : AppCompatActivity() {
             color = MaterialTheme.colors.background,
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
         ) {
-            ScrollableColumn(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalGravity = Alignment.CenterHorizontally
+            ConstraintLayout (
+                modifier = Modifier.fillMaxSize()
             ) {
-                Spacer(modifier = Modifier.preferredHeight(16.dp))
-                Text(
-                    text = "Tap to choose your Pet:",
-                    style = typography.h6,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                Row {
-                    AnimalCheckBox(
-                        title = "Dog",
-                        image = imageResource(id = R.mipmap.dog),
-                        isUnknown = data.value == AnimalSelected.unknown,
-                        isSelected = data.value == AnimalSelected.dog,
-                        onClick = {
-                            onAnimalSelected(AnimalSelected.dog)
-                            viewModel.liveData.postValue(AnimalSelected.dog)
-                            step.value = 1
+                val (floatingButton) = createRefs()
+                FloatingActionButton(
+                    onClick = {
+                        startActivity(
+                            ResultActivity.newIntent(
+                                applicationContext
+                            )
+                        )
+                    },
+                    backgroundColor = MaterialTheme.colors.secondary,
+                    contentColor = Color.White,
+                    modifier = Modifier
+                        .constrainAs(floatingButton) {
+                            end.linkTo(parent.end, margin = 10.dp)
+                            bottom.linkTo(parent.bottom, margin = 10.dp)
                         }
-                    )
-                    Divider(color = Color.Transparent, modifier = Modifier.preferredWidth(4.dp))
-                    AnimalCheckBox(
-                        title = "Cat",
-                        image = imageResource(id = R.mipmap.cat),
-                        isUnknown = data.value == AnimalSelected.unknown,
-                        isSelected = data.value == AnimalSelected.cat,
-                        onClick = {
-                            onAnimalSelected(AnimalSelected.cat)
-                            viewModel.liveData.postValue(AnimalSelected.cat)
-                            step.value = 1
-                        }
-                    )
+                ) {
+                    Icon(asset = vectorResource(id = R.drawable.ic_baseline_search_24))
                 }
-
-                if (step.value >= 1) {
+                ScrollableColumn(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalGravity = Alignment.CenterHorizontally
+                ) {
+                    Spacer(modifier = Modifier.preferredHeight(16.dp))
                     Text(
-                        text = "Tap to choose your Breeds:",
+                        text = "Tap to choose your Pet:",
                         style = typography.h6,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        modifier = Modifier.padding(bottom = 16.dp)
                     )
-                    when (searchViewModelData.value.state) {
-                        StateSearchPageViewModel.loading -> {
-                            Text(
-                                text = "Loading...",
-                                style = typography.body2
-                            )
-                        }
-                        StateSearchPageViewModel.error -> {
-                            Text(
-                                text = "Error: check your Internet connection and retry again.",
-                                style = typography.body2
-                            )
-                        }
-                        StateSearchPageViewModel.finished -> {
-                            Button(
-                                onClick = {
-                                    startForResultBreeds.launch(
-                                        SelectStringActivity.newIntent(
-                                            applicationContext,
-                                            searchViewModelData.value.selectedBreeds,
-                                            "breeds"
-                                        )
-                                    )
-                                }
-                            ) {
+                    Row {
+                        AnimalCheckBox(
+                            title = "Dog",
+                            image = imageResource(id = R.mipmap.dog),
+                            isUnknown = data.value == AnimalSelected.unknown,
+                            isSelected = data.value == AnimalSelected.dog,
+                            onClick = {
+                                onAnimalSelected(AnimalSelected.dog)
+                                viewModel.liveData.postValue(AnimalSelected.dog)
+                                step.value = 1
+                            }
+                        )
+                        Divider(color = Color.Transparent, modifier = Modifier.preferredWidth(4.dp))
+                        AnimalCheckBox(
+                            title = "Cat",
+                            image = imageResource(id = R.mipmap.cat),
+                            isUnknown = data.value == AnimalSelected.unknown,
+                            isSelected = data.value == AnimalSelected.cat,
+                            onClick = {
+                                onAnimalSelected(AnimalSelected.cat)
+                                viewModel.liveData.postValue(AnimalSelected.cat)
+                                step.value = 1
+                            }
+                        )
+                    }
+
+                    if (step.value >= 1) {
+                        Text(
+                            text = "Tap to choose your Breeds:",
+                            style = typography.h6,
+                            modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        )
+                        when (searchViewModelData.value.state) {
+                            StateSearchPageViewModel.loading -> {
                                 Text(
-                                    text = "Choose yours breeds",
-                                    style = typography.body1
+                                    text = "Loading...",
+                                    style = typography.body2
                                 )
                             }
+                            StateSearchPageViewModel.error -> {
+                                Text(
+                                    text = "Error: check your Internet connection and retry again.",
+                                    style = typography.body2
+                                )
+                            }
+                            StateSearchPageViewModel.finished -> {
+                                Button(
+                                    onClick = {
+                                        startForResultBreeds.launch(
+                                            SelectStringActivity.newIntent(
+                                                applicationContext,
+                                                searchViewModelData.value.selectedBreeds,
+                                                "breeds"
+                                            )
+                                        )
+                                    }
+                                ) {
+                                    Text(
+                                        text = "Choose yours breeds",
+                                        style = typography.body1
+                                    )
+                                }
+                            }
                         }
-                    }
-                    Text(
-                        text = "Tap to choose your Size:",
-                        style = typography.h6,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
-                    )
-                    searchViewModelData.value.listOfSize.forEachIndexed { index, sizeViewModel ->
-                        Button(
-                            onClick = {
-                                controller.onSelectedSize(sizeViewModel.id)
-                            },
-                            shape = RoundedCornerShape(15.dp),
-                            modifier = Modifier.padding(4.dp)
-                        ) {
-                            Text(
-                                text = if (sizeViewModel.selected) "✓ ${sizeViewModel.name}" else sizeViewModel.name,
-                                style = typography.body1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
-                        }
-                    }
-                    Text(
-                        text = "Tap to choose your Age:",
-                        style = typography.h6,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
-                    )
-                    FlowRow {
-                        searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
+                        Text(
+                            text = "Tap to choose your Size:",
+                            style = typography.h6,
+                            modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        )
+                        searchViewModelData.value.listOfSize.forEachIndexed { index, sizeViewModel ->
                             Button(
-                                onClick = { controller.onSelectedAge(age.id) },
+                                onClick = {
+                                    controller.onSelectedSize(sizeViewModel.id)
+                                },
                                 shape = RoundedCornerShape(15.dp),
                                 modifier = Modifier.padding(4.dp)
                             ) {
                                 Text(
-                                    text = if (age.selected) "✓ ${age.label}" else age.label,
+                                    text = if (sizeViewModel.selected) "✓ ${sizeViewModel.name}" else sizeViewModel.name,
                                     style = typography.body1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
                             }
                         }
-                    }
-                    Text(
-                        text = "Tap to choose your Colors:",
-                        style = typography.h6,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
-                    )
-                    when (searchViewModelData.value.state) {
-                        StateSearchPageViewModel.loading -> {
-                            Text(
-                                text = "Loading...",
-                                style = typography.body2
-                            )
-                        }
-                        StateSearchPageViewModel.error -> {
-                            Text(
-                                text = "Error: check your Internet connection and retry again.",
-                                style = typography.body2
-                            )
-                        }
-                        StateSearchPageViewModel.finished -> {
-                            Button(
-                                onClick = {
-                                    startForResultColors.launch(
-                                        SelectStringActivity.newIntent(
-                                            applicationContext,
-                                            searchViewModelData.value.selectedColors,
-                                            "colors"
-                                        )
+                        Text(
+                            text = "Tap to choose your Age:",
+                            style = typography.h6,
+                            modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        )
+                        FlowRow {
+                            searchViewModelData.value.selectedAge.forEachIndexed { _, age ->
+                                Button(
+                                    onClick = { controller.onSelectedAge(age.id) },
+                                    shape = RoundedCornerShape(15.dp),
+                                    modifier = Modifier.padding(4.dp)
+                                ) {
+                                    Text(
+                                        text = if (age.selected) "✓ ${age.label}" else age.label,
+                                        style = typography.body1,
+                                        overflow = TextOverflow.Ellipsis,
                                     )
                                 }
-                            ) {
-                                Text(
-                                    text = "Choose yours colors",
-                                    style = typography.body1
-                                )
                             }
                         }
+                        Text(
+                            text = "Tap to choose your Colors:",
+                            style = typography.h6,
+                            modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        )
+                        when (searchViewModelData.value.state) {
+                            StateSearchPageViewModel.loading -> {
+                                Text(
+                                    text = "Loading...",
+                                    style = typography.body2
+                                )
+                            }
+                            StateSearchPageViewModel.error -> {
+                                Text(
+                                    text = "Error: check your Internet connection and retry again.",
+                                    style = typography.body2
+                                )
+                            }
+                            StateSearchPageViewModel.finished -> {
+                                Button(
+                                    onClick = {
+                                        startForResultColors.launch(
+                                            SelectStringActivity.newIntent(
+                                                applicationContext,
+                                                searchViewModelData.value.selectedColors,
+                                                "colors"
+                                            )
+                                        )
+                                    }
+                                ) {
+                                    Text(
+                                        text = "Choose yours colors",
+                                        style = typography.body1
+                                    )
+                                }
+                            }
+                        }
+                        Text(
+                            text = "Tap to choose your Gender:",
+                            style = typography.h6,
+                            modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+                        )
+                        SwitchGender(
+                            onClick = { controller.onSelectedGender() },
+                            genderSelected = searchViewModelData.value.selectedGender == GenderViewModel.male
+                        )
+                        Spacer(modifier = Modifier.preferredHeight(32.dp))
                     }
-                    Text(
-                        text = "Tap to choose your Gender:",
-                        style = typography.h6,
-                        modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
-                    )
-                    SwitchGender(
-                        onClick = { controller.onSelectedGender() },
-                        genderSelected = searchViewModelData.value.selectedGender == GenderViewModel.male
-                    )
-                    Spacer(modifier = Modifier.preferredHeight(32.dp))
                 }
             }
         }

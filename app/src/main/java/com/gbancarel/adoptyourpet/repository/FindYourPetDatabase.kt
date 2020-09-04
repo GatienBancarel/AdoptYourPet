@@ -3,6 +3,7 @@ package com.gbancarel.adoptyourpet.repository
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
+import com.gbancarel.adoptyourpet.repository.dao.AnimalResultDao
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.dao.ColorsDao
 import com.gbancarel.adoptyourpet.repository.local.BreedLocal
@@ -13,9 +14,10 @@ import com.gbancarel.adoptyourpet.repository.local.PetAnimalLocal
     PetAnimalLocal::class,
     BreedLocal::class,
     ColorsLocal::class
-], version = 3)
+], version = 4)
 abstract class FindYourPetDatabase : RoomDatabase() {
     abstract fun animalDao(): AnimalDao
     abstract fun breedDao(): BreedDao
     abstract fun colorsDao(): ColorsDao
+    abstract fun animalResultDao(): AnimalResultDao
 }

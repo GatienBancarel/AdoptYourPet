@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.gbancarel.adoptyourpet.repository.FindYourPetDatabase
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
+import com.gbancarel.adoptyourpet.repository.dao.AnimalResultDao
 import com.gbancarel.adoptyourpet.repository.dao.BreedDao
 import com.gbancarel.adoptyourpet.repository.dao.ColorsDao
 import dagger.Module
@@ -37,6 +38,11 @@ object DatabaseModule {
     fun provideAnimalDao(
         db: FindYourPetDatabase
     ) : AnimalDao = db.animalDao()
+
+    @Provides
+    fun provideAnimalResultDao(
+        db: FindYourPetDatabase
+    ) : AnimalResultDao = db.animalResultDao()
 
     @Provides
     fun provideColorsDao(

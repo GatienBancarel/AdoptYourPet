@@ -2,22 +2,21 @@ package com.gbancarel.adoptyourpet.repository
 
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
+import com.gbancarel.adoptyourpet.repository.dao.AnimalResultDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
-import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
 import com.gbancarel.adoptyourpet.repository.json.listAnimal.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.local.*
+import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
-import okhttp3.internal.notifyAll
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
-
-class ListPetRepository @Inject constructor(
+class ListPetResultRepository @Inject constructor(
     var petFinderService: PetFinderService,
     var petFinderParser: PetFinderParser,
-    var dao: AnimalDao
+    var dao: AnimalResultDao
 ) {
 
     private val BASE_URL = "https://api.petfinder.com/v2" // TODO GBA
@@ -27,9 +26,18 @@ class ListPetRepository @Inject constructor(
         CannotDecodeJsonException::class,
         NoInternetConnectionAvailable::class
     )
-    fun getListAnimal(): List<PetAnimal> {
+    fun getListAnimal(
+        animalSelected: String,
+        breedsSelected: String,
+        sizeSelected: String,
+        ageSelected: String,
+        colorsSelected: String,
+        genderSelected: String
+    ): List<PetAnimal> {
         try {
-            val response = petFinderService.get("$BASE_URL/animals?type=dog&page=1")
+            val response = petFinderService.get(
+                "$BASE_URL/animals?type=${animalSelected}&breed=${breedsSelected}&age=${ageSelected}&gender=${genderSelected}&limit=100"
+            )
 
             if (response.statusCode != 200 && response.statusCode != 201) {
                 throw ErrorStatusException("http request fail")
