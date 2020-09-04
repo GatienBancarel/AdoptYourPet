@@ -1,34 +1,30 @@
 package com.gbancarel.adoptyourpet.interactor
 
+import com.gbancarel.adoptyourpet.interactor.data.SearchSession
 import com.gbancarel.adoptyourpet.presenter.ResultPagePresenter
 import com.gbancarel.adoptyourpet.repository.ListPetResultRepository
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
 import com.gbancarel.adoptyourpet.repository.error.NoInternetConnectionAvailable
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 
 class ResultPageInteractor @Inject constructor(
     val repository: ListPetResultRepository,
-    val presenter: ResultPagePresenter
+    val presenter: ResultPagePresenter,
+    val session: SearchSession
 ) {
 
-    fun getListAnimal(
-        animalSelected: String,
-        breedsSelected: String,
-        sizeSelected: String,
-        ageSelected: String,
-        colorsSelected: String,
-        genderSelected: String
-    ) {
+    fun getListAnimal() {
         try {
             presenter.presentLoader()
             val listAnimal = repository.getListAnimal(
-                animalSelected,
-                breedsSelected,
-                sizeSelected,
-                ageSelected,
-                colorsSelected,
-                genderSelected
+                session.getAnimalType(),
+                session.getSelectedBreeds(),
+                session.getSize(),
+                session.getAges(),
+                session.getSelectedColors(),
+                session.getSelectedGender()
             )
             presenter.present(listAnimal)
         } catch (e1: CannotDecodeJsonException) {
@@ -43,6 +39,7 @@ class ResultPageInteractor @Inject constructor(
     fun loadPreviousState() {
         val listAnimal = repository.getLocalListAnimal()
         presenter.present(listAnimal)
+        session.dispose()
     }
 
     fun loadAnimal(requestedAnimal: String) {

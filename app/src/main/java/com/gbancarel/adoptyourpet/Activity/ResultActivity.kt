@@ -46,14 +46,7 @@ class ResultActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    controller.onCreate(
-                        animalSelected = "dog",
-                        breedsSelected = "Pug,Samoyed",
-                        sizeSelected = "Small",
-                        ageSelected = "Young",
-                        colorsSelected = "White",
-                        genderSelected = "Male"
-                    )
+                    controller.onCreate()
                     val statePetFinderViewModelData = viewModel.liveData.observeAsState(
                         initial = PetFinderViewModelData(
                             animals = emptyList(),

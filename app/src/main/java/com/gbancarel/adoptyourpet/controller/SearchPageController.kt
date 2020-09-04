@@ -1,6 +1,9 @@
 package com.gbancarel.adoptyourpet.controller
 
 import com.gbancarel.adoptyourpet.interactor.SearchPageInteractor
+import com.gbancarel.adoptyourpet.interactor.data.Age
+import com.gbancarel.adoptyourpet.interactor.data.Size
+import com.gbancarel.adoptyourpet.presenter.data.SearchPageViewModelData
 import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 
@@ -11,6 +14,7 @@ interface SearchPageControllerInterface {
     fun onSelectedAge(id: Int)
     fun onSelectedGender()
     fun onSelectedColors(colors: List<String>)
+    fun launchSearch(animalSelected: AnimalSelected?, value: SearchPageViewModelData)
 }
 
 class SearchPageController @Inject constructor(
@@ -39,6 +43,17 @@ class SearchPageController @Inject constructor(
 
     fun onSelectedGender() {
         interactor.selectedGender()
+    }
+
+    fun launchSearch(animalSelected: AnimalSelected?, value: SearchPageViewModelData) {
+        interactor.search(
+            animalSelected,
+            value.selectedGender,
+            value.selectedAge.filter { it.selected }.map { Age( it.id, it.label) },
+            value.selectedBreeds,
+            value.selectedColors,
+            value.listOfSize.filter { it.selected }.map { Size(it.id, it.name) }
+        )
     }
 }
 
@@ -76,6 +91,12 @@ class SearchPageControllerDecorator @Inject constructor(val controller: SearchPa
     override fun onSelectedGender() {
         Thread {
             controller.onSelectedGender()
+        }.start()
+    }
+
+    override fun launchSearch(animalSelected: AnimalSelected?, value: SearchPageViewModelData) {
+        Thread {
+            controller.launchSearch(animalSelected, value)
         }.start()
     }
 }

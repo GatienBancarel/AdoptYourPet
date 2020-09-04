@@ -1,6 +1,10 @@
 package com.gbancarel.adoptyourpet.repository
 
+import android.util.Log
+import com.gbancarel.adoptyourpet.interactor.data.Age
+import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.interactor.data.listAnimal.*
+import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
 import com.gbancarel.adoptyourpet.repository.dao.AnimalDao
 import com.gbancarel.adoptyourpet.repository.dao.AnimalResultDao
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
@@ -10,6 +14,7 @@ import com.gbancarel.adoptyourpet.repository.json.listAnimal.PetFinderJSON
 import com.gbancarel.adoptyourpet.repository.local.*
 import com.gbancarel.adoptyourpet.repository.parser.PetFinderParser
 import com.gbancarel.adoptyourpet.repository.service.PetFinderService
+import com.gbancarel.adoptyourpet.state.AnimalSelected
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -27,16 +32,17 @@ class ListPetResultRepository @Inject constructor(
         NoInternetConnectionAvailable::class
     )
     fun getListAnimal(
-        animalSelected: String,
-        breedsSelected: String,
-        sizeSelected: String,
-        ageSelected: String,
-        colorsSelected: String,
-        genderSelected: String
+        animalSelected: AnimalSelected,
+        breedsSelected: List<String>,
+        sizeSelected: List<Size>,
+        ageSelected: List<Age>,
+        colorsSelected: List<String>,
+        genderSelected: GenderViewModel?
     ): List<PetAnimal> {
         try {
+            Log.i("PBA", "$BASE_URL/animals?type=${animalSelected}&breed=${breedsSelected.joinToString(",")}&age=${ageSelected.map { it.value }.joinToString(",")}&gender=${genderSelected}&size=${sizeSelected.map { it.value }.joinToString(",")}&color=${colorsSelected.joinToString(",")}&limit=100")
             val response = petFinderService.get(
-                "$BASE_URL/animals?type=${animalSelected}&breed=${breedsSelected}&age=${ageSelected}&gender=${genderSelected}&limit=100"
+                "$BASE_URL/animals?type=${animalSelected}&breed=${breedsSelected.joinToString(",")}&age=${ageSelected.map { it.value }.joinToString(",")}&gender=${genderSelected}&size=${sizeSelected.map { it.value }.joinToString(",")}&color=${colorsSelected.joinToString(",")}&limit=100"
             )
 
             if (response.statusCode != 200 && response.statusCode != 201) {

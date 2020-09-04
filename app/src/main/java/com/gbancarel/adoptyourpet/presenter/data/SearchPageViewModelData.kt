@@ -11,5 +11,6 @@ data class SearchPageViewModelData(
     val selectedBreeds : List<String>,
     val selectedAge: List<AgeViewModel>,
     val selectedColors: List<String>,
-    val selectedGender: GenderViewModel
+    val selectedGender: GenderViewModel,
+    val launchSearch: Boolean = false
 )

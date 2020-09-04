@@ -1,6 +1,12 @@
 package com.gbancarel.adoptyourpet.interactor
 
+import com.gbancarel.adoptyourpet.interactor.data.Age
+import com.gbancarel.adoptyourpet.interactor.data.SearchSession
+import com.gbancarel.adoptyourpet.interactor.data.Size
 import com.gbancarel.adoptyourpet.presenter.SearchPagePresenter
+import com.gbancarel.adoptyourpet.presenter.data.listAge.AgeViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listGender.GenderViewModel
+import com.gbancarel.adoptyourpet.presenter.data.listSize.SizeViewModel
 import com.gbancarel.adoptyourpet.repository.*
 import com.gbancarel.adoptyourpet.repository.error.CannotDecodeJsonException
 import com.gbancarel.adoptyourpet.repository.error.ErrorStatusException
@@ -13,7 +19,8 @@ class SearchPageInteractor @Inject constructor(
     val sizeRepository: ListSizeRepository,
     val ageRepository: ListAgeRepository,
     val colorsRepository: ListColorsRepository,
-    val presenter: SearchPagePresenter
+    val presenter: SearchPagePresenter,
+    val session: SearchSession
 ) {
 
     fun load(animalSelected: AnimalSelected) {
@@ -38,11 +45,11 @@ class SearchPageInteractor @Inject constructor(
         presenter.presentSelectBreeds(breeds)
     }
 
-    fun selectedSize(id : Int) {
+    fun selectedSize(id: Int) {
         presenter.presentSelectedNewSize(id)
     }
 
-    fun selectedAge(id : Int) {
+    fun selectedAge(id: Int) {
         presenter.presentSelectedNewAge(id)
     }
 
@@ -52,5 +59,24 @@ class SearchPageInteractor @Inject constructor(
 
     fun selectedGender() {
         presenter.presentNewGender()
+    }
+
+    fun search(
+        animalSelected: AnimalSelected?,
+        selectedGender: GenderViewModel,
+        ages: List<Age>,
+        selectedBreeds: List<String>,
+        selectedColors: List<String>,
+        size: List<Size>
+    ) {
+        session.set(
+            animalSelected ?: AnimalSelected.dog,
+            selectedGender,
+            ages,
+            selectedBreeds,
+            selectedColors,
+            size,
+        )
+        presenter.presentSearch()
     }
 }

@@ -74,7 +74,15 @@ class SearchActivity : AppCompatActivity() {
         setContent {
             FindYourPetTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    display(viewModelState.liveData)
+                    if (viewModelState.liveData.value?.launchSearch == true) {
+                        startActivity(
+                            ResultActivity.newIntent(
+                                applicationContext
+                            )
+                        )
+                    } else {
+                        display(viewModelState.liveData)
+                    }
                 }
             }
         }
@@ -123,11 +131,7 @@ class SearchActivity : AppCompatActivity() {
                 val (floatingButton) = createRefs()
                 FloatingActionButton(
                     onClick = {
-                        startActivity(
-                            ResultActivity.newIntent(
-                                applicationContext
-                            )
-                        )
+                        controller.launchSearch(viewModel.liveData?.value, searchViewModelData.value)
                     },
                     backgroundColor = MaterialTheme.colors.secondary,
                     contentColor = Color.White,

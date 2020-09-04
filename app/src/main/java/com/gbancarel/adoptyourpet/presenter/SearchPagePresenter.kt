@@ -139,6 +139,20 @@ class SearchPagePresenter @Inject constructor(
             )
         )
     }
+
+    fun presentSearch() = viewModel.liveData.value?.let {
+        viewModel.liveData.postValue(
+            SearchPageViewModelData(
+                state = it.state,
+                listOfSize = it.listOfSize,
+                selectedBreeds = it.selectedBreeds,
+                selectedAge = it.selectedAge,
+                selectedColors = it.selectedColors,
+                selectedGender = it.selectedGender,
+                launchSearch = true
+            )
+        )
+    }
 }
 
 @Singleton
