@@ -30,11 +30,9 @@ class PetFinderService @Inject constructor(
                         .build()
                 )
                 .execute()
-            val str = response.body?.string()
-            Log.i("PBA", str+"")
             return ResponseRequest(
                 response.code,
-                str
+                response.body?.string()
             )
         } else {
             throw NoInternetConnectionAvailable("No Internet")
